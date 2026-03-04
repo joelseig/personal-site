@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Joel Seignior</title>
+  <meta name="description" content="Joel Seignior — construction law, AI tools, and project work." />
+  <meta name="author" content="Joel Seignior" />
+  <link rel="canonical" href="https://joelseignior.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Joel Seignior" />
+  <meta property="og:description" content="Joel Seignior — construction law, AI tools, and project work." />
+  <meta property="og:url" content="https://joelseignior.com/" />
+
+  <!-- Schema.org Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Joel Seignior",
+    "url": "https://joelseignior.com",
+    "jobTitle": "Construction Lawyer & AI Builder",
+    "sameAs": []
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f3ef;
+      --fg: #1a1916;
+      --muted: #8a8680;
+      --accent: #c8a96e;
+      --border: #dedad4;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Crimson Pro', serif;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 3rem;
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      color: var(--fg);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      text-decoration: none;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--fg); }
+
+    /* ── HERO ── */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 3rem 4rem;
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--accent);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s ease forwards;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 300;
+      line-height: 1.02;
+      letter-spacing: -0.01em;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.35s ease forwards;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .hero-desc {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 420px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s ease forwards;
+    }
+
+    /* ── COMING SOON ── */
+    .coming-soon {
+      padding: 4rem 3rem 6rem;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.65s ease forwards;
+    }
+
+    .coming-soon p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--fg); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav, .hero, .projects, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .nav-links { display: none; }
+      .footer-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-name" href="/">Joel Seignior</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <p class="hero-eyebrow">Melbourne, Australia</p>
+      <h1>Projects &amp;<br /><em>experiments.</em></h1>
+      <p class="hero-desc">
+        Thinking about tools for professionals.
+      </p>
+    </section>
+
+    <section class="coming-soon">
+      <p>Coming soon...</p>
+    </section>
+  </main>
+
+  <footer>
+    <span class="footer-copy">© 2026 Joel Seignior</span>
+    <div class="footer-links">
+      <a href="/cdn-cgi/l/email-protection#27574b4644424f484b434255674d48424b54424e40494e48550944484a">Email</a>
+      <a href="https://github.com/Alxcypher" target="_blank" rel="noopener">
