@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{TITLE}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Roboto+Slab:wght@300..700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================================
+       Editorial design tokens — lifted from the Au BigLaw AI map system.
+       ===================================================================== */
+    :root {
+      /* surfaces */
+      --bg:        #FAF7F2;
+      --bg-raised: #F4EFE6;
+      --bg-deeper: #EEE7D9;
+
+      /* ink ramp */
+      --ink:        #1F1F1F;
+      --ink-soft:   #4A4845;
+      --ink-muted:  #7A7670;
+
+      /* rules */
+      --rule:       #1F1F1F;
+      --rule-soft:  rgba(31,31,31,0.18);
+      --rule-hair:  rgba(31,31,31,0.10);
+
+      /* accent: sage */
+      --sage:       #7A8B6F;
+      --sage-deep:  #5E6F54;
+      --sage-wash:  rgba(122,139,111,0.10);
+
+      /* type */
+      --font-display: 'Inter Tight', system-ui, sans-serif;
+      --font-body:    'Roboto Slab', Georgia, serif;
+      --font-num:     'Roboto Slab', Georgia, serif;
+      --font-mono:    ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+      /* numerals: tabular + lining */
+      --num-features: "tnum" 1, "lnum" 1;
+
+      /* measure */
+      --measure: 68ch;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { background: var(--bg); color: var(--ink); margin: 0; }
+    body {
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    [class*="num"], .num, .smallcaps, table, td, th {
+      font-feature-settings: var(--num-features);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    /* ---- typography utilities ---- */
+    .display { font-family: var(--font-display); letter-spacing: -0.015em; font-weight: 500; line-height: 1.05; text-wrap: balance; }
+    .body    { font-family: var(--font-body); text-wrap: pretty; }
+    .num     { font-family: var(--font-num); font-feature-settings: var(--num-features); }
+
+    /* editorial eyebrow / caption label.
+       Originally an uppercase tracked sage caps style — re-toned to italic
+       Roboto Slab in ink-soft, no tracking, mixed case. Reads as print
+       editorial rather than product UI. */
+    .smallcaps {
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-style: italic;
+      color: var(--ink-soft);
+      letter-spacing: 0;
+      text-transform: none;
+      font-weight: 400;
+    }
+    /* opt-in: a smaller tertiary label used inside compare/grid cards where
+       size needs to step down from the section-head eyebrow */
+    .smallcaps--mini {
+      font-size: 11.5px;
+      color: var(--ink-muted);
+    }
+
+    h1.display { font-size: 60px; letter-spacing: -0.022em; line-height: 0.98; margin: 0; }
+    h2.display { font-size: 30px; letter-spacing: -0.018em; margin: 0; }
+    h3.display { font-size: 20px; letter-spacing: -0.005em; line-height: 1.2; margin: 0; }
+    h4.display { font-size: 16px; letter-spacing: -0.005em; line-height: 1.25; margin: 0; }
+
+    .lede   { font-family: var(--font-body); font-size: 18px; line-height: 1.55; color: var(--ink-soft); max-width: 60ch; text-wrap: pretty; }
+    p.copy, .copy p   { font-family: var(--font-body); font-size: 15.5px; line-height: 1.7; color: var(--ink-soft); max-width: var(--measure); text-wrap: pretty; margin: 0 0 18px; }
+    .copy p:last-child { margin-bottom: 0; }
+    .caption{ font-family: var(--font-body); font-size: 12px; line-height: 1.55; color: var(--ink-muted); }
+
+    /* emphasis inside body */
+    .copy strong, p.copy strong { color: var(--ink); font-weight: 600; }
+    .copy em, p.copy em { color: var(--ink); }
+    .copy a, p.copy a, .lede a {
+      color: var(--sage-deep);
+      text-decoration: none;
+      border-bottom: 1px solid var(--sage);
+      padding-bottom: 0.5px;
+      transition: color 120ms, border-color 120ms;
+    }
+    .copy a:hover, p.copy a:hover, .lede a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+    /* inline code chip */
+    code.inline, p.copy code, .copy code, li code {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      background: var(--bg-raised);
+      padding: 1px 6px;
+      border-radius: 2px;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    /* source numeral */
+    sup.src {
+      font-family: var(--font-num);
+      font-feature-settings: var(--num-features);
+      font-size: 0.62em;
+      color: var(--sage-deep);
+      font-weight: 500;
+      margin-left: 1px;
+      letter-spacing: 0.02em;
+      vertical-align: super;
+    }
+
+    /* ---- rule lines ---- */
+    .rule       { border: 0; border-top: 1px solid var(--rule);      margin: 18px 0; }
+    .rule-soft  { border: 0; border-top: 1px solid var(--rule-soft); margin: 18px 0; }
+    .rule-hair  { border: 0; border-top: 1px solid var(--rule-hair); margin: 12px 0; }
+
+    /* ---- pull blockquote (dark) ---- */
+    blockquote.pull {
+      margin: 36px 0;
+      padding: 36px 44px 32px;
+      background: var(--ink);
+      color: var(--bg);
+      position: relative;
+      max-width: 60ch;
+    }
+    blockquote.pull::before {
+      content: "\201C";
+      position: absolute; top: 10px; left: 18px;
+      font-family: var(--font-body); font-size: 64px; line-height: 1;
+      color: var(--sage); opacity: 0.45;
+    }
+    blockquote.pull p {
+      font-family: var(--font-display);
+      font-size: 23px; line-height: 1.4; margin: 0;
+      letter-spacing: -0.012em; text-wrap: pretty;
+      color: var(--bg);
+    }
+    blockquote.pull cite {
+      display: block; margin-top: 18px;
+      font-family: var(--font-body); font-style: italic;
+      font-size: 13px; letter-spacing: 0; text-transform: none;
+      color: rgba(250,247,242,0.6);
+    }
+
+    /* sage callout */
+    .callout {
+      padding: 22px 26px;
+      border-left: 3px solid var(--sage-deep);
+      background: var(--sage-wash);
+      max-width: var(--measure);
+      margin: 28px 0;
+    }
+    .callout p { margin: 0; font-style: italic; color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.65; }
+
+    /* code block (extension to the system, kept in vocabulary) */
+    pre.codeblock {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      line-height: 1.65;
+      background: var(--bg-raised);
+      border: 1px solid var(--rule-soft);
+      border-left: 2px solid var(--sage);
+      padding: 18px 22px;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--ink);
+      margin: 24px 0;
+      max-width: var(--measure);
+    }
+    pre.codeblock .c-tok { color: var(--sage-deep); }
+    pre.codeblock .c-key { color: var(--ink); font-weight: 600; }
+    pre.codeblock .c-dim { color: var(--ink-muted); }
+
+    /* page layout */
+    .page {
+      max-width: 1080px; margin: 0 auto;
+      padding: 56px 32px 80px;
+    }
+    .section { margin-top: 56px; }
+    .section__head {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+      border-top: 1px solid var(--ink);
+      padding-top: 16px; margin-bottom: 26px;
+    }
+    .section__head h2 { letter-spacing: -0.018em; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--ink); }
+    .grid-3 > * { padding: 18px 20px 20px; border-right: 1px solid var(--rule-hair); border-bottom: 1px solid var(--ink); }
+    .grid-3 > *:last-child { border-right: none; }
+
+    /* two-column compare card (reference vs working artefacts) */
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--ink); margin: 24px 0; max-width: 88ch; }
+    .compare > div { padding: 22px 24px 24px; border-bottom: 1px solid var(--ink); }
+    .compare > div + div { border-left: 1px solid var(--rule-hair); }
+    .compare__eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .compare__dot { width: 8px; height: 8px; border-radius: 999px; }
+    .compare__title { font-family: var(--font-display); font-size: 18px; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 10px; color: var(--ink); }
+    .compare__body { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 12px; text-wrap: pretty; }
+    .compare__list { list-style: none; padding: 0; margin: 0; font-family: var(--font-body); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+    .compare__list li { padding: 2px 0; }
+    .compare__list li::before { content: "·"; margin-right: 8px; color: var(--sage-deep); font-weight: 700; }
+
+    /* numbered structural-move section */
+    .move { display: grid; grid-template-columns: 80px 1fr; gap: 20px; padding: 28px 0; border-top: 1px solid var(--rule-hair); }
+    .move:first-of-type { border-top: 1px solid var(--ink); }
+    .move__n {
+      font-family: var(--font-num); font-feature-settings: var(--num-features);
+      font-size: 32px; color: var(--sage-deep); font-weight: 500; line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .move__title { font-family: var(--font-display); font-size: 22px; font-weight: 500; line-height: 1.18; letter-spacing: -0.012em; margin: 0 0 14px; color: var(--ink); max-width: 32ch; text-wrap: balance; }
+    .move__body p { font-family: var(--font-body); font-size: 15px; line-height: 1.7; color: var(--ink-soft); margin: 0 0 14px; max-width: 64ch; text-wrap: pretty; }
+    .move__body p:last-child { margin-bottom: 0; }
+
+    /* priority list (numbered findings / paths) */
+    ol.priority { list-style: none; padding: 0; margin: 0; max-width: 80ch; }
+    ol.priority li {
+      display: grid; grid-template-columns: auto 1fr; gap: 18px;
+      padding: 16px 0; border-top: 1px solid var(--rule-hair);
+      align-items: baseline;
+    }
+    ol.priority li:first-child { border-top: 1px solid var(--ink); }
+    ol.priority .priority__n {
+      font-family: var(--font-num); font-feature-settings: var(--num-features);
+      font-size: 12px; color: var(--sage-deep); font-weight: 600;
+    }
+    ol.priority .priority__tag { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--ink); margin: 0 0 6px; letter-spacing: -0.005em; }
+    ol.priority .priority__body{ font-family: var(--font-body); font-size: 14.5px; line-height: 1.65; color: var(--ink-soft); margin: 0; text-wrap: pretty; max-width: 64ch; }
+
+    /* bullet-block — used for the disciplines + give-ups */
+    ul.tightlist { list-style: none; padding: 0; margin: 0 0 18px; max-width: var(--measure); }
+    ul.tightlist li {
+      display: grid; grid-template-columns: auto 1fr; gap: 14px;
+      padding: 12px 0; border-top: 1px solid var(--rule-hair);
+      font-family: var(--font-body); font-size: 14.5px; line-height: 1.6; color: var(--ink-soft);
+    }
+    ul.tightlist li:first-child { border-top: 1px solid var(--ink); }
+    ul.tightlist li::before {
+      content: "—";
+      font-family: var(--font-num); color: var(--sage-deep); font-weight: 600;
+    }
+    ul.tightlist li strong { color: var(--ink); font-weight: 600; }
+
+    /* hero meta */
+    .meta {
+      display: flex; flex-wrap: wrap; gap: 24px 32px;
+      margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--rule-hair);
+      font-family: var(--font-num); font-size: 11px; color: var(--ink-muted);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .meta__k { color: var(--ink); font-weight: 500; margin-right: 8px; }
+    .meta span { display: inline-flex; align-items: baseline; }
+
+    /* table of contents */
+    .toc { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 28px; max-width: var(--measure); margin: 28px 0 0; border-top: 1px solid var(--ink); }
+    .toc a {
+      display: grid; grid-template-columns: 36px 1fr;
+      padding: 10px 0; border-bottom: 1px solid var(--rule-hair);
+      font-family: var(--font-body); font-size: 13.5px; color: var(--ink); text-decoration: none;
+      align-items: baseline;
+    }
+    .toc a:hover { color: var(--sage-deep); }
+    .toc__n { font-family: var(--font-num); font-feature-settings: var(--num-features); font-size: 10.5px; color: var(--sage-deep); letter-spacing: 0.04em; }
+    .toc__t { letter-spacing: -0.002em; }
+
+    /* in-body heading spacing inside a section */
+    .section h3.display { margin: 30px 0 14px; }
+
+    /* back-to-home link — top of article + foot */
+    .backlink {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--ink-soft);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule-soft);
+      padding-bottom: 1px;
+      transition: color 140ms, border-color 140ms;
+    }
+    .backlink:hover { color: var(--sage-deep); border-bottom-color: var(--sage); }
+    .backlink__arrow {
+      font-style: normal;
+      font-family: var(--font-num);
+      font-feature-settings: var(--num-features);
+      color: var(--sage-deep);
+    }
+    .backlink--top { margin-bottom: 40px; }
+
+    /* footer */
+    footer.foot {
+      margin-top: 90px; padding-top: 24px;
+      border-top: 1px solid var(--ink);
+      display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+      font-family: var(--font-body); font-size: 12px; color: var(--ink-muted);
+    }
+    footer.foot .num { font-family: var(--font-num); font-feature-settings: var(--num-features); }
+
+    @media (max-width: 760px) {
+      .page { padding: 36px 20px 60px; }
+      .grid-2, .grid-3, .compare, .toc { grid-template-columns: 1fr; }
+      .compare > div + div { border-left: none; }
+      h1.display { font-size: 40px; }
+      .move { grid-template-columns: 1fr; gap: 8px; }
+      .move__n { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       HOW TO USE THIS TEMPLATE
+       1. Duplicate this file as articles/your-slug.html
+       2. Replace the placeholders: {{TITLE}}, {{SUBTITLE}}, {{DATE_EYEBROW}}, {{DATE_LONG}}, {{AUTHOR}}
+       3. Write your article inside the ARTICLE BODY markers below.
+          For standard prose, use <p class="copy">Your paragraph.</p>
+          For section headings, use <section id="your-id"> ... <h2 class="section__head">Heading</h2> ... </section>
+       4. Add a link to your new article on index.html in the "Writing." section.
+       ============================================================ -->
+  <main class="page" data-screen-label="01 Article">
+
+    <a class="backlink backlink--top" href="../index.html"><span class="backlink__arrow">←</span> Home</a>
+
+    <p class="smallcaps">{{DATE_EYEBROW}}</p>
+
+    <h1 class="display" style="margin-top: 18px; max-width: 22ch;">{{TITLE}}</h1>
+
+    <p class="lede" style="margin-top: 28px;">{{SUBTITLE}}</p>
+
+    <div class="meta">
+      <span><span class="meta__k">Author</span> Joel Seignior</span>
+      <span><span class="meta__k">PUBLISHED</span> <span class="num">{{DATE_LONG}}</span></span>
+    </div>
+
+    <!-- Optional: table of contents. Anchors must match section ids.
+    <nav class="toc">
+      <a href="#my-first-section"><span class="toc__n">01</span><span class="toc__t">First section</span></a>
+      <a href="#my-second-section"><span class="toc__n">02</span><span class="toc__t">Second section</span></a>
+    </nav>
+    -->
+
+    <!-- =============================================================
+         OPTIONAL COMPONENT PATTERNS - copy/paste the ones you need.
+         All styles are already defined in the <style> block above.
+
+         (a) Standard paragraph:
+             <p class="copy">Your paragraph text.</p>
+
+         (b) A new section (with anchor for the table of contents):
+             <section id="my-section">
+               <h2 class="section__head"><span class="num">01</span> Section title</h2>
+               <p class="copy">...</p>
+             </section>
+
+         (c) Pull quote / emphasised line:
+             <p class="pull">A line that should land hard.</p>
+
+         (d) Callout box:
+             <aside class="callout"><p>A short aside or note.</p></aside>
+
+         (e) Tight list (no padding):
+             <ul class="tightlist">
+               <li>Item one</li>
+               <li>Item two</li>
+             </ul>
+
+         (f) Code block:
+             <pre class="codeblock"><span class="c-tok">code here</span></pre>
+
+         (g) Comparison block (two columns):
+             <div class="compare">
+               <div><p class="compare__eyebrow">Before</p><p class="compare__body">...</p></div>
+               <div><p class="compare__eyebrow">After</p><p class="compare__body">...</p></div>
+             </div>
+
+         (h) Numbered "move" / step card:
+             <div class="move">
+               <p class="move__n">01</p>
+               <p class="move__title display">Move title</p>
+               <p class="move__body">Description of the move.</p>
+             </div>
+         ============================================================= -->
+
+    <!-- ARTICLE BODY START -->
+    <section id="first-section">
+      <h2 class="section__head"><span class="num">01</span> First section heading</h2>
+      <p class="copy">Replace this with your first paragraph.</p>
+      <p class="copy">Add as many paragraphs as you need.</p>
+    </section>
+
+    <section id="second-section">
+      <h2 class="section__head"><span class="num">02</span> Second section heading</h2>
+      <p class="copy">Replace this with your second section.</p>
+    </section>
+    <!-- ARTICLE BODY END -->
+
+    <footer class="foot">
+    <span>Notes on knowledge work &middot; Joel Seignior &middot; <span class="num">2026</span></span>
+    <a class="backlink" href="../index.html"><span class="backlink__arrow">←</span> Home</a>
+  </footer>
+  </main>
+</body>
+</html>
