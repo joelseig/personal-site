@@ -11,3 +11,4 @@ A small site for keeping notes and ideas.
 ## Deploy
 
 Static. No build step. Vercel serves files as-is. Google Fonts are loaded at runtime.
+
