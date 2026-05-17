@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Keep your reference knowledge in flat Markdown</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Roboto+Slab:wght@300..700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================================
+       Editorial design tokens — lifted from the Au BigLaw AI map system.
+       ===================================================================== */
+    :root {
+      /* surfaces */
+      --bg:        #FAF7F2;
+      --bg-raised: #F4EFE6;
+      --bg-deeper: #EEE7D9;
+
+      /* ink ramp */
+      --ink:        #1F1F1F;
+      --ink-soft:   #4A4845;
+      --ink-muted:  #7A7670;
+
+      /* rules */
+      --rule:       #1F1F1F;
+      --rule-soft:  rgba(31,31,31,0.18);
+      --rule-hair:  rgba(31,31,31,0.10);
+
+      /* accent: sage */
+      --sage:       #7A8B6F;
+      --sage-deep:  #5E6F54;
+      --sage-wash:  rgba(122,139,111,0.10);
+
+      /* type */
+      --font-display: 'Inter Tight', system-ui, sans-serif;
+      --font-body:    'Roboto Slab', Georgia, serif;
+      --font-num:     'Roboto Slab', Georgia, serif;
+      --font-mono:    ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+      /* numerals: tabular + lining */
+      --num-features: "tnum" 1, "lnum" 1;
+
+      /* measure */
+      --measure: 68ch;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { background: var(--bg); color: var(--ink); margin: 0; }
+    body {
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    [class*="num"], .num, .smallcaps, table, td, th {
+      font-feature-settings: var(--num-features);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    /* ---- typography utilities ---- */
+    .display { font-family: var(--font-display); letter-spacing: -0.015em; font-weight: 500; line-height: 1.05; text-wrap: balance; }
+    .body    { font-family: var(--font-body); text-wrap: pretty; }
+    .num     { font-family: var(--font-num); font-feature-settings: var(--num-features); }
+
+    /* editorial eyebrow / caption label.
+       Originally an uppercase tracked sage caps style — re-toned to italic
+       Roboto Slab in ink-soft, no tracking, mixed case. Reads as print
+       editorial rather than product UI. */
+    .smallcaps {
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-style: italic;
+      color: var(--ink-soft);
+      letter-spacing: 0;
+      text-transform: none;
+      font-weight: 400;
+    }
+    /* opt-in: a smaller tertiary label used inside compare/grid cards where
+       size needs to step down from the section-head eyebrow */
+    .smallcaps--mini {
+      font-size: 11.5px;
+      color: var(--ink-muted);
+    }
+
+    h1.display { font-size: 60px; letter-spacing: -0.022em; line-height: 0.98; margin: 0; }
+    h2.display { font-size: 30px; letter-spacing: -0.018em; margin: 0; }
+    h3.display { font-size: 20px; letter-spacing: -0.005em; line-height: 1.2; margin: 0; }
+    h4.display { font-size: 16px; letter-spacing: -0.005em; line-height: 1.25; margin: 0; }
+
+    .lede   { font-family: var(--font-body); font-size: 18px; line-height: 1.55; color: var(--ink-soft); max-width: 60ch; text-wrap: pretty; }
+    p.copy, .copy p   { font-family: var(--font-body); font-size: 15.5px; line-height: 1.7; color: var(--ink-soft); max-width: var(--measure); text-wrap: pretty; margin: 0 0 18px; }
+    .copy p:last-child { margin-bottom: 0; }
+    .caption{ font-family: var(--font-body); font-size: 12px; line-height: 1.55; color: var(--ink-muted); }
+
+    /* emphasis inside body */
+    .copy strong, p.copy strong { color: var(--ink); font-weight: 600; }
+    .copy em, p.copy em { color: var(--ink); }
+    .copy a, p.copy a, .lede a {
+      color: var(--sage-deep);
+      text-decoration: none;
+      border-bottom: 1px solid var(--sage);
+      padding-bottom: 0.5px;
+      transition: color 120ms, border-color 120ms;
+    }
+    .copy a:hover, p.copy a:hover, .lede a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+    /* inline code chip */
+    code.inline, p.copy code, .copy code, li code {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      background: var(--bg-raised);
+      padding: 1px 6px;
+      border-radius: 2px;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    /* source numeral */
+    sup.src {
+      font-family: var(--font-num);
+      font-feature-settings: var(--num-features);
+      font-size: 0.62em;
+      color: var(--sage-deep);
+      font-weight: 500;
+      margin-left: 1px;
+      letter-spacing: 0.02em;
+      vertical-align: super;
+    }
+
+    /* ---- rule lines ---- */
+    .rule       { border: 0; border-top: 1px solid var(--rule);      margin: 18px 0; }
+    .rule-soft  { border: 0; border-top: 1px solid var(--rule-soft); margin: 18px 0; }
+    .rule-hair  { border: 0; border-top: 1px solid var(--rule-hair); margin: 12px 0; }
+
+    /* ---- pull blockquote (dark) ---- */
+    blockquote.pull {
+      margin: 36px 0;
+      padding: 36px 44px 32px;
+      background: var(--ink);
+      color: var(--bg);
+      position: relative;
+      max-width: 60ch;
+    }
+    blockquote.pull::before {
+      content: "\201C";
+      position: absolute; top: 10px; left: 18px;
+      font-family: var(--font-body); font-size: 64px; line-height: 1;
+      color: var(--sage); opacity: 0.45;
+    }
+    blockquote.pull p {
+      font-family: var(--font-display);
+      font-size: 23px; line-height: 1.4; margin: 0;
+      letter-spacing: -0.012em; text-wrap: pretty;
+      color: var(--bg);
+    }
+    blockquote.pull cite {
+      display: block; margin-top: 18px;
+      font-family: var(--font-body); font-style: italic;
+      font-size: 13px; letter-spacing: 0; text-transform: none;
+      color: rgba(250,247,242,0.6);
+    }
+
+    /* sage callout */
+    .callout {
+      padding: 22px 26px;
+      border-left: 3px solid var(--sage-deep);
+      background: var(--sage-wash);
+      max-width: var(--measure);
+      margin: 28px 0;
+    }
+    .callout p { margin: 0; font-style: italic; color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.65; }
+
+    /* code block (extension to the system, kept in vocabulary) */
+    pre.codeblock {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      line-height: 1.65;
+      background: var(--bg-raised);
+      border: 1px solid var(--rule-soft);
+      border-left: 2px solid var(--sage);
+      padding: 18px 22px;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--ink);
+      margin: 24px 0;
+      max-width: var(--measure);
+    }
+    pre.codeblock .c-tok { color: var(--sage-deep); }
+    pre.codeblock .c-key { color: var(--ink); font-weight: 600; }
+    pre.codeblock .c-dim { color: var(--ink-muted); }
+
+    /* page layout */
+    .page {
+      max-width: 1080px; margin: 0 auto;
+      padding: 56px 32px 80px;
+    }
+    .section { margin-top: 56px; }
+    .section__head {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+      border-top: 1px solid var(--ink);
+      padding-top: 16px; margin-bottom: 26px;
+    }
+    .section__head h2 { letter-spacing: -0.018em; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--ink); }
+    .grid-3 > * { padding: 18px 20px 20px; border-right: 1px solid var(--rule-hair); border-bottom: 1px solid var(--ink); }
+    .grid-3 > *:last-child { border-right: none; }
+
+    /* two-column compare card (reference vs working artefacts) */
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--ink); margin: 24px 0; max-width: 88ch; }
+    .compare > div { padding: 22px 24px 24px; border-bottom: 1px solid var(--ink); }
+    .compare > div + div { border-left: 1px solid var(--rule-hair); }
+    .compare__eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .compare__dot { width: 8px; height: 8px; border-radius: 999px; }
+    .compare__title { font-family: var(--font-display); font-size: 18px; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 10px; color: var(--ink); }
+    .compare__body { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 12px; text-wrap: pretty; }
+    .compare__list { list-style: none; padding: 0; margin: 0; font-family: var(--font-body); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+    .compare__list li { padding: 2px 0; }
+    .compare__list li::before { content: "·"; margin-right: 8px; color: var(--sage-deep); font-weight: 700; }
+
+    /* numbered structural-move section */
+    .move { display: grid; grid-template-columns: 80px 1fr; gap: 20px; padding: 28px 0; border-top: 1px solid var(--rule-hair); }
+    .move:first-of-type { border-top: 1px solid var(--ink); }
+    .move__n {
+      font-family: var(--font-num); font-feature-settings: var(--num-features);
+      font-size: 32px; color: var(--sage-deep); font-weight: 500; line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .move__title { font-family: var(--font-display); font-size: 22px; font-weight: 500; line-height: 1.18; letter-spacing: -0.012em; margin: 0 0 14px; color: var(--ink); max-width: 32ch; text-wrap: balance; }
+    .move__body p { font-family: var(--font-body); font-size: 15px; line-height: 1.7; color: var(--ink-soft); margin: 0 0 14px; max-width: 64ch; text-wrap: pretty; }
+    .move__body p:last-child { margin-bottom: 0; }
+
+    /* priority list (numbered findings / paths) */
+    ol.priority { list-style: none; padding: 0; margin: 0; max-width: 80ch; }
+    ol.priority li {
+      display: grid; grid-template-columns: auto 1fr; gap: 18px;
+      padding: 16px 0; border-top: 1px solid var(--rule-hair);
+      align-items: baseline;
+    }
+    ol.priority li:first-child { border-top: 1px solid var(--ink); }
+    ol.priority .priority__n {
+      font-family: var(--font-num); font-feature-settings: var(--num-features);
+      font-size: 12px; color: var(--sage-deep); font-weight: 600;
+    }
+    ol.priority .priority__tag { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--ink); margin: 0 0 6px; letter-spacing: -0.005em; }
+    ol.priority .priority__body{ font-family: var(--font-body); font-size: 14.5px; line-height: 1.65; color: var(--ink-soft); margin: 0; text-wrap: pretty; max-width: 64ch; }
+
+    /* bullet-block — used for the disciplines + give-ups */
+    ul.tightlist { list-style: none; padding: 0; margin: 0 0 18px; max-width: var(--measure); }
+    ul.tightlist li {
+      display: grid; grid-template-columns: auto 1fr; gap: 14px;
+      padding: 12px 0; border-top: 1px solid var(--rule-hair);
+      font-family: var(--font-body); font-size: 14.5px; line-height: 1.6; color: var(--ink-soft);
+    }
+    ul.tightlist li:first-child { border-top: 1px solid var(--ink); }
+    ul.tightlist li::before {
+      content: "—";
+      font-family: var(--font-num); color: var(--sage-deep); font-weight: 600;
+    }
+    ul.tightlist li strong { color: var(--ink); font-weight: 600; }
+
+    /* hero meta */
+    .meta {
+      display: flex; flex-wrap: wrap; gap: 24px 32px;
+      margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--rule-hair);
+      font-family: var(--font-num); font-size: 11px; color: var(--ink-muted);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .meta__k { color: var(--ink); font-weight: 500; margin-right: 8px; }
+    .meta span { display: inline-flex; align-items: baseline; }
+
+    /* table of contents */
+    .toc { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 28px; max-width: var(--measure); margin: 28px 0 0; border-top: 1px solid var(--ink); }
+    .toc a {
+      display: grid; grid-template-columns: 36px 1fr;
+      padding: 10px 0; border-bottom: 1px solid var(--rule-hair);
+      font-family: var(--font-body); font-size: 13.5px; color: var(--ink); text-decoration: none;
+      align-items: baseline;
+    }
+    .toc a:hover { color: var(--sage-deep); }
+    .toc__n { font-family: var(--font-num); font-feature-settings: var(--num-features); font-size: 10.5px; color: var(--sage-deep); letter-spacing: 0.04em; }
+    .toc__t { letter-spacing: -0.002em; }
+
+    /* in-body heading spacing inside a section */
+    .section h3.display { margin: 30px 0 14px; }
+
+    /* back-to-home link — top of article + foot */
+    .backlink {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--ink-soft);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule-soft);
+      padding-bottom: 1px;
+      transition: color 140ms, border-color 140ms;
+    }
+    .backlink:hover { color: var(--sage-deep); border-bottom-color: var(--sage); }
+    .backlink__arrow {
+      font-style: normal;
+      font-family: var(--font-num);
+      font-feature-settings: var(--num-features);
+      color: var(--sage-deep);
+    }
+    .backlink--top { margin-bottom: 40px; }
+
+    /* footer */
+    footer.foot {
+      margin-top: 90px; padding-top: 24px;
+      border-top: 1px solid var(--ink);
+      display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+      font-family: var(--font-body); font-size: 12px; color: var(--ink-muted);
+    }
+    footer.foot .num { font-family: var(--font-num); font-feature-settings: var(--num-features); }
+
+    @media (max-width: 760px) {
+      .page { padding: 36px 20px 60px; }
+      .grid-2, .grid-3, .compare, .toc { grid-template-columns: 1fr; }
+      .compare > div + div { border-left: none; }
+      h1.display { font-size: 40px; }
+      .move { grid-template-columns: 1fr; gap: 8px; }
+      .move__n { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<main class="page" data-screen-label="01 Article">
+
+  <a class="backlink backlink--top" href="../index.html"><span class="backlink__arrow">←</span> Home</a>
+
+  <!-- =================== HERO =================== -->
+  <header>
+    <p class="smallcaps">May 2026</p>
+    <h1 class="display" style="margin-top: 18px; max-width: 22ch;">
+      Keep your reference knowledge in flat Markdown.
+    </h1>
+    <p class="display" style="font-size: 22px; color: var(--sage-deep); font-style: italic; font-weight: 400; margin-top: 16px; max-width: 38ch; line-height: 1.3;">
+      A worked example from Victorian construction law.
+    </p>
+    <p class="lede" style="margin-top: 28px;">A few months ago I had a problem familiar to anyone working with AI assistants on a real domain: I wanted Claude (and ChatGPT, Copilot, and any other AI platform or model for that matter) to actually know a piece of legislation I work with, instead of half-remembering it from training data. Not summarise. Not paraphrase. Know — in the sense of citing sections, refusing to invent material, working with it mechanically.</p>
+
+    <div class="meta">
+      <span><span class="meta__k">Author</span> Joel Seignior</span>
+      <span><span class="meta__k">Published</span> <span class="num">16 May 2026</span></span>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <a href="#shape"><span class="toc__n">01</span><span class="toc__t">The shape of the problem</span></a>
+      <a href="#proposition"><span class="toc__n">02</span><span class="toc__t">The Markdown proposition</span></a>
+      <a href="#example"><span class="toc__n">03</span><span class="toc__t">The worked example</span></a>
+      <a href="#moves"><span class="toc__n">04</span><span class="toc__t">Five structural moves</span></a>
+      <a href="#audit"><span class="toc__n">05</span><span class="toc__t">The audit-trail layer</span></a>
+      <a href="#portability"><span class="toc__n">06</span><span class="toc__t">Why this beats vendor workflows</span></a>
+      <a href="#discipline"><span class="toc__n">07</span><span class="toc__t">The discipline the format imposes</span></a>
+      <a href="#tradeoffs"><span class="toc__n">08</span><span class="toc__t">What you give up &mdash; honestly</span></a>
+      <a href="#pattern"><span class="toc__n">09</span><span class="toc__t">The pattern, generalised</span></a>
+      <a href="#coauthor"><span class="toc__n">10</span><span class="toc__t">A note on co-authoring with AI</span></a>
+    </nav>
+  </header>
+
+  <!-- =================== OPENING =================== -->
+  <section class="section" style="margin-top: 48px; border-top: 0;">
+    <div class="copy">
+      <p>The piece of legislation in question was the Victorian Security of Payment Act. The shape of the problem generalises. You probably have your own version of it &mdash; internal policies, a regulatory regime, deal precedents, a body of standards, a style guide. Stable reference material you'd like every AI tool you touch to be properly grounded against, every time.</p>
+      <p>You have three options. Paste it in every time. Build a Notion workspace or a Custom GPT around it and live inside that tool. Or keep the reference material as a portable file you bring with you. This article is about the third option &mdash; what makes a flat Markdown file genuinely portable, what discipline the format imposes, and why for <em>reference</em> material specifically it tends to beat putting your knowledge into someone else's workflow. The worked example is a personal project of mine &mdash; a single Markdown file in which I curated the Vic SOPA regime so it could be pasted into any AI assistant as context. The pack itself isn't linked here; the underlying legislation is Crown copyright and the pack reproduces it, so I'm keeping the artefact private. I'll talk through its structure, not its content. The lesson is the shape, not the law.</p>
+    </div>
+  </section>
+
+  <!-- =================== 01 SHAPE =================== -->
+  <section class="section" id="shape">
+    <div class="section__head">
+      <h2 class="display">The shape of the problem.</h2>
+      <p class="smallcaps">01 — two layers</p>
+    </div>
+
+    <div class="copy">
+      <p>Knowledge work, especially knowledge work that touches AI, has two distinct things in it. Vendors mostly blur them.</p>
+    </div>
+
+    <div class="compare">
+      <div>
+        <div class="compare__eyebrow">
+          <span class="compare__dot" style="background: var(--sage);"></span>
+          <span class="smallcaps">Reference material</span>
+        </div>
+        <h4 class="compare__title">The stable, reusable layer.</h4>
+        <p class="compare__body">Slow-changing, authoritative, the same across every matter you touch.</p>
+        <ul class="compare__list">
+          <li>Legislation</li>
+          <li>Internal policies</li>
+          <li>Standards documents</li>
+          <li>Deal precedents</li>
+          <li>Style guide</li>
+        </ul>
+      </div>
+      <div>
+        <div class="compare__eyebrow">
+          <span class="compare__dot" style="background: var(--ink);"></span>
+          <span class="smallcaps" style="color: var(--ink);">Working artefacts</span>
+        </div>
+        <h4 class="compare__title">The in-flight stuff.</h4>
+        <p class="compare__body">Fast-changing, situational, specific to a single piece of work.</p>
+        <ul class="compare__list">
+          <li>The draft letter</li>
+          <li>The matter file</li>
+          <li>The team conversation</li>
+          <li>The project board</li>
+          <li>Today's review thread</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="copy">
+      <p>Tools optimised for working artefacts &mdash; Notion, Copilot, Linear, Slack, the inside of a custom GPT &mdash; absorb reference material into their own structures the moment you put it in. The page becomes a Notion page, with Notion blocks, Notion linking, Notion permissions. The policy becomes a SharePoint file with SharePoint metadata. The body of standards becomes a vector index inside someone's RAG product. Once it's in there, it's entangled. Moving it out costs effort and loses fidelity &mdash; and if the vendor changes pricing, gets acquired, or sunsets the product, the cost compounds.</p>
+      <p>The argument here is that the two layers should be treated differently. Working artefacts can live wherever the work happens. <strong>Reference material should live in a format that can travel.</strong> The boundary is at the instance level, not the category level &mdash; I'll come back to it.</p>
+    </div>
+  </section>
+
+  <!-- =================== 02 PROPOSITION =================== -->
+  <section class="section" id="proposition">
+    <div class="section__head">
+      <h2 class="display">The Markdown proposition.</h2>
+      <p class="smallcaps">02 — five properties that compound</p>
+    </div>
+
+    <div class="copy">
+      <p>Flat Markdown isn't magic. It's just plain text with a handful of conventions for headings, lists, emphasis, links, and code blocks. What makes it work as a portable reference format is a small set of properties that compound.</p>
+    </div>
+
+    <ul class="tightlist">
+      <li><span><strong>Plain text.</strong> Any editor opens it &mdash; including the one you'll be using in 2035, whatever that turns out to be. There's no proprietary binary format, no schema migration, no vendor read API to call.</span></li>
+      <li><span><strong>Human-readable raw.</strong> You don't need a renderer to understand it. The structure is in the text. A headline is <code>#&nbsp;Headline</code>. A list is a list of <code>-</code> lines. If the renderer breaks, the file is still legible.</span></li>
+      <li><span><strong>Diff-able and version-controllable.</strong> You can put it in git, but you don't have to &mdash; you can also just &ldquo;Save As&rdquo; and visually compare two versions and see what changed. The unit of change is a line, which matches how humans read.</span></li>
+      <li><span><strong>Renders cleanly in any modern LLM context window.</strong> Claude, ChatGPT, Gemini, the open-source models you might run locally, the legal-AI platforms grounded against your firm's vault &mdash; all of them read Markdown natively. You don't have to convert. You don't have to scrape. You don't have to teach the model the format.</span></li>
+      <li><span><strong>Outlasts the tool you authored it in.</strong> The editor that produced the file is irrelevant by the time anyone reads it. Whatever vendor you used to write it can disappear and the file is unaffected.</span></li>
+    </ul>
+  </section>
+
+  <!-- =================== PULL QUOTE 1 =================== -->
+  <blockquote class="pull" style="margin-left: auto; margin-right: auto;">
+    <p>Working artefacts can live wherever the work happens. Reference material should live in a format that can travel.</p>
+    <cite>from the opening — the boundary worth defending</cite>
+  </blockquote>
+
+  <!-- =================== 03 EXAMPLE =================== -->
+  <section class="section" id="example">
+    <div class="section__head">
+      <h2 class="display">The worked example.</h2>
+      <p class="smallcaps">03 — a personal pack</p>
+    </div>
+
+    <div class="copy">
+      <p>The SOPA pack is a single Markdown file, around <span class="num">190 KB</span>, that takes the Building and Construction Industry Security of Payment Act <span class="num">2002</span> (Vic) &mdash; including the substantive <span class="num">2025</span> amendments &mdash; and turns it into a context pack any AI assistant can be grounded against. I built it section by section, working alongside an AI, with every interpretive note reviewed and logged. It's a personal worked example, not a maintained legal resource.</p>
+      <p>I'm not going to walk through what the Act says. The source legislation is Crown copyright and I take that seriously; reproducing it here would defeat the point of an article about <em>form</em>. From here on, what I want to show you is the shape of the file &mdash; five structural moves it makes, and one separate companion file that does the audit work. These moves are reusable. They'll work for any reference body of knowledge you might want to build into a portable pack.</p>
+    </div>
+  </section>
+
+  <!-- =================== 04 FIVE MOVES =================== -->
+  <section class="section" id="moves">
+    <div class="section__head">
+      <h2 class="display">Five structural moves.</h2>
+      <p class="smallcaps">04 — the shape of the file</p>
+    </div>
+
+    <article class="move">
+      <div class="move__n">01</div>
+      <div class="move__body">
+        <h3 class="move__title display">A self-describing metadata block at the top.</h3>
+        <p>The very top of the pack is a small table answering: what is this, what jurisdiction, what version, what currency date, what amendments have been incorporated, where are the source files. The shape:</p>
+<pre class="codeblock">| Field                          | Value |
+|--------------------------------|-------|
+| Jurisdiction                   | &hellip; |
+| Consolidation version          | &hellip;, as at &lt;date&gt; |
+| Most recent substantive change | &hellip; |
+| Source files                   | &lt;relative paths to the originals&gt; |
+| Pack currency date             | Pinned to the consolidation version above. |</pre>
+        <p>A reader picking up the file &mdash; or an AI model ingesting it &mdash; knows what it's holding without needing external context. The file describes itself. If you ever have to triage a folder full of Markdown reference packs in three years, this block is what tells you which is current.</p>
+      </div>
+    </article>
+
+    <article class="move">
+      <div class="move__n">02</div>
+      <div class="move__body">
+        <h3 class="move__title display">AI Operating Rules baked into the file.</h3>
+        <p>The second section is a numbered list of rules telling any AI grounded against the pack how to behave. Cite explicitly. Treat verbatim text as authoritative. Refuse to invent. Flag jurisdictional cross-contamination. End every substantive answer with the not-legal-advice caveat. A set of rules, all visible at the top of the pack.</p>
+        <p>The point is that <strong>the rules travel with the pack</strong>. They aren't configured in a vendor's &ldquo;guardrails&rdquo; panel. They aren't a Claude project instruction or a ChatGPT custom instruction. They're content. When you paste the file into a new tool tomorrow, the rules paste with it. When a colleague picks up the file, they see what discipline you've asked the model to apply, and they can argue with it if they disagree. There's no hidden configuration layer.</p>
+      </div>
+    </article>
+
+    <article class="move">
+      <div class="move__n">03</div>
+      <div class="move__body">
+        <h3 class="move__title display">A clarifying-question protocol, encoded as content.</h3>
+        <p>Before the AI is allowed to opine on a fact pattern, the pack tells it to walk a decision tree of triage questions &mdash; coverage, claim track, time bars, adjudication, recovery. The tree is just Markdown headings and bullet points. Any model that reads the pack reads the protocol. Any model that ignores the protocol is visibly off-script in a way the user can see.</p>
+        <p>This is the same idea as the operating rules: behaviour shouldn't depend on a vendor feature. If you bury &ldquo;ask before you opine&rdquo; inside a Custom GPT's instructions, you lose it the moment you switch tools. If you bake it into the reference pack as content, it survives the move.</p>
+      </div>
+    </article>
+
+    <article class="move">
+      <div class="move__n">04</div>
+      <div class="move__body">
+        <h3 class="move__title display">Verbatim source plus curated note, clearly labelled.</h3>
+        <p>Each unit of meaning in the pack &mdash; every defined term, every section &mdash; follows the same pattern. The authoritative text appears first, block-quoted. Then a clearly-labelled note, in my voice, sits below it:</p>
+<pre class="codeblock">&gt; [authoritative source text, block-quoted]
+
+<span class="c-key">**Note (curated):**</span> [my interpretation &mdash; usually one to three short bullets,
+flagging traps, cross-references, or amendment history]</pre>
+        <p>Two voices, marked explicitly. The operating rules say the verbatim text controls if a note ever conflicts with it. Anyone reading the pack &mdash; human or model &mdash; can see at a glance which lines are authoritative and which are mine. That separation is what lets the pack be honest about its own status: it's a structured reference, with interpretive aids attached, and the aids are never allowed to masquerade as the source.</p>
+        <p>That convention is doing a lot of quiet work. It's the move that lets me write notes at all without compromising the pack's role as a grounding artefact.</p>
+      </div>
+    </article>
+
+    <article class="move">
+      <div class="move__n">05</div>
+      <div class="move__body">
+        <h3 class="move__title display">Per-section verification dates.</h3>
+        <p>Every defined term and every section in the pack carries a small italic line: <code>*verified: 2026-05-16*</code>. Currency is tracked at the <strong>unit of meaning</strong>, not just at the document level. If I re-review a single section after an amendment, that one date moves. The rest of the file is unaffected, and a future reader can see, line by line, what I've checked and when.</p>
+        <p>A page-level &ldquo;last edited&rdquo; timestamp on a wiki tells you nothing about whether section <span class="num">23</span> was actually re-reviewed when section <span class="num">7</span> was touched. Per-unit dating is trivial in Markdown &mdash; it's just text &mdash; and it pays off the first time someone, including me, asks &ldquo;is this still right?&rdquo;</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- =================== 05 AUDIT =================== -->
+  <section class="section" id="audit">
+    <div class="section__head">
+      <h2 class="display">The audit-trail layer.</h2>
+      <p class="smallcaps">05 — the companion log</p>
+    </div>
+
+    <div class="copy">
+      <p>Sitting beside the pack is a companion file: <code>AUTHORING_LOG.md</code>. Every interpretive note in the main pack traces back to an entry here. The shape of an entry:</p>
+    </div>
+
+<pre class="codeblock"><span class="c-key">## s.X &mdash; Heading</span>
+Date: YYYY-MM-DD
+Verbatim source: &lt;line refs into the source extract&gt;
+Verbatim diff vs docx: <span class="c-tok">clean</span> | <span class="c-tok">re-extracted</span> | <span class="c-tok">TODO</span>
+Amendment history visible: &lt;what the source margin says about prior amendments&gt;
+Interpretive questions asked: &lt;summary of the choice point&gt;
+User answer: &lt;which option I picked, or the text I dictated&gt;
+Note committed to pack: <span class="c-tok">yes</span>/<span class="c-tok">no</span> &mdash; with excerpt
+Open follow-ups: <span class="c-dim">none</span> | list</pre>
+
+    <div class="copy" style="margin-top: 4px;">
+      <p>One field in there needs a footnote: the docx is the source extract the verbatim text was pulled from, and the diff line flags whether the pack still matches it &mdash; <code>clean</code> when last checked, <code>re-extracted</code> after an amendment, <code>TODO</code> when I haven't yet re-pulled.</p>
+      <p>Three things matter about this.</p>
+    </div>
+
+    <div class="grid-3" style="margin-top: 16px;">
+      <div>
+        <div class="smallcaps" style="border-left: 2px solid var(--sage); padding-left: 8px; margin-bottom: 8px;">Re-derivable</div>
+        <p class="caption" style="color: var(--ink-soft); font-size: 13.5px; line-height: 1.6;">If you wanted to rebuild the pack from the source legislation, every choice I made is visible. You don't have to trust me &mdash; or trust the AI I co-authored with &mdash; you can audit.</p>
+      </div>
+      <div>
+        <div class="smallcaps" style="border-left: 2px solid var(--ink-muted); padding-left: 8px; margin-bottom: 8px; color: var(--ink-muted);">Itself portable</div>
+        <p class="caption" style="color: var(--ink-soft); font-size: 13.5px; line-height: 1.6;">The log is a plain Markdown file. Same git-ability and diff-ability as the pack. Compare that to a Notion comment history or a ChatGPT thread, which die inside the tool that generated them.</p>
+      </div>
+      <div>
+        <div class="smallcaps" style="border-left: 2px solid var(--ink); padding-left: 8px; margin-bottom: 8px; color: var(--ink);">Serious co-authorship</div>
+        <p class="caption" style="color: var(--ink-soft); font-size: 13.5px; line-height: 1.6;">The AI was in the loop, but every &ldquo;Note committed to pack&rdquo; line records a choice I made. That's a defensible posture in a way that &ldquo;I asked ChatGPT and it said&hellip;&rdquo; is not.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== 06 PORTABILITY =================== -->
+  <section class="section" id="portability">
+    <div class="section__head">
+      <h2 class="display">Why this beats putting your knowledge into someone else's workflow.</h2>
+      <p class="smallcaps">06 — three deployment paths</p>
+    </div>
+
+    <div class="copy">
+      <p>The portability dividend is concrete. From the same source file, I've actually run three deployment paths.</p>
+    </div>
+
+    <ol class="priority" style="margin-top: 12px;">
+      <li>
+        <span class="priority__n">01</span>
+        <div>
+          <p class="priority__tag">Chat context.</p>
+          <p class="priority__body">Paste the pack as a system prompt or first user message into Claude, ChatGPT, Gemini or another chat assistant. The operating rules activate; the model behaves.</p>
+        </div>
+      </li>
+      <li>
+        <span class="priority__n">02</span>
+        <div>
+          <p class="priority__tag">Coding / writing-tool project context.</p>
+          <p class="priority__body">Drop the pack into the working directory of Claude Code, Cursor or a similar tool. Load it eagerly into the session prompt for a SOPA-heavy run, or leave it on disk and let the assistant read it on demand when the work touches the regime.</p>
+        </div>
+      </li>
+      <li>
+        <span class="priority__n">03</span>
+        <div>
+          <p class="priority__tag">Managed enterprise platform.</p>
+          <p class="priority__body">Upload the <code>.docx</code> twin of the pack (generated from the same Markdown source via pandoc) as a Copilot Studio knowledge source. Or drop the pack into a Harvey vault. Or into an iManage workspace fronted by Claude over MCP. Whatever your firm has standardised on, the same source file lands as a grounded reference, with a separate hardened-instructions file compensating where the platform's grounding is looser.</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="copy" style="margin-top: 28px;">
+      <p>Switching tools doesn't destroy your work. You re-deploy. That's the thing. Frame it as risk management &mdash; because that's what it is:</p>
+    </div>
+
+    <ul class="tightlist">
+      <li><span><strong>Vendor pricing changes.</strong> Your reference material doesn't move. You change tools or stay; the file is the same.</span></li>
+      <li><span><strong>Vendor M&amp;A or product deprecation.</strong> The file doesn't care.</span></li>
+      <li><span><strong>You change firm, role, jurisdiction, employer.</strong> Your reference material comes with you. It's a file. There's nothing to export.</span></li>
+      <li><span><strong>The AI tooling landscape turns over every twelve months.</strong> Model generations come and go. Your reference material doesn't care which model is in front of it this quarter.</span></li>
+      <li><span><strong>The internet goes down.</strong> The file is on your laptop. You can grep it. You can read it. You can paste a section into a local model.</span></li>
+    </ul>
+
+    <div class="copy">
+      <p>None of these scenarios are paranoid. Every one of them happens routinely. The question isn't whether tools will churn &mdash; they will &mdash; it's whether your reference material churns with them.</p>
+    </div>
+  </section>
+
+  <!-- =================== PULL QUOTE 2 =================== -->
+  <blockquote class="pull" style="margin-left: auto; margin-right: auto;">
+    <p>A wiki page can <em>look</em> organised without <em>being</em> organised. A Markdown file can't pull that trick. Whatever discipline you have ends up legible in the file. Whatever discipline you lack is equally legible.</p>
+    <cite>from section 07 — on the discipline the format imposes</cite>
+  </blockquote>
+
+  <!-- =================== 07 DISCIPLINE =================== -->
+  <section class="section" id="discipline">
+    <div class="section__head">
+      <h2 class="display">The discipline the format imposes.</h2>
+      <p class="smallcaps">07 — what plain text forces</p>
+    </div>
+
+    <div class="copy">
+      <p>I said earlier that Markdown is a discipline. Worth saying directly what discipline it imposes, because this is the part that surprised me the most when I built the pack. Writing reference material in Markdown forces:</p>
+    </div>
+
+    <ul class="tightlist">
+      <li><span><strong>Citing sources.</strong> There are no rich-media hover-cards to lean on. If you want to point at a section, you write the section number.</span></li>
+      <li><span><strong>Labelling voice.</strong> If you don't mark the difference between authoritative text and your interpretive note, it disappears into the prose. You'll feel the gap; you have to fix it explicitly.</span></li>
+      <li><span><strong>Dating reviews.</strong> Currency has to be written down because there's no system-managed &ldquo;last edited&rdquo; decoration to hide behind.</span></li>
+      <li><span><strong>Structuring semantically.</strong> Headings, lists, tables. Not visual hierarchies. Not coloured callouts. Either your material has structure or it doesn't, and the file reveals which.</span></li>
+    </ul>
+
+    <div class="copy">
+      <p>Notion, Confluence, and docs-style tools let you embed, link, toggle, colour, and visually structure your content. The format doesn't push you towards clarity &mdash; it lets you hide weakness inside the UI. A heading reading &ldquo;Q3 contractual risk&rdquo; with a soft-coloured callout under it can pass review for months: the colour-blocking, the toggle below, the small icon next to the heading all make the block feel substantive. Convert the same page to Markdown and what you find is one TODO and a half-paraphrased sentence. The &ldquo;summary table&rdquo; that turns out, on inspection, to be three rows of formatted prose &mdash; two of them rewording the paragraph above &mdash; is the same trick at a different scale.</p>
+      <p>None of this is dishonesty; it's UI scaffolding doing work the content was supposed to do. Markdown removes the scaffolding. If a heading has no content under it, you stare straight at the gap. That's a feature, not a bug. The same properties that make it portable also make it honest.</p>
+    </div>
+  </section>
+
+  <!-- =================== 08 TRADEOFFS =================== -->
+  <section class="section" id="tradeoffs">
+    <div class="section__head">
+      <h2 class="display">What you give up &mdash; honestly.</h2>
+      <p class="smallcaps">08 — the real trade-offs</p>
+    </div>
+
+    <div class="copy">
+      <p>Markdown is bad at some things, and pretending otherwise would undercut the argument. You give up:</p>
+    </div>
+
+    <ul class="tightlist">
+      <li><span>Real-time multi-user collaboration in the document.</span></li>
+      <li><span>Threaded comments and review workflows pinned to specific blocks.</span></li>
+      <li><span>Database views over the content (filter, sort, group by tag).</span></li>
+      <li><span>Rich embeds &mdash; videos, live charts, interactive widgets.</span></li>
+      <li><span>Visual polish out of the box.</span></li>
+    </ul>
+
+    <div class="copy">
+      <p>For <strong>working artefacts</strong> &mdash; drafts, project boards, team conversations, in-flight reviews &mdash; these are real capabilities and the tools that offer them are good at offering them. Nothing here is an argument that you shouldn't use Notion, or Confluence, or Linear, or Slack.</p>
+      <p>For <strong>reference material</strong> &mdash; the stuff you'd want to reuse in three years, in a new tool, in a different role &mdash; they're a trap. The right boundary isn't &ldquo;old vs. new&rdquo; or &ldquo;personal vs. team&rdquo; or &ldquo;simple vs. complex&rdquo;. The right boundary is &ldquo;is this <em>reference</em> or is this a <em>working artefact</em>?&rdquo; Reference belongs in a format that can travel. Working artefacts belong wherever the work happens.</p>
+      <p>The boundary applies at the instance level: a canonical precedent is reference; the same precedent marked up on a live deal is a working artefact. The taxonomy sorts uses, not categories.</p>
+    </div>
+  </section>
+
+  <!-- =================== 09 PATTERN =================== -->
+  <section class="section" id="pattern">
+    <div class="section__head">
+      <h2 class="display">The pattern, generalised.</h2>
+      <p class="smallcaps">09 — the recipe</p>
+    </div>
+
+    <div class="copy">
+      <p>Pull back from SOPA. The pattern works for almost any body of reference knowledge:</p>
+    </div>
+
+    <ol class="priority" style="margin-top: 12px;">
+      <li>
+        <span class="priority__n">01</span>
+        <div>
+          <p class="priority__tag">Decide what's reference vs. working artefact.</p>
+          <p class="priority__body">This is the most important step. The rest follows.</p>
+        </div>
+      </li>
+      <li>
+        <span class="priority__n">02</span>
+        <div>
+          <p class="priority__tag">For reference material, build a flat Markdown file.</p>
+          <p class="priority__body">Or a small, flat directory of them. At a minimum: a self-describing metadata block at the top, a set of behaviour rules for any AI grounded on the material, structured sections, dated reviews, and a clearly-labelled separation between authoritative source and your interpretive notes.</p>
+        </div>
+      </li>
+      <li>
+        <span class="priority__n">03</span>
+        <div>
+          <p class="priority__tag">Keep a companion audit log.</p>
+          <p class="priority__body">Plain Markdown. Per-section entries. Trace every interpretive move to a source reference and a decision you made.</p>
+        </div>
+      </li>
+      <li>
+        <span class="priority__n">04</span>
+        <div>
+          <p class="priority__tag">Use the file across every tool you touch.</p>
+          <p class="priority__body">Drop it into Claude as a system prompt. Drop it into your firm's Copilot agent as a knowledge source. Drop it into a project folder for your coding/writing tool. The pack is the constant; the tool is the variable.</p>
+        </div>
+      </li>
+      <li>
+        <span class="priority__n">05</span>
+        <div>
+          <p class="priority__tag">For working artefacts, use whatever fits the workflow.</p>
+          <p class="priority__body">Nothing here is about being precious. The boundary is the data-portability boundary, and it's only worth defending for the reference layer.</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="copy" style="margin-top: 28px;">
+      <p>The recipe is short because Markdown is small. That's the point.</p>
+    </div>
+  </section>
+
+  <!-- =================== 10 COAUTHOR =================== -->
+  <section class="section" id="coauthor">
+    <div class="section__head">
+      <h2 class="display">A note on co-authoring with AI.</h2>
+      <p class="smallcaps">10 — the obvious objection</p>
+    </div>
+
+    <div class="copy">
+      <p>Didn't an AI write half the SOPA pack? Yes. Every section was processed with an AI in the loop. The interpretive notes were drafted in conversation. The <code>AUTHORING_LOG</code> records, for each section, which option I picked among the ones the AI surfaced &mdash; or the text I dictated when none of them fit.</p>
+      <p>The point isn't to keep AI out of authoring reference material. The point is to keep the <em>output</em> portable so it outlasts whichever AI is in front of you today. I can rebuild this pack with a different model in five years. I can fork it. I can subset it. I can hand it to a colleague who doesn't use AI at all and they can read it. If the same work had been authored <em>inside</em> a vendor's AI product, the AI would have helped me write it and then the work would have been trapped. AI in the loop with a portable output beats AI in the loop with vendor lock-in.</p>
+    </div>
+
+    <div class="callout">
+      <p class="smallcaps" style="display: block; margin-bottom: 8px; font-style: normal;">The close</p>
+      <p>Plain text endures. Reference material should endure with it. The format is small; the discipline is real; the portability dividend pays out the first time you switch tools and discover your work moves with you.</p>
+    </div>
+
+    <div class="copy" style="margin-top: 28px;">
+      <p>I'm not linking the pack itself. The underlying legislation is Crown copyright; the pack reproduces it; and even if it didn't, it would be a personal worked example, not a maintained legal resource, not a substitute for the current consolidation or for legal advice, and not to be relied on for any decision. The shape is the lesson, and the shape is what this article is for.</p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Notes on knowledge work &middot; Joel Seignior &middot; <span class="num">2026</span></span>
+    <a class="backlink" href="../index.html"><span class="backlink__arrow">←</span> Home</a>
+  </footer>
+
+</main>
+
+</body>
+</html>
