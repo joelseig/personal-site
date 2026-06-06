@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tokenomics: Why the Cost of Legal AI Is Quietly Rising</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Roboto+Slab:wght@300..700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+--bg: #FAF7F2;
+--bg-raised: #F4EFE6;
+--bg-deeper: #EEE7D9;
+--ink: #1F1F1F;
+--ink-soft: #4A4845;
+--ink-muted: #7A7670;
+--rule: #1F1F1F;
+--rule-soft: rgba(31,31,31,0.18);
+--rule-hair: rgba(31,31,31,0.10);
+--sage: #7A8B6F;
+--sage-deep: #5E6F54;
+--sage-wash: rgba(122,139,111,0.10);
+--font-display: 'Inter Tight', system-ui, sans-serif;
+--font-body: 'Roboto Slab', Georgia, serif;
+--font-num: 'Roboto Slab', Georgia, serif;
+--font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+--num-features: "tnum" 1, "lnum" 1;
+--measure: 68ch;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--ink); margin: 0; }
+body { font-family: var(--font-body); font-size: 15.5px; line-height: 1.65; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+[class*="num"], .num, .smallcaps, table, td, th { font-feature-settings: var(--num-features); font-variant-numeric: tabular-nums lining-nums; }
+.display { font-family: var(--font-display); letter-spacing: -0.015em; font-weight: 500; line-height: 1.05; text-wrap: balance; }
+.body { font-family: var(--font-body); text-wrap: pretty; }
+.num { font-family: var(--font-num); font-feature-settings: var(--num-features); }
+.smallcaps { font-family: var(--font-body); font-size: 12.5px; font-style: italic; color: var(--ink-soft); letter-spacing: 0; text-transform: none; font-weight: 400; }
+.smallcaps--mini { font-size: 11.5px; color: var(--ink-muted); }
+h1.display { font-size: 60px; letter-spacing: -0.022em; line-height: 0.98; margin: 0; }
+h2.display { font-size: 30px; letter-spacing: -0.018em; margin: 0; }
+h3.display { font-size: 20px; letter-spacing: -0.005em; line-height: 1.2; margin: 0; }
+h4.display { font-size: 16px; letter-spacing: -0.005em; line-height: 1.25; margin: 0; }
+.lede { font-family: var(--font-body); font-size: 18px; line-height: 1.55; color: var(--ink-soft); max-width: 60ch; text-wrap: pretty; }
+p.copy, .copy p { font-family: var(--font-body); font-size: 15.5px; line-height: 1.7; color: var(--ink-soft); max-width: var(--measure); text-wrap: pretty; margin: 0 0 18px; }
+.copy p:last-child { margin-bottom: 0; }
+.caption { font-family: var(--font-body); font-size: 12px; line-height: 1.55; color: var(--ink-muted); }
+.copy strong, p.copy strong { color: var(--ink); font-weight: 600; }
+.copy em, p.copy em { color: var(--ink); }
+.copy a, p.copy a, .lede a { color: var(--sage-deep); text-decoration: none; border-bottom: 1px solid var(--sage); padding-bottom: 0.5px; transition: color 120ms, border-color 120ms; }
+.copy a:hover, p.copy a:hover, .lede a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.rule { border: 0; border-top: 1px solid var(--rule); margin: 18px 0; }
+.rule-soft { border: 0; border-top: 1px solid var(--rule-soft); margin: 18px 0; }
+.rule-hair { border: 0; border-top: 1px solid var(--rule-hair); margin: 12px 0; }
+blockquote.pull { margin: 36px 0; padding: 36px 44px 32px; background: var(--ink); color: var(--bg); position: relative; max-width: 60ch; }
+blockquote.pull::before { content: "\201C"; position: absolute; top: 10px; left: 18px; font-family: var(--font-body); font-size: 64px; line-height: 1; color: var(--sage); opacity: 0.45; }
+blockquote.pull p { font-family: var(--font-display); font-size: 23px; line-height: 1.4; margin: 0; letter-spacing: -0.012em; text-wrap: pretty; color: var(--bg); }
+blockquote.pull cite { display: block; margin-top: 18px; font-family: var(--font-body); font-style: italic; font-size: 13px; letter-spacing: 0; text-transform: none; color: rgba(250,247,242,0.6); }
+.callout { padding: 22px 26px; border-left: 3px solid var(--sage-deep); background: var(--sage-wash); max-width: var(--measure); margin: 28px 0; }
+.callout p { margin: 0; font-style: italic; color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.65; }
+.page { max-width: 1080px; margin: 0 auto; padding: 56px 32px 80px; }
+.section { margin-top: 56px; }
+.section__head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; border-top: 1px solid var(--ink); padding-top: 16px; margin-bottom: 26px; }
+.section__head h2 { letter-spacing: -0.018em; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.stat-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--ink); margin: 28px 0; max-width: 72ch; }
+.stat-pair > div { padding: 24px 28px 26px; border-bottom: 1px solid var(--ink); }
+.stat-pair > div + div { border-left: 1px solid var(--rule-hair); }
+.stat__n { font-family: var(--font-display); font-size: 56px; font-weight: 600; letter-spacing: -0.03em; color: var(--ink); line-height: 1; margin: 0 0 10px; }
+.stat__body { font-family: var(--font-body); font-size: 13.5px; line-height: 1.6; color: var(--ink-soft); margin: 0; }
+ol.priority { list-style: none; padding: 0; margin: 0; max-width: 80ch; }
+ol.priority li { display: grid; grid-template-columns: auto 1fr; gap: 18px; padding: 16px 0; border-top: 1px solid var(--rule-hair); align-items: baseline; }
+ol.priority li:first-child { border-top: 1px solid var(--ink); }
+ol.priority .priority__n { font-family: var(--font-num); font-feature-settings: var(--num-features); font-size: 12px; color: var(--sage-deep); font-weight: 600; }
+ol.priority .priority__tag { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--ink); margin: 0 0 6px; letter-spacing: -0.005em; }
+ol.priority .priority__body { font-family: var(--font-body); font-size: 14.5px; line-height: 1.65; color: var(--ink-soft); margin: 0; text-wrap: pretty; max-width: 64ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 24px 32px; margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--rule-hair); font-family: var(--font-num); font-size: 11px; color: var(--ink-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.meta__k { color: var(--ink); font-weight: 500; margin-right: 8px; }
+.meta span { display: inline-flex; align-items: baseline; }
+.toc { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 28px; max-width: var(--measure); margin: 28px 0 0; border-top: 1px solid var(--ink); }
+.toc a { display: grid; grid-template-columns: 36px 1fr; padding: 10px 0; border-bottom: 1px solid var(--rule-hair); font-family: var(--font-body); font-size: 13.5px; color: var(--ink); text-decoration: none; align-items: baseline; }
+.toc a:hover { color: var(--sage-deep); }
+.toc__n { font-family: var(--font-num); font-feature-settings: var(--num-features); font-size: 10.5px; color: var(--sage-deep); letter-spacing: 0.04em; }
+.toc__t { letter-spacing: -0.002em; }
+.backlink { display: inline-flex; align-items: baseline; gap: 8px; font-family: var(--font-body); font-style: italic; font-size: 13px; color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule-soft); padding-bottom: 1px; transition: color 140ms, border-color 140ms; }
+.backlink:hover { color: var(--sage-deep); border-bottom-color: var(--sage); }
+.backlink__arrow { font-style: normal; font-family: var(--font-num); font-feature-settings: var(--num-features); color: var(--sage-deep); }
+.backlink--top { margin-bottom: 40px; }
+footer.foot { margin-top: 90px; padding-top: 24px; border-top: 1px solid var(--ink); display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-family: var(--font-body); font-size: 12px; color: var(--ink-muted); }
+footer.foot .num { font-family: var(--font-num); font-feature-settings: var(--num-features); }
+table.pricing { width: 100%; max-width: 72ch; border-collapse: collapse; margin: 24px 0; font-family: var(--font-body); font-size: 14px; }
+table.pricing thead tr { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+table.pricing th { padding: 10px 14px; font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-muted); text-align: left; }
+table.pricing td { padding: 12px 14px; border-bottom: 1px solid var(--rule-hair); color: var(--ink-soft); vertical-align: top; }
+table.pricing td:first-child { color: var(--ink); font-weight: 500; }
+table.pricing td .num { color: var(--ink); }
+@media (max-width: 760px) {
+.page { padding: 36px 20px 60px; }
+.grid-2, .toc, .stat-pair { grid-template-columns: 1fr; }
+.stat-pair > div + div { border-left: none; }
+h1.display { font-size: 40px; }
+}
+</style>
+</head>
+<body>
+<main class="page" data-screen-label="01 Article">
+
+<a class="backlink backlink--top" href="../index.html"><span class="backlink__arrow">&larr;</span> Home</a>
+
+<p class="smallcaps">June 2026</p>
+<h1 class="display" style="margin-top: 18px; max-width: 22ch;">Tokenomics: Why the Cost of Legal AI Is Quietly Rising.</h1>
+<p class="lede" style="margin-top: 28px; font-style: italic;">For two years the question was &ldquo;can it do the work?&rdquo; In 2026 a second question has caught up: what does the work cost to run?</p>
+
+<p class="copy" style="margin-top: 28px;">Every time a lawyer asks an AI tool to review a contract, summarise a matter or run a research task, the system consumes &ldquo;tokens&rdquo; &mdash; the units of text a large language model reads and writes. Tokens are metered, and they are priced. As legal work shifts from simple prompts to multi-step &ldquo;agentic&rdquo; workflows, the number of tokens consumed per task is climbing steeply &mdash; and the price per token, on the newest models, is climbing with it. The combination is what people in the industry have started calling <em>tokenomics</em>: the economics of running AI on legal work.</p>
+
+<div class="meta">
+<span><span class="meta__k">Author</span> Joel Seignior</span>
+<span><span class="meta__k">Published</span> <span class="num">5 June 2026</span></span>
+<span><span class="meta__k">Read</span> 8 min</span>
+</div>
+
+<nav class="toc" aria-label="Contents">
+<a href="#fronts"><span class="toc__n">01</span><span class="toc__t">Two rising fronts</span></a>
+<a href="#per-seat"><span class="toc__n">02</span><span class="toc__t">Per-seat pricing under pressure</span></a>
+<a href="#routes"><span class="toc__n">03</span><span class="toc__t">Three routes to lower cost</span></a>
+<a href="#aus-pricing"><span class="toc__n">04</span><span class="toc__t">What Australian firms actually pay</span></a>
+<a href="#learner"><span class="toc__n">05</span><span class="toc__t">Most firms are still learner drivers</span></a>
+</nav>
+
+<!-- 01 TWO RISING FRONTS -->
+<section class="section" id="fronts">
+<div class="section__head">
+<h2 class="display">Two rising fronts.</h2>
+<p class="smallcaps">01 &mdash; the cost drivers</p>
+</div>
+
+<div class="stat-pair">
+<div>
+<p class="stat__n">1,000&times;</p>
+<p class="stat__body">More tokens consumed by agentic tasks than by a single chat exchange &mdash; measured on agentic coding tasks, but indicative of the wider shift (controlled study, arXiv 2604.22750).</p>
+</div>
+<div>
+<p class="stat__n">30&times;</p>
+<p class="stat__body">Variance in token consumption for the same task, run to run &mdash; driven by varying numbers of steps, tool calls and retries each time.</p>
+</div>
+</div>
+
+<div class="copy">
+<p>There are two forces pushing the bill up simultaneously. The first is consumption: agentic workflows &mdash; where the model plans, drafts, checks and revises across multiple steps &mdash; consume orders of magnitude more tokens than a single chat exchange. In one illustrative example from the legal-tech site law.co, a straightforward contract review that took 2,000 tokens as a single prompt ballooned past 200,000 tokens when run as an agentic pipeline. The second force is price: model providers have been raising the cost of their most capable models. The two curves are rising together.</p>
+<p>The practical consequence is that a firm&rsquo;s AI bill in 2026 looks very different from its AI bill in 2024 &mdash; not because it has more licences, but because it is running more capable tasks on more capable models, and each of those tasks is burning more tokens than anyone modelled when the contracts were signed.</p>
+</div>
+</section>
+
+<!-- 02 PER-SEAT PRICING -->
+<section class="section" id="per-seat">
+<div class="section__head">
+<h2 class="display">Per-seat pricing under pressure.</h2>
+<p class="smallcaps">02 &mdash; the model is breaking</p>
+</div>
+
+<div class="copy">
+<p>The traditional legal software pricing model &mdash; a flat fee per user per year &mdash; was designed for tools where usage is roughly uniform. A lawyer either has access to a research database or they don&rsquo;t; whether they use it heavily or lightly doesn&rsquo;t affect the vendor&rsquo;s costs much. Tokens are different. A lawyer running agentic workflows all day costs the vendor twenty times more to serve than a colleague who logs in once a week to check a definition.</p>
+<p>Vendors are adapting. Crosby, an AI-native law firm backed by Sequoia and Cooley, has dropped both the per-seat licence and the billable hour, charging per contract instead &mdash; pricing the work done, not the seats filled. The direction of travel is clear: consumption-based pricing is coming to legal AI, and the firms that haven&rsquo;t modelled what that means for their cost base are in for a surprise.</p>
+</div>
+
+<blockquote class="pull">
+<p>&ldquo;Per seat pricing is gone. The future is usage-based pricing tied to value delivered.&rdquo;</p>
+<cite>Shawn Curran, Chief Operating Officer, Linklaters &mdash; on the trajectory of legal AI pricing</cite>
+</blockquote>
+
+<div class="copy">
+<p>The shift has a second-order effect on procurement. Legal teams negotiated their current AI contracts when usage was light and tasks were simple. Renewal conversations are now happening against a very different usage profile, and the leverage has shifted. A firm that hasn&rsquo;t tracked token consumption across its tools doesn&rsquo;t know what it&rsquo;s actually spending &mdash; or what it should be paying.</p>
+</div>
+</section>
+
+<!-- 03 THREE ROUTES -->
+<section class="section" id="routes">
+<div class="section__head">
+<h2 class="display">Three routes to lower cost.</h2>
+<p class="smallcaps">03 &mdash; what the industry is doing</p>
+</div>
+
+<div class="copy">
+<p>The vendors building on top of foundation models are not sitting still. Three cost-reduction strategies are emerging, each with different implications for buyers.</p>
+</div>
+
+<ol class="priority" style="margin-top: 12px;">
+<li>
+<span class="priority__n">01</span>
+<div>
+<p class="priority__tag">Route to the cheapest adequate model.</p>
+<p class="priority__body">Harvey&rsquo;s CEO Winston Weinberg has pointed to two levers: routing each task to the cheapest model that can handle it (citing Factory&rsquo;s task-routing work), and cheaper, batched &lsquo;verifiers&rsquo; to check an agent&rsquo;s output (citing LangChain, which reports verifier costs can fall by an order of magnitude). A contract summary doesn&rsquo;t need a frontier model; a legal argument might. Routing well can cut token spend materially without sacrificing output quality on high-stakes tasks.</p>
+</div>
+</li>
+<li>
+<span class="priority__n">02</span>
+<div>
+<p class="priority__tag">Fine-tune or self-host on open-weight models.</p>
+<p class="priority__body">For high-volume, well-defined tasks &mdash; clause extraction, standard-form review, document classification &mdash; a fine-tuned smaller model can approach the accuracy of a large proprietary one at a fraction of the token cost. A 2025 ContractEval benchmark found the best open model trailed the leading proprietary model by a clear margin on clause-level accuracy, but the gap is closing and the cost differential remains large. For firms with the technical capacity, this is a serious option.</p>
+</div>
+</li>
+<li>
+<span class="priority__n">03</span>
+<div>
+<p class="priority__tag">Compress context aggressively.</p>
+<p class="priority__body">A substantial fraction of token spend in agentic pipelines is redundant context &mdash; system prompts, document chunks and conversation history re-sent with every step. Techniques like prompt caching, retrieval-augmented generation and sliding-window context can cut this materially. Vendors implementing these well can reduce per-task token spend without changing the model or the output.</p>
+</div>
+</li>
+</ol>
+
+<blockquote class="pull" style="margin-top: 40px;">
+<p>The lesson from the rate-card era is that the firms that modelled the cost curve early had better conversations at renewal. The same lesson applies now &mdash; except the curve is steeper.</p>
+<cite>from section 04 &mdash; on Australian pricing dynamics</cite>
+</blockquote>
+</section>
+
+<!-- 04 AUSTRALIAN PRICING -->
+<section class="section" id="aus-pricing">
+<div class="section__head">
+<h2 class="display">What Australian firms actually pay.</h2>
+<p class="smallcaps">04 &mdash; the rate card</p>
+</div>
+
+<div class="copy">
+<p>Precise pricing data for the Australian legal AI market is hard to come by &mdash; vendors quote on application, contracts are confidential, and list prices are rarely the prices anyone pays. The following table reflects what is publicly known or widely reported as of mid-2026. It is directionally accurate, not a procurement guide.</p>
+</div>
+
+<table class="pricing">
+<thead>
+<tr>
+<th>Vendor</th>
+<th>Indicative A$ range</th>
+<th>Seat basis</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Harvey</td>
+<td><span class="num">A$8,000&ndash;20,000</span></td>
+<td>Per seat / yr</td>
+<td>Enterprise; consumption uplift on agentic use</td>
+</tr>
+<tr>
+<td>Legora</td>
+<td><span class="num">A$4,600&ndash;7,700</span></td>
+<td>10 seats</td>
+<td>Mid-market; hard seat floor</td>
+</tr>
+<tr>
+<td>CoCounsel</td>
+<td><span class="num">A$350&ndash;1,000+</span></td>
+<td>None stated</td>
+<td>Most transparent; base rises past A$1,000 at enterprise scale</td>
+</tr>
+</tbody>
+</table>
+
+<div class="copy">
+<p>Substantial discounts off opening prices are widely reported, especially for multi-year commitments and larger seat counts. No vendor publishes Australian pricing publicly; figures are converted from reported US rates and should be confirmed with vendors before any procurement decision.</p>
+</div>
+</section>
+
+<!-- 05 LEARNER DRIVERS -->
+<section class="section" id="learner">
+<div class="section__head">
+<h2 class="display">Most firms are still learner drivers.</h2>
+<p class="smallcaps">05 &mdash; the curve that is coming</p>
+</div>
+
+<div class="copy">
+<p>Thomson Reuters&rsquo; 2025 survey found a majority of active law-firm users now use generative AI at least weekly, and roughly a third daily. But frequency is not intensity: the lawyers running million-token agentic workloads &mdash; the ones who actually move the bill &mdash; remain a small minority. (Thomson Reuters&rsquo; 2026 follow-up already puts weekly use among current users above 80%, so even the frequency baseline is climbing.)</p>
+<p>That will change. The useful analogy is a learner driver: a little fuel, on local streets, at low cost. The same driver, years on, takes the car cross-country at speed. Most firms are at the learner stage. As more lawyers become confident, agentic users, consumption &mdash; and cost &mdash; will rise several-fold on top of any price increases.</p>
+<p>The takeaway is not alarm. Large firms can comfortably absorb these costs; the point is that AI spend is <strong>additive</strong> to a technology stack &mdash; document management, research subscriptions, the Microsoft suite &mdash; that firms cannot drop. It swells the total budget beyond where it sits today. The firms that fare best will be the ones that model that curve now, rather than discovering it later.</p>
+</div>
+
+<div class="section__head" style="margin-top: 48px;">
+<h2 class="display">Questions worth asking before the next renewal.</h2>
+<p class="smallcaps"></p>
+</div>
+
+<ol class="priority">
+<li>
+<span class="priority__n">01</span>
+<div><p class="priority__tag">Do we know our projected AI cost in three years, not just today&rsquo;s bill?</p></div>
+</li>
+<li>
+<span class="priority__n">02</span>
+<div><p class="priority__tag">If we are committed to a single provider, what would routing across models save us?</p></div>
+</li>
+<li>
+<span class="priority__n">03</span>
+<div><p class="priority__tag">How are our vendors handling rising token costs &mdash; absorbing them, or about to pass them on?</p></div>
+</li>
+<li>
+<span class="priority__n">04</span>
+<div><p class="priority__tag">Do we pass any of that cost to clients, and if so, how visibly?</p></div>
+</li>
+</ol>
+
+<div class="callout" style="margin-top: 36px;">
+<p class="smallcaps" style="display: block; margin-bottom: 8px; font-style: normal;">The close</p>
+<p><em>Tokenomics is moving from a back-office curiosity to a board-level line item. It is worth getting ahead of.</em></p>
+</div>
+</section>
+
+<!-- Sources -->
+<section class="section" style="margin-top: 44px;">
+<hr class="rule-hair" style="margin: 0 0 14px;" />
+<p style="font-family: var(--font-body); font-size: 12px; line-height: 1.6; color: var(--ink-muted); max-width: var(--measure); font-style: italic;">This article draws on reporting by Artificial Lawyer, pricing data from Sacra, Metronome, Finout, CloudZero and OpenRouter, vendor pricing from Together AI and Fireworks, the ContractEval benchmark (arXiv 2508.03080), and Thomson Reuters&rsquo; 2025 Generative AI in Professional Services report. Figures current as at June 2026; pricing in this market changes quickly.</p>
+</section>
+
+<footer class="foot">
+<span>Notes on knowledge work &middot; Joel Seignior &middot; <span class="num">2026</span></span>
+<a class="backlink" href="../index.html"><span class="backlink__arrow">&larr;</span> Home</a>
+</footer>
+
+</main>
+</body>
+</html>
