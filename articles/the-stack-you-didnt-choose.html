@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Stack You Didn&rsquo;t Choose</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Roboto+Slab:wght@300..700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+--bg: #FAF7F2;
+--bg-raised: #F4EFE6;
+--bg-deeper: #EEE7D9;
+--ink: #1F1F1F;
+--ink-soft: #4A4845;
+--ink-muted: #7A7670;
+--rule: #1F1F1F;
+--rule-soft: rgba(31,31,31,0.18);
+--rule-hair: rgba(31,31,31,0.10);
+--sage: #7A8B6F;
+--sage-deep: #5E6F54;
+--sage-wash: rgba(122,139,111,0.10);
+--font-display: 'Inter Tight', system-ui, sans-serif;
+--font-body: 'Roboto Slab', Georgia, serif;
+--font-num: 'Roboto Slab', Georgia, serif;
+--num-features: "tnum" 1, "lnum" 1;
+--measure: 68ch;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--ink); margin: 0; }
+body {
+font-family: var(--font-body);
+font-size: 15.5px;
+line-height: 1.65;
+-webkit-font-smoothing: antialiased;
+text-rendering: optimizeLegibility;
+}
+
+[class*="num"], .num, table, td, th {
+font-feature-settings: var(--num-features);
+font-variant-numeric: tabular-nums lining-nums;
+}
+
+.display { font-family: var(--font-display); letter-spacing: -0.015em; font-weight: 500; line-height: 1.05; text-wrap: balance; }
+.num { font-family: var(--font-num); font-feature-settings: var(--num-features); }
+
+.smallcaps {
+font-family: var(--font-body);
+font-size: 12.5px;
+font-style: italic;
+color: var(--ink-soft);
+letter-spacing: 0;
+text-transform: none;
+font-weight: 400;
+}
+
+h1.display { font-size: 56px; letter-spacing: -0.022em; line-height: 0.98; margin: 0; }
+h2.display { font-size: 30px; letter-spacing: -0.018em; margin: 0; }
+h3.display { font-size: 20px; letter-spacing: -0.005em; line-height: 1.2; margin: 0; }
+
+.lede { font-family: var(--font-body); font-size: 18px; line-height: 1.55; color: var(--ink-soft); max-width: 62ch; text-wrap: pretty; }
+
+p.copy, .copy p {
+font-family: var(--font-body);
+font-size: 15.5px;
+line-height: 1.72;
+color: var(--ink-soft);
+max-width: var(--measure);
+text-wrap: pretty;
+margin: 0 0 18px;
+}
+.copy p:last-child { margin-bottom: 0; }
+.copy strong, p.copy strong { color: var(--ink); font-weight: 600; }
+.copy em, p.copy em { color: var(--ink); }
+.copy a, p.copy a, .lede a {
+color: var(--sage-deep);
+text-decoration: none;
+border-bottom: 1px solid var(--sage);
+padding-bottom: 0.5px;
+transition: color 120ms, border-color 120ms;
+}
+.copy a:hover, p.copy a:hover, .lede a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* footnote references */
+sup.fn { font-family: var(--font-num); font-feature-settings: var(--num-features); font-size: 10px; line-height: 0; vertical-align: super; }
+sup.fn a { color: var(--sage-deep); text-decoration: none; border: 0; padding: 0 1px; }
+sup.fn a:hover { color: var(--ink); }
+
+.rule { border: 0; border-top: 1px solid var(--rule); margin: 18px 0; }
+.rule-soft { border: 0; border-top: 1px solid var(--rule-soft); margin: 18px 0; }
+.rule-hair { border: 0; border-top: 1px solid var(--rule-hair); margin: 12px 0; }
+
+blockquote.pull {
+margin: 36px 0;
+padding: 36px 44px 32px;
+background: var(--ink);
+color: var(--bg);
+position: relative;
+max-width: 62ch;
+}
+blockquote.pull::before {
+content: "\201C";
+position: absolute; top: 10px; left: 18px;
+font-family: var(--font-body); font-size: 64px; line-height: 1;
+color: var(--sage); opacity: 0.45;
+}
+blockquote.pull p {
+font-family: var(--font-display);
+font-size: 22px; line-height: 1.4; margin: 0;
+letter-spacing: -0.012em; text-wrap: pretty;
+color: var(--bg);
+}
+blockquote.pull cite {
+display: block; margin-top: 18px;
+font-family: var(--font-body); font-style: italic;
+font-size: 13px; color: rgba(250,247,242,0.6);
+}
+
+.callout {
+padding: 22px 26px;
+border-left: 3px solid var(--sage-deep);
+background: var(--sage-wash);
+max-width: var(--measure);
+margin: 28px 0;
+}
+.callout p { margin: 0; font-style: italic; color: var(--ink); font-family: var(--font-body); font-size: 14.5px; line-height: 1.7; }
+.callout p + p { margin-top: 10px; }
+.callout a { color: var(--sage-deep); border-bottom: 1px solid var(--sage); text-decoration: none; }
+
+.page {
+max-width: 1080px; margin: 0 auto;
+padding: 56px 32px 80px;
+}
+.section { margin-top: 60px; }
+.section__head {
+display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+border-top: 1px solid var(--ink);
+padding-top: 16px; margin-bottom: 26px;
+}
+.section__head h2 { letter-spacing: -0.018em; }
+.section h3.display { margin: 34px 0 14px; }
+
+/* part divider */
+.part-head {
+margin-top: 76px;
+border-top: 2px solid var(--ink);
+padding-top: 20px;
+}
+.part-head__label { font-family: var(--font-body); font-style: italic; font-size: 13px; color: var(--sage-deep); letter-spacing: 0.02em; }
+.part-head h2 { font-family: var(--font-display); font-weight: 500; font-size: 38px; letter-spacing: -0.02em; line-height: 1.02; margin: 8px 0 0; max-width: 24ch; text-wrap: balance; }
+
+/* sub head inside sections */
+.subhead { font-family: var(--font-display); font-weight: 500; font-size: 22px; letter-spacing: -0.012em; line-height: 1.2; margin: 40px 0 14px; color: var(--ink); max-width: 40ch; text-wrap: balance; }
+
+/* numbered strand / door list */
+.move { display: grid; grid-template-columns: 74px 1fr; gap: 20px; padding: 26px 0; border-top: 1px solid var(--rule-hair); }
+.move:first-of-type { border-top: 1px solid var(--ink); }
+.move__n {
+font-family: var(--font-num); font-feature-settings: var(--num-features);
+font-size: 30px; color: var(--sage-deep); font-weight: 500; line-height: 1;
+letter-spacing: -0.01em;
+}
+.move__title { font-family: var(--font-display); font-size: 20px; font-weight: 500; line-height: 1.22; letter-spacing: -0.012em; margin: 0 0 12px; color: var(--ink); max-width: 40ch; text-wrap: balance; }
+.move__body p { font-family: var(--font-body); font-size: 15px; line-height: 1.7; color: var(--ink-soft); margin: 0 0 12px; max-width: 64ch; text-wrap: pretty; }
+.move__body p:last-child { margin-bottom: 0; }
+.move__body strong { color: var(--ink); font-weight: 600; }
+.move__body em { color: var(--ink); }
+
+/* tables / rubrics — allowed to break wider than the measure */
+.rubric-wrap { margin: 24px 0; }
+.rubric-title { font-family: var(--font-body); font-style: italic; font-size: 13px; color: var(--ink-muted); margin: 0 0 12px; }
+table.rubric {
+width: 100%;
+border-collapse: collapse;
+font-family: var(--font-body);
+}
+table.rubric thead tr { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+table.rubric th {
+font-family: var(--font-display); font-size: 10.5px; font-weight: 500;
+letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted);
+padding: 11px 16px 11px 0; text-align: left; vertical-align: bottom;
+}
+table.rubric td {
+padding: 15px 16px 15px 0; border-bottom: 1px solid var(--rule-hair);
+color: var(--ink-soft); vertical-align: top; line-height: 1.5; font-size: 13px;
+}
+table.rubric td:last-child, table.rubric th:last-child { padding-right: 0; }
+table.rubric td:first-child {
+font-family: var(--font-display); font-weight: 500; font-size: 13.5px;
+letter-spacing: -0.005em; color: var(--ink);
+}
+table.rubric strong { color: var(--ink); font-weight: 600; }
+table.rubric em { color: var(--ink); }
+table.rubric .num { font-family: var(--font-num); }
+
+.rubric-note { font-family: var(--font-body); font-style: italic; font-size: 12px; color: var(--ink-muted); margin: 12px 0 0; max-width: 72ch; }
+
+/* short version box */
+.tldr {
+border: 1px solid var(--ink);
+padding: 28px 30px;
+max-width: var(--measure);
+margin: 8px 0 0;
+background: var(--bg-raised);
+}
+.tldr__label { font-family: var(--font-body); font-style: italic; font-size: 12.5px; color: var(--sage-deep); margin: 0 0 12px; }
+.tldr p { font-family: var(--font-body); font-size: 15.5px; line-height: 1.7; color: var(--ink-soft); margin: 0 0 12px; text-wrap: pretty; }
+.tldr strong { color: var(--ink); font-weight: 600; }
+ol.tldr__list { margin: 0; padding-left: 22px; }
+ol.tldr__list li { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 6px; }
+ol.tldr__list li::marker { color: var(--sage-deep); font-family: var(--font-num); }
+
+/* strategy checklist */
+ol.priority { list-style: none; padding: 0; margin: 20px 0 0; max-width: 74ch; counter-reset: p; }
+ol.priority li {
+display: grid; grid-template-columns: auto 1fr; gap: 18px;
+padding: 16px 0; border-top: 1px solid var(--rule-hair);
+align-items: baseline;
+}
+ol.priority li:first-child { border-top: 1px solid var(--ink); }
+ol.priority .priority__n {
+font-family: var(--font-num); font-feature-settings: var(--num-features);
+font-size: 12px; color: var(--sage-deep); font-weight: 600;
+}
+ol.priority .priority__body { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin: 0; text-wrap: pretty; max-width: 64ch; }
+ol.priority .priority__body strong { color: var(--ink); font-weight: 600; }
+
+/* sources */
+ol.sources { margin: 8px 0 0; padding: 0; list-style: none; counter-reset: src; max-width: 78ch; }
+ol.sources li {
+counter-increment: src;
+position: relative;
+padding: 10px 0 10px 34px; border-top: 1px solid var(--rule-hair);
+font-family: var(--font-body); font-size: 12.5px; line-height: 1.55; color: var(--ink-muted);
+text-wrap: pretty;
+}
+ol.sources li:first-child { border-top: 1px solid var(--ink); }
+ol.sources li::before {
+content: counter(src);
+position: absolute; left: 0; top: 10px;
+font-family: var(--font-num); font-feature-settings: var(--num-features);
+font-size: 11px; color: var(--sage-deep); font-weight: 600;
+line-height: 1.55;
+}
+ol.sources li em { color: var(--ink-soft); font-style: italic; }
+
+/* back link */
+.backlink {
+display: inline-flex; align-items: baseline; gap: 8px;
+font-family: var(--font-body); font-style: italic; font-size: 13px;
+color: var(--ink-soft); text-decoration: none;
+border-bottom: 1px solid var(--rule-soft); padding-bottom: 1px;
+transition: color 140ms, border-color 140ms;
+}
+.backlink:hover { color: var(--sage-deep); border-bottom-color: var(--sage); }
+.backlink__arrow { font-style: normal; color: var(--sage-deep); }
+.backlink--top { margin-bottom: 40px; }
+
+.meta {
+display: flex; flex-wrap: wrap; gap: 24px 32px;
+margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--rule-hair);
+font-family: var(--font-num); font-size: 11px; color: var(--ink-muted);
+letter-spacing: 0.06em; text-transform: uppercase;
+}
+.meta__k { color: var(--ink); font-weight: 500; margin-right: 8px; }
+.meta span { display: inline-flex; align-items: baseline; }
+
+.toc {
+display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 28px;
+max-width: var(--measure); margin: 28px 0 0; border-top: 1px solid var(--ink);
+}
+.toc a {
+display: grid; grid-template-columns: 42px 1fr;
+padding: 10px 0; border-bottom: 1px solid var(--rule-hair);
+font-family: var(--font-body); font-size: 13.5px; color: var(--ink); text-decoration: none;
+align-items: baseline;
+}
+.toc a:hover { color: var(--sage-deep); }
+.toc__n { font-family: var(--font-num); font-feature-settings: var(--num-features); font-size: 10.5px; color: var(--sage-deep); letter-spacing: 0.04em; }
+.toc__t { letter-spacing: -0.002em; }
+
+footer.foot {
+margin-top: 90px; padding-top: 24px;
+border-top: 1px solid var(--ink);
+display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+font-family: var(--font-body); font-size: 12px; color: var(--ink-muted);
+}
+
+@media (max-width: 860px) {
+table.rubric { font-size: 12px; }
+table.rubric td { font-size: 12px; }
+}
+@media (max-width: 760px) {
+.page { padding: 36px 20px 60px; }
+h1.display { font-size: 36px; }
+.part-head h2 { font-size: 30px; }
+.move { grid-template-columns: 1fr; gap: 8px; }
+.move__n { font-size: 24px; }
+.toc { grid-template-columns: 1fr; }
+/* let wide tables scroll horizontally on small screens */
+.rubric-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table.rubric { min-width: 640px; }
+}
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#FAF7F2">
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+<rect width="1200" height="800" fill="#FAF7F2"/>
+<g transform="translate(600 400)">
+<rect x="-150" y="-150" width="300" height="70" rx="6" fill="none" stroke="#1F1F1F" stroke-width="8"/>
+<rect x="-150" y="-55" width="300" height="70" rx="6" fill="none" stroke="#1F1F1F" stroke-width="8"/>
+<rect x="-150" y="40" width="300" height="70" rx="6" fill="#5E6F54"/>
+</g>
+</svg>
+</template>
+
+<main class="page" data-screen-label="The Stack You Didn't Choose">
+
+<a class="backlink backlink--top" href="../index.html"><span class="backlink__arrow">&#8592;</span> Home</a>
+
+<!-- =================== HERO =================== -->
+<header>
+<p class="smallcaps">July 2026</p>
+<h1 class="display" style="margin-top: 18px; max-width: 20ch;">
+The Stack You Didn&rsquo;t Choose.
+</h1>
+<p class="display" style="font-size: 21px; color: var(--sage-deep); font-style: italic; font-weight: 400; margin-top: 16px; max-width: 52ch; line-height: 1.35;">
+A field guide for in-house lawyers buying legal AI &mdash; or having it bought for them.
+</p>
+<p class="lede" style="margin-top: 28px;">Most advice about legal AI assumes you are choosing a tool. You probably aren&rsquo;t. AI is arriving in your legal team through half a dozen doors at once, and most of them were opened by someone else: IT, the contract lifecycle management vendor, your panel firms, the rest of the business. This is a field guide to governing the stack instead of discovering it.</p>
+
+<div class="meta">
+<span><span class="meta__k">Author</span> Joel Seignior</span>
+<span><span class="meta__k">Drafted</span> <span class="num">5 July 2026</span></span>
+<span><span class="meta__k">Read</span> 22 min</span>
+</div>
+
+<nav class="toc" aria-label="Contents">
+<a href="#stack"><span class="toc__n">00</span><span class="toc__t">You already have an AI stack</span></a>
+<a href="#part1"><span class="toc__n">01</span><span class="toc__t">Understand the products</span></a>
+<a href="#part2"><span class="toc__n">02</span><span class="toc__t">Understand the constraints</span></a>
+<a href="#part3"><span class="toc__n">03</span><span class="toc__t">Understand the needs</span></a>
+<a href="#close"><span class="toc__n">04</span><span class="toc__t">The closing thought</span></a>
+<a href="#sources"><span class="toc__n">&mdash;</span><span class="toc__t">Sources</span></a>
+</nav>
+</header>
+
+<!-- SHORT VERSION -->
+<div style="margin-top: 44px;">
+<div class="tldr">
+<p class="tldr__label">The short version</p>
+<p>Most advice about legal AI assumes you are choosing a tool. You probably aren&rsquo;t. The buying decision isn&rsquo;t &ldquo;which product.&rdquo; It&rsquo;s three questions, in order:</p>
+<ol class="tldr__list">
+<li>what are these products, really;</li>
+<li>what constraints are you actually buying under; and</li>
+<li>what does your team actually need.</li>
+</ol>
+<p style="margin-top: 12px; margin-bottom: 0;">The answer to the third question is almost never a product. It&rsquo;s your own knowledge; organised. Every product is an engine. Nobody sells the fuel.</p>
+</div>
+</div>
+
+<!-- =================== 00 THE STACK =================== -->
+<section class="section" id="stack">
+<div class="section__head">
+<h2 class="display">You already have an AI stack.</h2>
+<p class="smallcaps">00 &mdash; the six doors, already open</p>
+</div>
+
+<div class="copy">
+<p>Here is how AI shows up in an in-house legal team in 2026.</p>
+<p>IT rolls out Microsoft Copilot across the business, often thinly deployed, and legal gets it whether it wanted it or not. The contract platform announces AI features at renewal, priced into the uplift, with no procurement decision for legal. Three panel firms arrive with three different AI portals, each hoping its platform becomes your platform, or at least makes you symbiotic with it. Some may even white-label you an AI product of their own.</p>
+<p>Other departments run their own AI projects, some already making calls with legal consequences. Two of your lawyers are quietly using personal ChatGPT accounts; in Thomson Reuters&rsquo; 2026 Future of Professionals survey, roughly a third of professionals admitted using AI tools their organisation hasn&rsquo;t approved.<sup class="fn"><a href="#s1">1</a></sup> And somewhere in the budget cycle, someone asks whether you should buy Harvey or Legora, which you cannot afford on your existing budget.</p>
+<p>That is six doors, five pricing models, and one deliberate decision. The stack assembles itself. The question is whether you govern it or discover it.</p>
+<p>The strange part: in-house counsel are the most powerful buyers in this market and the least powerful buyers in their own building. In Litera&rsquo;s Spring 2026 survey, <strong><span class="num">51%</span></strong> of law firm respondents said a client had directly influenced an AI investment decision in the past year; only <strong><span class="num">15%</span></strong> said their AI investment was entirely internally driven.<sup class="fn"><a href="#s2">2</a></sup> Meanwhile, your own AI stack may have been chosen by an IT committee you have never met. You dictate to the firms you buy from, and you get dictated to by the business.</p>
+<p>There is a reason for the squeeze. In-house legal is a service provider at the heart of the business, which is exactly why so many of these decisions are not legal&rsquo;s. Law firms sit above you, keen to show off their AI. Business units press in from every side, expecting legal to keep up. In the middle sits a legal team whose own stack may be the least deliberately assembled of anyone&rsquo;s. And trust inside legal is thin: in Factor&rsquo;s 2026 survey, <strong><span class="num">83%</span> of lawyers had access to AI tools but only <span class="num">22%</span> reported high trust in them.</strong><sup class="fn"><a href="#s27">27</a></sup></p>
+<p>This is how I would try and untie the knot: understand the products, understand your constraints, and then, most importantly, understand your needs. Skip to the third part if you only read one thing.</p>
+</div>
+</section>
+
+<!-- =================== PART 1 =================== -->
+<div class="part-head" id="part1">
+<p class="part-head__label">Part 1</p>
+<h2>Understand the products.</h2>
+</div>
+
+<section class="section" style="margin-top: 40px; border-top: 0;">
+<h3 class="subhead" style="margin-top: 0;">First, look upstream: BigLaw has split three ways.</h3>
+
+<div class="copy">
+<p>Start by watching the big firms. They publish their moves, the press covers them, and they can afford to try everything. Their AI strategies have split three ways.</p>
+</div>
+
+<article class="move">
+<div class="move__n">01</div>
+<div class="move__body">
+<h3 class="move__title display">Partner with the frontier.</h3>
+<p>Freshfields deployed Anthropic&rsquo;s Claude firm-wide in April 2026 and co-develops with the lab,<sup class="fn"><a href="#s24">24</a></sup> while hedging with a parallel Google deployment. The bet: go to the source and help shape the product.</p>
+</div>
+</article>
+
+<article class="move">
+<div class="move__n">02</div>
+<div class="move__body">
+<h3 class="move__title display">Buy the platform.</h3>
+<p>Harvey, Legora, CoCounsel. Just about every major firm has bought one, usually alongside another strand; Slaughter and May&rsquo;s Harvey adoption in April 2026 was one announcement in a stream of them.<sup class="fn"><a href="#s25">25</a></sup> The bet: pay the premium, get the workflow, accept the lock-in.</p>
+</div>
+</article>
+
+<article class="move">
+<div class="move__n">03</div>
+<div class="move__body">
+<h3 class="move__title display">Build on an architecture.</h3>
+<p>Kirkland &amp; Ellis is building on Palantir&rsquo;s data architecture, starting with its thousand-lawyer funds practice (June 2026).<sup class="fn"><a href="#s26">26</a></sup> DIY, if doing it with Palantir counts. The bet: the durable asset is the firm&rsquo;s own structured data, not anyone&rsquo;s app.</p>
+</div>
+</article>
+
+<div class="copy" style="margin-top: 28px;">
+<p>Sit with that. The best-resourced legal buyers in the world looked at the same market and split three ways, with many running more than one strand at once. There is no consensus play; the closest thing is hedging. Treat anyone selling you certainty accordingly.</p>
+<p>The same three strategies exist in-house, at smaller scale. But in-house is the harder problem. A firm decides once, for itself. You have a stake in your firms&rsquo; decisions as well as your own, and their choices land on your desk as portals, workspaces and AI-drafted work. And you face doors no law firm has to worry about, so your map needs more rows.</p>
+</div>
+
+<h3 class="subhead">The six doors.</h3>
+
+<div class="copy">
+<p>The market looks chaotic because vendors describe themselves by what they&rsquo;d like to be. Ignore the marketing and every AI product or initiative that touches an in-house team comes through one of six doors.</p>
+</div>
+
+<article class="move">
+<div class="move__n">1</div>
+<div class="move__body">
+<h3 class="move__title display">The Source.</h3>
+<p>The frontier models, bought direct: Claude, ChatGPT, Gemini, in their enterprise forms. This door got serious for lawyers in 2026. Anthropic shipped Claude for Word in April 2026 and Claude for Legal on 12 May 2026<sup class="fn"><a href="#s3">3</a></sup><sup class="fn"><a href="#s4">4</a></sup>; OpenAI was reported in May 2026 to be planning a &ldquo;Codex for Legal.&rdquo;<sup class="fn"><a href="#s5">5</a></sup> (Perplexity launched a lawyer-facing product on 24 June 2026 as well,<sup class="fn"><a href="#s6">6</a></sup> but it belongs with the vendors, not here: buy it and you hold a Perplexity subscription, not a frontier-model relationship. See Rubric 2, question 1.) Buying at the source means the fewest layers between you and the intelligence, and the most assembly. The do-it-yourself path is this door with less paperwork.</p>
+</div>
+</article>
+
+<article class="move">
+<div class="move__n">2</div>
+<div class="move__body">
+<h3 class="move__title display">The legal platforms.</h3>
+<p>Purpose-built legal AI: Harvey, Legora, Thomson Reuters&rsquo; CoCounsel, and in-house entrants like Wordsmith.<sup class="fn"><a href="#s7">7</a></sup> You pay a premium for legal workflow, integrations, and someone accountable when it breaks. One myth to puncture early: the platforms&rsquo; favourite pitch is that they are the only <em>safe</em> way for lawyers to use AI. Check your enterprise agreements before believing it. No-training defaults and the usual certifications usually already sit in the contracts IT signed with the source and copilot providers. Safety is table stakes, not a platform exclusive. Reported list pricing at the premium end runs to four figures per seat per month, with seat minimums, before discounts.<sup class="fn"><a href="#s8">8</a></sup> These vendors court in-house teams hard because an in-house win markets the product to every firm on your panel.<sup class="fn"><a href="#s2">2</a></sup></p>
+</div>
+</article>
+
+<article class="move">
+<div class="move__n">3</div>
+<div class="move__body">
+<h3 class="move__title display">The enterprise copilots.</h3>
+<p>Microsoft 365 Copilot and its equivalents. Not legal products, but they arrive with enterprise weight and often without legal&rsquo;s buy-in (you may even have approved it as &ldquo;safe&rdquo;, which is not the same as choosing it). The twist: the forced door keeps filling with legal-grade material, because Microsoft is playing every side at once. It put Harvey inside Copilot (4 March 2026).<sup class="fn"><a href="#s9">9</a></sup> It has been adding Anthropic&rsquo;s Claude models since September 2025.<sup class="fn"><a href="#s10">10</a></sup> And on 30 April 2026 it shipped its own Legal Agent in Word, US-only at launch, built by a team hired out of legal AI vendor Robin AI.<sup class="fn"><a href="#s11">11</a></sup> If IT locked you in a room, check the room. The walls have doors in them now.</p>
+</div>
+</article>
+
+<article class="move">
+<div class="move__n">4</div>
+<div class="move__body">
+<h3 class="move__title display">AI inside.</h3>
+<p>The AI features sprouting in products you already run: the contract lifecycle (CLM) system, the document management system (DMS), e-billing, matter management. iManage and NetDocuments are building AI into the DMS itself.<sup class="fn"><a href="#s12">12</a></sup> This door never faces a buying decision; it arrives with the renewal, priced in. It is the easiest door to walk through by accident. One split matters more than any demo: some bolt-ons can connect to the rest of your tools; many just sit in their own box.</p>
+</div>
+</article>
+
+<article class="move">
+<div class="move__n">5</div>
+<div class="move__body">
+<h3 class="move__title display">Your firms&rsquo; AI.</h3>
+<p>The door most maps miss, because it doesn&rsquo;t look like procurement: your firms&rsquo; platforms reaching you through the engagement itself. Portal seats, shared workspaces, AI-drafted deliverables. Work across several firms and several platforms are coming at you, a buffet you never ordered. Each firm hopes its platform becomes the surface you work on together. Convenient, and also how your instructions, positions and matter history end up inside someone else&rsquo;s product. It needs a house rule, not a default yes (more in Part 2).</p>
+</div>
+</article>
+
+<article class="move">
+<div class="move__n">6</div>
+<div class="move__body">
+<h3 class="move__title display">The rest of the business&rsquo;s AI.</h3>
+<p>Procurement&rsquo;s contracting tool, finance&rsquo;s forecasting models, HR&rsquo;s screening systems: all sprouting AI, none of it bought by legal, some of it making calls with legal consequences. Legal sits in the middle of everyone else&rsquo;s workflows, so other people&rsquo;s AI creates your work and your risk. This door appears on no vendor&rsquo;s market map.</p>
+</div>
+</article>
+
+<div class="callout">
+<p><strong>One property cuts across the map: connectivity.</strong> The Model Context Protocol (MCP), an open standard from Anthropic (late 2024), lets AI products call each other&rsquo;s tools and data.<sup class="fn" style="font-style: normal;"><a href="#s13">13</a></sup> Harvey runs it in both directions: other tools can call Harvey, and since December 2025 Harvey can reach out to your other systems.<sup class="fn" style="font-style: normal;"><a href="#s13">13</a></sup> iManage has announced support.<sup class="fn" style="font-style: normal;"><a href="#s12">12</a></sup> Some platforms have none. Connectivity decides whether the doors add up to a stack or a pile of silos. Treat it as a buying question, not a technical footnote.</p>
+</div>
+
+<!-- RUBRIC 1 -->
+<h3 class="subhead">Rubric 1 &mdash; the six-door product map.</h3>
+<div class="rubric-wrap">
+<table class="rubric">
+<thead>
+<tr>
+<th>Door</th>
+<th>What it really is</th>
+<th>Examples (July 2026)</th>
+<th>How it usually arrives</th>
+<th>How the meter runs</th>
+<th>If it dies or you leave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. The Source</td>
+<td>Frontier model, bought direct</td>
+<td>Claude Enterprise / Claude for Legal, ChatGPT Enterprise, Gemini</td>
+<td>You choose it (or build on it)</td>
+<td>Per seat, cheap relative to Type 2; usage-based via API</td>
+<td>Model is replaceable; whatever you built survives if you kept it portable</td>
+</tr>
+<tr>
+<td>2. Legal platform</td>
+<td>Legal workflow wrapped around frontier models</td>
+<td>Harvey, Legora, CoCounsel, Wordsmith</td>
+<td>Legal procurement</td>
+<td>Premium per seat; consumption pricing arriving (see Part 2)</td>
+<td>Your playbooks, agents and vault structures may not export; ask before you build there</td>
+</tr>
+<tr>
+<td>3. Enterprise copilot</td>
+<td>General-purpose AI across the company&rsquo;s Microsoft or Google environment</td>
+<td>M365 Copilot, Gemini for Workspace</td>
+<td>IT decides; legal inherits</td>
+<td>Bundled per seat on the enterprise agreement</td>
+<td>It won&rsquo;t vanish, but the features and models inside it churn</td>
+</tr>
+<tr>
+<td>4. Legaltech AI bolt-on</td>
+<td>AI features embedded in tools you already own; some connected, some in their own box</td>
+<td>CLM AI modules, iManage / NetDocuments AI, e-billing AI</td>
+<td>The renewal cycle</td>
+<td>Priced into the uplift; rarely itemised</td>
+<td>The host product survives; the AI layer is hostage to the vendor&rsquo;s roadmap</td>
+</tr>
+<tr>
+<td>5. Your firms&rsquo; AI</td>
+<td>Panel firms&rsquo; platforms reaching you through the engagement</td>
+<td>Portal seats, shared workspaces, AI-drafted deliverables</td>
+<td>With the next matter; with the pitch</td>
+<td>Folded into the fees</td>
+<td>Your playbooks and instructions inside a firm&rsquo;s platform are the hardest copy to get back</td>
+</tr>
+<tr>
+<td>6. The business&rsquo;s AI</td>
+<td>Other departments&rsquo; AI making legal-adjacent calls</td>
+<td>Procurement contract bots, finance models, HR screening</td>
+<td>Nobody tells legal</td>
+<td>Someone else&rsquo;s budget</td>
+<td>The risk stays with you even though the tool was never yours</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric-note">Connectivity (MCP / open APIs) is a property of the doors, not a seventh door. Test for it with Question 3 below.</p>
+</div>
+
+<!-- RUBRIC 2 -->
+<h3 class="subhead">Rubric 2 &mdash; label any product in four questions.</h3>
+<div class="copy">
+<p>When a vendor demo refuses to fit the map, ask these four questions. The answers place it.</p>
+</div>
+<div class="rubric-wrap">
+<table class="rubric">
+<thead>
+<tr>
+<th style="width: 52%;">Question</th>
+<th>What the answer tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Who holds the model relationship?</strong> You directly &rarr; Type 1. A legal vendor &rarr; Type 2. Your IT department &rarr; Type 3. The product company you already pay &rarr; Type 4. Your panel firm &rarr; Type 5. Another part of the business &rarr; Type 6.</td>
+<td>Who captures the margin, and who you depend on when models change</td>
+</tr>
+<tr>
+<td><strong>2. Where does your knowledge end up, and can you walk away with it?</strong> Ask for the export mechanism in writing, not the roadmap.</td>
+<td>Your real switching cost in two years</td>
+</tr>
+<tr>
+<td><strong>3. Can it connect?</strong> Does it speak MCP (or open APIs), in either direction?</td>
+<td>Whether it will join your stack or fragment it</td>
+</tr>
+<tr>
+<td><strong>4. How does the meter run:</strong> seat, consumption, or bundled into a renewal?</td>
+<td>What your bill does when usage takes off (see Part 2)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="copy">
+<p>Two complications. First, the types are collapsing into each other: the labs are moving up into legal product (Anthropic now sells Door 1 and, since May 2026, something close to Door 2<sup class="fn"><a href="#s4">4</a></sup>), the copilots are absorbing legal agents, and the incumbents are bolting AI on. That is what the four questions are for. Second, the industry&rsquo;s own leaders say the categories are unstable. Harvey&rsquo;s CEO, 12 May 2026: &ldquo;long term we would end up competing with the model companies.&rdquo;<sup class="fn"><a href="#s14">14</a></sup> Legora&rsquo;s CEO: models are &ldquo;necessary &hellip; but insufficient on their own.&rdquo;<sup class="fn"><a href="#s15">15</a></sup> OpenAI&rsquo;s president, in a post reported on 22 May 2026: &ldquo;the model alone is no longer the product.&rdquo;<sup class="fn"><a href="#s16">16</a></sup> When both sides of the table agree the ground is moving, get ready for earthquakes.</p>
+</div>
+</section>
+
+<!-- =================== PART 2 =================== -->
+<div class="part-head" id="part2">
+<p class="part-head__label">Part 2</p>
+<h2>Understand the buying constraints.</h2>
+</div>
+
+<section class="section" style="margin-top: 40px; border-top: 0;">
+<div class="copy">
+<p>Product knowledge is useless until you face three constraints: who holds the authority (and the budget), how pricing is shifting, and the fact that products die.</p>
+</div>
+
+<h3 class="subhead">Constraint 1: you may not be holding the pen.</h3>
+<div class="copy">
+<p>Start with an uncomfortable question: who actually controls your team&rsquo;s AI decisions? There are three real answers, each with a different menu.</p>
+</div>
+
+<div class="rubric-wrap">
+<table class="rubric">
+<thead>
+<tr>
+<th>Your situation</th>
+<th>Your realistic menu</th>
+<th>Your levers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. Legal owns the budget and the IT relationship</td>
+<td>The full map. Run a real Type 1 vs Type 2 evaluation; use connectivity (Rubric 2, Q3) as the tiebreaker</td>
+<td>Everything below, plus vendor selection itself</td>
+</tr>
+<tr>
+<td>B. Legal has budget, but IT owns the platforms</td>
+<td>Buy legal-specific tools at the edges (Type 2 for defined workloads); require MCP/API openness so they work with what IT runs rather than against it</td>
+<td>Procurement terms; integration requirements; a seat at IT&rsquo;s steering table</td>
+</tr>
+<tr>
+<td>C. No budget; Copilot was mandated</td>
+<td>The guerrilla position: use what&rsquo;s already licensed (the copilots now carry frontier models and legal agents<sup class="fn" style="font-style: normal;"><a href="#s9">9</a></sup><sup class="fn" style="font-style: normal;"><a href="#s10">10</a></sup><sup class="fn" style="font-style: normal;"><a href="#s11">11</a></sup>); build the Part 3 knowledge layer with time and discipline</td>
+<td>The contract levers (engagement letters, panel terms, instructions to firms), which cost nothing and nobody can take away</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="copy">
+<p>Row C looks like defeat and isn&rsquo;t. A mandated Copilot is a constraint, not a verdict: the licensed tools are a free way to learn, and the models inside them are real. Used bare, though, they disappoint. In the first published blind-judged benchmark of its kind (April 2026, run by the vendor Ivo, so read it with that in mind), a frontier model out of the box scored <span class="num">3.50</span> out of <span class="num">10</span> on contract review. The purpose-built tool scored <span class="num">4.52</span>; a senior lawyer <span class="num">4.56</span>. Nobody aces this test, but the ordering is the point.<sup class="fn"><a href="#s17">17</a></sup> The setup wasn&rsquo;t even-handed: the purpose-built tool came configured for the task; the frontier model came bare. But the asymmetry is the finding. The gap was what the model was given to work with, not the model. Raw model access is not capability. The playbook you feed it is the capability.</p>
+<p>One constraint sits across every row: the buffet. Instruct several firms and several platforms will come at you through door 5, each convenient, each moving a little more of your knowledge into someone else&rsquo;s product. You cannot adopt them all, and deciding matter-by-matter under deadline pressure means the firms decide for you. Set the rule once, for every firm: which portals you will work in, whether your playbooks may go into a firm&rsquo;s platform, and what firms must tell you about AI-produced work.</p>
+</div>
+
+<h3 class="subhead">Constraint 2: the meter is changing from seats to consumption.</h3>
+
+<div class="callout">
+<p>I&rsquo;ve written a longer piece on this shift: <a href="tokenomics-of-legal-ai.html">The Tokenomics of Legal AI</a>.</p>
+</div>
+
+<div class="copy">
+<p>For two years legal AI was priced like software: per seat, per year, predictable. That era is ending. On 23 June 2026 Legora moved its flagship tier to consumption pricing, in its own words &ldquo;from hours billed and seats licensed, to outcomes delivered.&rdquo;<sup class="fn"><a href="#s18">18</a></sup> Expect others to follow, because the vendors&rsquo; own costs run on consumption. Harvey&rsquo;s founders said in May 2026 that their token throughput (tokens are the units AI work is metered in) had grown twelvefold in five months, and that the company is not currently profitable.<sup class="fn"><a href="#s19">19</a></sup></p>
+<p>Consumption pricing cuts both ways. In your favour: cost becomes legible per matter, which a seat licence never showed you. Against you: volatility. Agentic workflows, where the AI takes many steps on its own, multiply consumption in ways nobody can forecast, including the vendor.</p>
+<p>Remember margin stacking too. The further from the source you buy, the more layers of markup the same computation passes through: model, then platform, then embedded product, each taking a cut. That is not an argument for always buying at the source; the markup buys real things (workflow, security, someone to sue). It is an argument for knowing how many layers you are paying for, and asking each what it adds.</p>
+<p>Two moves follow. First, settle AI cost allocation in your engagement letters and panel terms now, while it is cheap to raise: is AI the firm&rsquo;s overhead or a disbursement, and if a disbursement, at cost or marked up? One sentence today avoids an argument in 2027. Second, ask every vendor Rubric 2&rsquo;s fourth question and get per-matter cost visibility written into the contract.</p>
+</div>
+
+<h3 class="subhead">Constraint 3: products die. Plan for it.</h3>
+<div class="copy">
+<p>Legal tech products fail, get acquired, or get abandoned. ROSS Intelligence, a respected legal research startup, shut down in 2020 while defending copyright litigation that is still running; the appeal was argued on 11 June 2026.<sup class="fn"><a href="#s20">20</a></sup> Its customers were pointed at three competitors and left to manage the move. Even the safest names get repriced overnight: on 3 February 2026, after Anthropic shipped a legal plug-in, Thomson Reuters shares fell <span class="num">16%</span> in a day.<sup class="fn"><a href="#s21">21</a></sup> If the market cannot price these products with confidence, neither can you.</p>
+</div>
+
+<blockquote class="pull">
+<p>You cannot pick survivors, but the risk isn&rsquo;t uniform. Then do the one thing that makes tool death survivable anywhere on it: keep the knowledge outside the tool.</p>
+<cite>from Constraint 3 &mdash; on planning for products that die</cite>
+</blockquote>
+
+<div class="copy">
+<p>You cannot pick survivors, but the risk isn&rsquo;t uniform. Thin products that wrap a frontier model in a chat window are the most exposed. Deep workflow platforms are defensible but expensive to run.<sup class="fn"><a href="#s19">19</a></sup> Products anchored to systems of record (your DMS, your CLM, the law reports) are the most insulated, because the data holds even where the AI is mediocre. Rate every product in your stack on that spectrum. Then do the one thing that makes tool death survivable anywhere on it: keep the knowledge outside the tool.</p>
+</div>
+
+<h3 class="subhead">How this goes wrong: not controlling the chaos.</h3>
+<div class="copy">
+<p>Before the needs, name the failure mode, because it&rsquo;s the default. Nobody decides it; then it accretes.</p>
+<p>The contracts team pilots the CLM vendor&rsquo;s AI module. Disputes standardises on Copilot, because IT switched it on. One lawyer builds a brilliant personal workflow in a paid ChatGPT account. Two firms&rsquo; portal seats arrive with the next two big matters. Procurement renews the DMS with the AI uplift because the discount expired Friday, and procurement&rsquo;s own contract tool starts suggesting fallback positions nobody in legal has seen.</p>
+<p>Eighteen months later: six tools, four pricing models, no shared playbooks. Each product has been learning your team&rsquo;s precedents and positions inside its own walls, in formats none of them will hand back. The CLM knows your contract positions, the portal knows your instructions, the chat histories know everything else. Three lawyers do the same task three different ways at three different costs. Everyone has become the champion of a different product, which is another way of saying the AI deployment is not managed at all. And when the board asks what legal&rsquo;s AI position is, the honest answer is: we have six, and they&rsquo;ve never met.</p>
+<p>The cost is bigger than duplicated spend. Whatever makes your team valuable (the positions you take, the way you paper a deal, what you learned the hard way on the last dispute) is exactly what these products absorb as your lawyers use them. If you don&rsquo;t own your knowledge management, you are giving it away: chopped into a thousand pieces and handed to every vendor, firm and business unit with a prompt box. Nobody would photocopy the precedent bank and post it to six suppliers. An unmanaged AI deployment does the equivalent every day, without anyone deciding to.</p>
+<p>None of the individual decisions was wrong. The absence of a decision was wrong. That is what a team AI strategy is for, and it is why the strategy has to start from needs, not products.</p>
+</div>
+</section>
+<!-- =================== PART 3 =================== -->
+<div class="part-head" id="part3">
+<p class="part-head__label">Part 3 &mdash; the part that actually matters</p>
+<h2>Understand the needs.</h2>
+</div>
+
+<section class="section" style="margin-top: 40px; border-top: 0;">
+<div class="copy">
+<p>Run the logic from the work, not the demo. Most in-house AI needs reduce to seven. Six map onto the doors cleanly. One maps to nothing on the market, and that one is the point. (The types below are the six doors from Part 1: source, legal platform, enterprise copilot, legaltech bolt-on, your firms&rsquo; AI, the business&rsquo;s AI.)</p>
+</div>
+
+<!-- RUBRIC 3 -->
+<h3 class="subhead">Rubric 3 &mdash; needs first, products second.</h3>
+<div class="rubric-wrap">
+<table class="rubric">
+<thead>
+<tr>
+<th>The need</th>
+<th>What actually meets it</th>
+<th>Types that fit</th>
+<th>What it depends on</th>
+<th>The trap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>High-volume repeatable work (NDAs, standard procurement contracts)</td>
+<td>Consistent application of <em>your</em> positions at speed</td>
+<td>Type 4 (CLM AI) or Type 2</td>
+<td>A written playbook of your positions; the tool applies it, it doesn&rsquo;t invent it</td>
+<td>Buying the tool before writing the playbook; then it applies someone else&rsquo;s defaults</td>
+</tr>
+<tr>
+<td>Advice and drafting (memos, board papers, correspondence)</td>
+<td>A strong drafting model plus your precedents and house style</td>
+<td>Type 1 or 3, fed with your knowledge</td>
+<td>Your precedent bank; a verification habit</td>
+<td>This is your <em>least-checked</em> output. Litigation has opposing counsel as quality control; a board memo has no one</td>
+</tr>
+<tr>
+<td>Legal research</td>
+<td>Grounded, citable authority in your jurisdiction</td>
+<td>Type 2, or research-specific products</td>
+<td>Jurisdiction coverage; citation verification</td>
+<td>General models are weakest exactly here; the cases where courts have sanctioned lawyers over AI are overwhelmingly citation failures</td>
+</tr>
+<tr>
+<td><strong>Knowing what you know</strong> (precedents, positions, matter histories)</td>
+<td>Structured, searchable, <em>owned</em> knowledge</td>
+<td><strong>No type solves this for you</strong></td>
+<td>You. This is the input to every other row</td>
+<td>Believing a vendor&rsquo;s &ldquo;vault&rdquo; or &ldquo;memory&rdquo; feature is your KM strategy. It&rsquo;s theirs</td>
+</tr>
+<tr>
+<td>Managing external counsel</td>
+<td>Leverage: panel terms, cost visibility, quality expectations</td>
+<td>Contract levers plus your firms&rsquo; portals (Type 5), used deliberately</td>
+<td>Knowing what AI-era work <em>should</em> cost and how fast it should arrive</td>
+<td>Demanding &ldquo;show us your AI ROI&rdquo;: you will get a number, not the truth. Specify outcomes instead</td>
+</tr>
+<tr>
+<td>Governing the business&rsquo;s AI (procurement bots, finance models, HR screening)</td>
+<td>Visibility and review gates where other teams&rsquo; AI touches legal risk</td>
+<td>Type 6 is the object of governance, not a tool you buy</td>
+<td>A map of where AI decisions with legal consequences happen</td>
+<td>Assuming silence is safety; door 6 never announces itself</td>
+</tr>
+<tr>
+<td>One-off automation (a review sprint, a data-room triage)</td>
+<td>Short-lived, task-shaped tooling</td>
+<td>Type 1 plus the connector property</td>
+<td>A named owner who checks the output</td>
+<td>Letting the prototype quietly become infrastructure with no owner</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="copy">
+<p>Now read the fourth column. The tools supply almost none of it. The rows keep asking for what only you can bring: your positions, your precedents, your matter histories, a named owner. No product ships with any of it; the benchmark result in Part 2 is that gap, measured. The model is the engine. Your knowledge is the fuel. Everyone is selling engines.</p>
+</div>
+
+<h3 class="subhead">Why the knowledge layer must be platform- and model-agnostic.</h3>
+
+<div class="callout">
+<p>Related: why I keep my own knowledge base as flat, portable files &mdash; <a href="flat-markdown.html">Flat Markdown</a>.</p>
+</div>
+
+<div class="copy">
+<p>The strategic core is unglamorous: get your filing system in order, and make it readable by the various tools. Keep the master copy of your team&rsquo;s knowledge in plain, portable formats you own. Ordinary files, ordinary folders, readable by anything; in practice, Word documents and plain-text files in storage the team controls. Not inside Harvey&rsquo;s vault, Legora&rsquo;s playbooks, the CLM&rsquo;s clause library, or Copilot&rsquo;s memory. Those are working copies, rebuilt from the master whenever you like.</p>
+<p>Three reasons, all downstream of Parts 1 and 2:</p>
+</div>
+
+<article class="move">
+<div class="move__n">01</div>
+<div class="move__body">
+<h3 class="move__title display">Every product works better with it, so it should feed every product.</h3>
+<p>The same playbook file improves Copilot on Monday, the panel firm&rsquo;s platform on Tuesday, and a Type 1 experiment on Friday. Locked into one product, it improves one product.</p>
+</div>
+</article>
+
+<article class="move">
+<div class="move__n">02</div>
+<div class="move__body">
+<h3 class="move__title display">It&rsquo;s the hedge against tool death and pricing power.</h3>
+<p>If a vendor dies, triples its price at renewal, or gets acquired, a team with an external knowledge layer re-points at a new tool in weeks. A team whose knowledge lives inside the product is hostage. Renewal negotiations feel very different when the vendor knows you can leave.</p>
+</div>
+</article>
+
+<article class="move">
+<div class="move__n">03</div>
+<div class="move__body">
+<h3 class="move__title display">It&rsquo;s the one asset that appreciates while everything else churns.</h3>
+<p>The models will change again; March to June 2026 alone proves that.<sup class="fn"><a href="#s3">3</a></sup><sup class="fn"><a href="#s4">4</a></sup><sup class="fn"><a href="#s5">5</a></sup><sup class="fn"><a href="#s6">6</a></sup><sup class="fn"><a href="#s9">9</a></sup><sup class="fn"><a href="#s11">11</a></sup> Every hour spent structuring your knowledge survives those changes. Hours spent configuring a single product may not.</p>
+</div>
+</article>
+
+<div class="copy" style="margin-top: 28px;">
+<p>This is also the answer to the authority problem in Part 2. A row-C team, no budget and a mandated Copilot, can build the knowledge layer with nothing but discipline, and it converts into leverage the moment budget arrives. It is the only AI investment available at every authority level, including none.</p>
+</div>
+
+<h3 class="subhead">The one-page team strategy.</h3>
+<div class="copy">
+<p>If the chaos scenario is the default, the alternative must be light enough to use.</p>
+</div>
+
+<ol class="priority">
+<li>
+<span class="priority__n">01</span>
+<p class="priority__body"><strong>One owner.</strong> A named person accountable for the team&rsquo;s AI position. Not a committee, and it can be a fraction of one person&rsquo;s role.</p>
+</li>
+<li>
+<span class="priority__n">02</span>
+<p class="priority__body"><strong>One map.</strong> Rubric 1, filled in for your team: all six doors, including the ones you didn&rsquo;t open and the shadow use you suspect. You can&rsquo;t govern what you haven&rsquo;t listed.</p>
+</li>
+<li>
+<span class="priority__n">03</span>
+<p class="priority__body"><strong>One knowledge layer.</strong> One master copy: portable, owned, per above. Start with the ten documents your team reinvents most often.</p>
+</li>
+<li>
+<span class="priority__n">04</span>
+<p class="priority__body"><strong>One contract position.</strong> Standard AI clauses in engagement letters and panel terms: cost allocation, disclosure expectations, knowledge portability from your vendors. In-house teams are already reshaping firm behaviour this way<sup class="fn"><a href="#s2">2</a></sup><sup class="fn"><a href="#s22">22</a></sup>; use the leverage. In Australia the natural moment is the next panel refresh, when the terms are open anyway.</p>
+</li>
+<li>
+<span class="priority__n">05</span>
+<p class="priority__body"><strong>One review rhythm.</strong> Quarterly, not annually. Pricing models, product capabilities and the vendor map all moved materially inside single quarters in the first half of 2026<sup class="fn"><a href="#s3">3</a></sup><sup class="fn"><a href="#s18">18</a></sup>.</p>
+</li>
+</ol>
+
+<div class="copy" style="margin-top: 28px;">
+<p>That&rsquo;s the strategy. It contains no product name. The products are Part 1; they slot into a strategy shaped by Parts 2 and 3, never the reverse.</p>
+</div>
+</section>
+
+<!-- =================== CLOSE =================== -->
+<section class="section" id="close">
+<div class="section__head">
+<h2 class="display">The closing thought.</h2>
+<p class="smallcaps">the asset that was never on the price list</p>
+</div>
+
+<div class="copy">
+<p>The teams that come out of this era ahead won&rsquo;t be the ones that picked the winning vendor. Nobody reliably can: the vendors disagree about which layer survives<sup class="fn"><a href="#s14">14</a></sup><sup class="fn"><a href="#s15">15</a></sup><sup class="fn"><a href="#s16">16</a></sup>, and so do the big firms<sup class="fn"><a href="#s24">24</a></sup><sup class="fn"><a href="#s25">25</a></sup><sup class="fn"><a href="#s26">26</a></sup>. The winners will be the ones who understood the products well enough to label them, faced their constraints, and knew their needs well enough to notice that the most important asset was never on any vendor&rsquo;s price list.</p>
+<p>You have more leverage than you think. The firms are already taking direction from clients like you<sup class="fn"><a href="#s2">2</a></sup><sup class="fn"><a href="#s22">22</a></sup><sup class="fn"><a href="#s23">23</a></sup>. The vendors want your logo. And the knowledge layer, the thing that makes every product on the map work at all, is already sitting in your team&rsquo;s documents and heads, waiting to be structured by the one party with no incentive to lock you in: you.</p>
+</div>
+
+<div class="callout">
+<p>Drafted with AI on a research base I curate and verify by hand &mdash; the same discipline this article recommends. Product facts dated as at 5 July 2026; check anything load-bearing before you rely on it, which is also the advice in the article.</p>
+</div>
+</section>
+
+<!-- =================== SOURCES =================== -->
+<section class="section" id="sources">
+<div class="section__head">
+<h2 class="display">Sources.</h2>
+<p class="smallcaps">dated as at 5 July 2026</p>
+</div>
+
+<ol class="sources">
+<li id="s1">Thomson Reuters Institute, <em>Future of Professionals Report 2026</em> (June 2026) &mdash; n=1,816 professionals, 62 countries; ~one-third report unapproved AI use; 78% of corporate respondents rate AI-enabled quality improvements very important/essential vs 6% seeing outside counsel deliver.</li>
+<li id="s2">Litera, <em>State of Legal AI: Spring 2026 Market Sentiment Report</em> (May 2026) &mdash; 51% client-influenced AI decisions; 15% entirely internally driven; ROI ranked last among decision factors.</li>
+<li id="s3">Anthropic &mdash; Claude for Word launch (10 April 2026).</li>
+<li id="s4">Anthropic &mdash; Claude for Legal launch (12 May 2026).</li>
+<li id="s5">Artificial Lawyer, report of OpenAI &ldquo;Codex for Legal&rdquo; plans (18 May 2026).</li>
+<li id="s6">Perplexity &mdash; legal offering launch (24 June 2026).</li>
+<li id="s7">Wordsmith Series B announcement (June 2026).</li>
+<li id="s8">Sacra research on Harvey pricing &mdash; list ~US$1,000&ndash;1,200/seat/month, 20-seat minimum, negotiated discounts reported.</li>
+<li id="s9">Microsoft &mdash; Harvey integration in Copilot (@Harvey), announced 4 March 2026; endorsed by Judson Althoff, CEO, Microsoft Commercial Business.</li>
+<li id="s10">Microsoft / Anthropic &mdash; Claude models added inside Copilot, beginning with the Researcher agent (September 2025) and Copilot Studio general availability (January 2026).</li>
+<li id="s11">Microsoft Legal Agent in Word launch (30 April 2026) &mdash; US-only via Frontier programme at launch; built by ex-Robin AI engineering team.</li>
+<li id="s12">iManage MCP support announcement; NetDocuments AI/context initiatives (2025&ndash;2026).</li>
+<li id="s13">Anthropic, Model Context Protocol (introduced late 2024); Harvey MCP server (beta) and MCP client (announced December 2025) &mdash; Harvey developer documentation.</li>
+<li id="s14">Winston Weinberg (CEO, Harvey), public statement, 12 May 2026 (&ldquo;long term we would end up competing with the model companies&rdquo;).</li>
+<li id="s15">Max Junestrand (CEO, Legora), LinkedIn statement reported by nonbillable.co.uk (14 May 2026).</li>
+<li id="s16">Greg Brockman (President, OpenAI), X post reported by Artificial Lawyer (22 May 2026) (&ldquo;The model alone is no longer the product&rdquo;).</li>
+<li id="s17">Ivo, contract review benchmark (29 April 2026) &mdash; vendor-commissioned; 19 contracts; blind-judged by three US transactional attorneys; Claude for Word (out of the box) 3.50/10 vs Ivo 4.52 vs human attorney 4.56. Configuration asymmetry favoured Ivo; treat as directional.</li>
+<li id="s18">Legora, &ldquo;Introducing Consumption-Based Pricing&rdquo; (23 June 2026).</li>
+<li id="s19">Harvey founders, Reddit AMA (27 May 2026) &mdash; token throughput 1T&rarr;12T+ in five months; &ldquo;we&rsquo;re not profitable today and are not optimizing for that right now.&rdquo;</li>
+<li id="s20"><em>Thomson Reuters v ROSS Intelligence</em> &mdash; ROSS shutdown announced December 2020, customers directed to three competitor platforms; Third Circuit appeal argued 11 June 2026.</li>
+<li id="s21">Morningstar and others, 3 February 2026 &mdash; Thomson Reuters single-day share decline of ~16% following Anthropic legal plug-in market reaction.</li>
+<li id="s22">Financial Times, Nick Huber, &ldquo;Law firms look for clear gains from AI&rdquo; (26 June 2026) &mdash; incl. Brian Tang (HKU LITE Lab): &ldquo;The client now says, &lsquo;Hey, I have Harvey too&hellip; what am I using you for?&rsquo;&rdquo;</li>
+<li id="s23">Steve Hasker (CEO, Thomson Reuters), LawNext interview (24 June 2026) &mdash; GCs consolidating panels &ldquo;from 100 firms to a panel of 10 or 20.&rdquo;</li>
+<li id="s24">Freshfields firm-wide Anthropic/Claude deployment and co-development partnership (coverage 23 April 2026); the firm also runs a parallel Google/Gemini deployment.</li>
+<li id="s25">Slaughter and May adoption of Harvey (coverage 30 April 2026).</li>
+<li id="s26">Kirkland &amp; Ellis / Palantir engagement (coverage June 2026) &mdash; exclusive platform for the firm&rsquo;s Investment Funds Group (1,000+ lawyers) on Palantir architecture.</li>
+<li id="s27">Factor, 2026 legal AI report (via Artificial Lawyer, 23 March 2026; corroborated by the Financial Times, 26 June 2026) &mdash; 83% of surveyed lawyers have access to AI tools; only 22% report high trust in them (n=200+; access up from 61% in 2025).</li>
+</ol>
+</section>
+
+<footer class="foot">
+<span>Notes on knowledge work &middot; Joel Seignior &middot; <span class="num">2026</span></span>
+<a class="backlink" href="../index.html"><span class="backlink__arrow">&#8592;</span> Home</a>
+</footer>
+
+</main>
+
+</body>
+</html>
