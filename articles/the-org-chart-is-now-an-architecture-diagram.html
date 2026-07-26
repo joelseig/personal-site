@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Org Chart Is Now an Architecture Diagram &mdash; Joel Seignior</title>
+  <meta name="ext-resource-dependency" content="figures/escalated-run-verdict.png" data-resource-id="verdictBoard" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Roboto+Slab:wght@300..700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:        #FAF7F2;
+      --bg-raised: #F4EFE6;
+      --bg-deeper: #EEE7D9;
+      --ink:        #1F1F1F;
+      --ink-soft:   #4A4845;
+      --ink-muted:  #7A7670;
+      --rule:       #1F1F1F;
+      --rule-soft:  rgba(31,31,31,0.18);
+      --rule-hair:  rgba(31,31,31,0.10);
+      --sage:       #7A8B6F;
+      --sage-deep:  #5E6F54;
+      --sage-wash:  rgba(122,139,111,0.10);
+      --font-display: 'Inter Tight', system-ui, sans-serif;
+      --font-body:    'Roboto Slab', Georgia, serif;
+      --font-num:     'Roboto Slab', Georgia, serif;
+      --num-features: "tnum" 1, "lnum" 1;
+      --measure: 68ch;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { background: var(--bg); color: var(--ink); margin: 0; }
+    body {
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    [class*="num"], .num, table, td, th {
+      font-feature-settings: var(--num-features);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    .display { font-family: var(--font-display); letter-spacing: -0.015em; font-weight: 500; line-height: 1.05; text-wrap: balance; }
+    .num     { font-family: var(--font-num); font-feature-settings: var(--num-features); }
+
+    .smallcaps {
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-style: italic;
+      color: var(--ink-soft);
+      letter-spacing: 0;
+      text-transform: none;
+      font-weight: 400;
+    }
+
+    h1.display { font-size: 56px; letter-spacing: -0.022em; line-height: 0.98; margin: 0; }
+    h2.display { font-size: 30px; letter-spacing: -0.018em; margin: 0; }
+    h3.display { font-size: 20px; letter-spacing: -0.005em; line-height: 1.2; margin: 0; }
+
+    .lede { font-family: var(--font-body); font-size: 18px; line-height: 1.55; color: var(--ink-soft); max-width: 62ch; text-wrap: pretty; }
+
+    p.copy, .copy p {
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      line-height: 1.72;
+      color: var(--ink-soft);
+      max-width: var(--measure);
+      text-wrap: pretty;
+      margin: 0 0 18px;
+    }
+    .copy p:last-child { margin-bottom: 0; }
+    .copy strong, p.copy strong { color: var(--ink); font-weight: 600; }
+    .copy em, p.copy em { color: var(--ink); }
+    .copy a, p.copy a, .lede a {
+      color: var(--sage-deep);
+      text-decoration: none;
+      border-bottom: 1px solid var(--sage);
+      padding-bottom: 0.5px;
+      transition: color 120ms, border-color 120ms;
+    }
+    .copy a:hover, p.copy a:hover, .lede a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+    /* footnote references */
+    sup.fn { font-family: var(--font-num); font-feature-settings: var(--num-features); font-size: 10px; line-height: 0; vertical-align: super; }
+    sup.fn a { color: var(--sage-deep); text-decoration: none; border: 0; padding: 0 1px; }
+    sup.fn a:hover { color: var(--ink); }
+
+    .rule      { border: 0; border-top: 1px solid var(--rule);      margin: 18px 0; }
+    .rule-soft { border: 0; border-top: 1px solid var(--rule-soft); margin: 18px 0; }
+    .rule-hair { border: 0; border-top: 1px solid var(--rule-hair); margin: 12px 0; }
+
+    blockquote.pull {
+      margin: 36px 0;
+      padding: 36px 44px 32px;
+      background: var(--ink);
+      color: var(--bg);
+      position: relative;
+      max-width: 62ch;
+    }
+    blockquote.pull::before {
+      content: "\201C";
+      position: absolute; top: 10px; left: 18px;
+      font-family: var(--font-body); font-size: 64px; line-height: 1;
+      color: var(--sage); opacity: 0.45;
+    }
+    blockquote.pull p {
+      font-family: var(--font-display);
+      font-size: 22px; line-height: 1.4; margin: 0;
+      letter-spacing: -0.012em; text-wrap: pretty;
+      color: var(--bg);
+    }
+    blockquote.pull cite {
+      display: block; margin-top: 18px;
+      font-family: var(--font-body); font-style: italic;
+      font-size: 13px; color: rgba(250,247,242,0.6);
+    }
+
+    .callout {
+      padding: 22px 26px;
+      border-left: 3px solid var(--sage-deep);
+      background: var(--sage-wash);
+      max-width: var(--measure);
+      margin: 28px 0;
+    }
+    .callout p { margin: 0; font-style: italic; color: var(--ink); font-family: var(--font-body); font-size: 14.5px; line-height: 1.7; }
+    .callout p + p { margin-top: 10px; }
+    .callout a { color: var(--sage-deep); border-bottom: 1px solid var(--sage); text-decoration: none; }
+
+    .page {
+      max-width: 1080px; margin: 0 auto;
+      padding: 56px 32px 80px;
+    }
+    .section { margin-top: 60px; }
+    .section__head {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+      border-top: 1px solid var(--ink);
+      padding-top: 16px; margin-bottom: 26px;
+    }
+    .section__head h2 { letter-spacing: -0.018em; }
+    .section h3.display { margin: 34px 0 14px; }
+
+    /* part divider */
+    .part-head {
+      margin-top: 76px;
+      border-top: 2px solid var(--ink);
+      padding-top: 20px;
+    }
+    .part-head__label { font-family: var(--font-body); font-style: italic; font-size: 13px; color: var(--sage-deep); letter-spacing: 0.02em; }
+    .part-head h2 { font-family: var(--font-display); font-weight: 500; font-size: 38px; letter-spacing: -0.02em; line-height: 1.02; margin: 8px 0 0; max-width: 24ch; text-wrap: balance; }
+
+    /* sub head inside sections */
+    .subhead { font-family: var(--font-display); font-weight: 500; font-size: 22px; letter-spacing: -0.012em; line-height: 1.2; margin: 40px 0 14px; color: var(--ink); max-width: 40ch; text-wrap: balance; }
+
+    /* numbered strand / door list */
+    .move { display: grid; grid-template-columns: 74px 1fr; gap: 20px; padding: 26px 0; border-top: 1px solid var(--rule-hair); }
+    .move:first-of-type { border-top: 1px solid var(--ink); }
+    .move__n {
+      font-family: var(--font-num); font-feature-settings: var(--num-features);
+      font-size: 30px; color: var(--sage-deep); font-weight: 500; line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .move__title { font-family: var(--font-display); font-size: 20px; font-weight: 500; line-height: 1.22; letter-spacing: -0.012em; margin: 0 0 12px; color: var(--ink); max-width: 40ch; text-wrap: balance; }
+    .move__body p { font-family: var(--font-body); font-size: 15px; line-height: 1.7; color: var(--ink-soft); margin: 0 0 12px; max-width: 64ch; text-wrap: pretty; }
+    .move__body p:last-child { margin-bottom: 0; }
+    .move__body strong { color: var(--ink); font-weight: 600; }
+    .move__body em { color: var(--ink); }
+
+    /* tables / rubrics — allowed to break wider than the measure */
+    .rubric-wrap { margin: 24px 0; }
+    .rubric-title { font-family: var(--font-body); font-style: italic; font-size: 13px; color: var(--ink-muted); margin: 0 0 12px; }
+    table.rubric {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-body);
+    }
+    table.rubric thead tr { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    table.rubric th {
+      font-family: var(--font-display); font-size: 10.5px; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted);
+      padding: 11px 16px 11px 0; text-align: left; vertical-align: bottom;
+    }
+    table.rubric td {
+      padding: 15px 16px 15px 0; border-bottom: 1px solid var(--rule-hair);
+      color: var(--ink-soft); vertical-align: top; line-height: 1.5; font-size: 13px;
+    }
+    table.rubric td:last-child, table.rubric th:last-child { padding-right: 0; }
+    table.rubric td:first-child {
+      font-family: var(--font-display); font-weight: 500; font-size: 13.5px;
+      letter-spacing: -0.005em; color: var(--ink);
+    }
+    table.rubric strong { color: var(--ink); font-weight: 600; }
+    table.rubric em { color: var(--ink); }
+    table.rubric .num { font-family: var(--font-num); }
+
+    .rubric-note { font-family: var(--font-body); font-style: italic; font-size: 12px; color: var(--ink-muted); margin: 12px 0 0; max-width: 72ch; }
+
+
+    /* figures — diagrams and screenshots. Allowed to break the measure. */
+    figure.fig { margin: 38px 0; }
+    figure.fig img { display: block; width: 100%; height: auto; border: 1px solid var(--rule-soft); }
+    figure.fig figcaption { font-family: var(--font-body); font-style: italic; font-size: 12.5px; line-height: 1.6; color: var(--ink-muted); margin-top: 12px; max-width: 76ch; text-wrap: pretty; }
+    figure.fig figcaption b { font-style: normal; font-weight: 600; color: var(--ink-soft); }
+    figure.fig figcaption a { color: var(--sage-deep); text-decoration: none; border-bottom: 1px solid var(--sage); }
+    figure.fig figcaption a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+    /* .fig--shot: a tall UI screenshot, cropped to a fixed frame with a link out */
+    figure.fig--shot .fig__frame { max-height: 640px; overflow: hidden; border: 1px solid var(--rule-soft); }
+    figure.fig--shot img { border: 0; }
+
+    /* .fig--draw: diagrams drawn in the article's own type. No raster, no second palette. */
+    .dg { border: 1px solid var(--rule-soft); background: var(--bg); padding: 30px 30px 26px; font-family: var(--font-display); }
+    .dg svg { display: block; width: 100%; height: auto; }
+    .dg text { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.005em; }
+    .dg .t-lab { font-size: 11px; letter-spacing: 0.16em; fill: var(--ink-muted); }
+    .dg .t-main { font-size: 13px; fill: var(--ink); }
+    .dg .t-sum { font-size: 13.5px; fill: var(--ink); font-weight: 600; }
+    .dg .t-note { font-family: var(--font-body); font-style: italic; font-size: 11.5px; letter-spacing: 0; fill: var(--ink-muted); font-weight: 400; }
+    .dg .t-sage { fill: var(--sage-deep); }
+    .dg .s-ink { fill: none; stroke: var(--ink); stroke-width: 1; }
+    .dg .s-soft { fill: none; stroke: var(--rule-soft); stroke-width: 1; }
+    .dg .s-hair { fill: none; stroke: var(--rule-hair); stroke-width: 1; }
+    .dg .s-sage { fill: none; stroke: var(--sage-deep); stroke-width: 1; }
+    .dg .f-raise { fill: var(--bg-raised); stroke: var(--ink); stroke-width: 1; }
+    .dg .f-sage { fill: var(--sage-wash); stroke: var(--sage-deep); stroke-width: 1; }
+
+    /* lanes (fig 2) */
+    .dg-lanes { display: grid; grid-template-columns: 1fr 92px 1fr 92px 1fr; align-items: stretch; }
+    .dg-lane { border: 1px solid var(--rule-soft); background: var(--bg-raised); padding: 20px 20px 18px; display: flex; flex-direction: column; }
+    .dg-lane--code { border-color: var(--sage-deep); background: var(--sage-wash); }
+    .dg-lane__h { font-family: var(--font-display); font-size: 11.5px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); margin: 0; }
+    .dg-lane--code .dg-lane__h { color: var(--sage-deep); }
+    .dg-lane__sub { font-family: var(--font-body); font-style: italic; font-size: 11.5px; color: var(--ink-muted); margin: 6px 0 14px; }
+    .dg-lane ul { list-style: none; margin: 0; padding: 14px 0 0; border-top: 1px solid var(--rule-hair); display: grid; gap: 9px; }
+    .dg-lane li { font-family: var(--font-body); font-size: 13px; line-height: 1.4; color: var(--ink-soft); }
+    .dg-lane__foot { font-family: var(--font-body); font-style: italic; font-size: 11.5px; line-height: 1.5; color: var(--ink-muted); margin: auto 0 0; padding-top: 18px; }
+    .dg-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 0 6px; }
+    .dg-arrow__g { font-size: 15px; color: var(--sage-deep); line-height: 1; }
+    .dg-arrow__t { font-family: var(--font-body); font-style: italic; font-size: 11px; line-height: 1.35; color: var(--ink-muted); text-align: center; }
+    .dg-bar { margin-top: 14px; border-top: 1px dashed var(--rule-soft); padding-top: 12px; font-family: var(--font-body); font-style: italic; font-size: 11.5px; color: var(--ink-muted); text-align: center; }
+    .dg-bar b { font-style: normal; font-weight: 600; color: var(--sage-deep); }
+
+    /* pipeline (fig 4) */
+    .dg-step { display: grid; grid-template-columns: 30px 1fr 1fr; gap: 0 26px; padding: 15px 0; border-top: 1px solid var(--rule-hair); }
+    .dg-step:first-child { border-top: 0; padding-top: 0; }
+    .dg-step--gate { background: var(--sage-wash); padding-left: 14px; padding-right: 14px; margin-left: -14px; margin-right: -14px; }
+    .dg-step__n { font-family: var(--font-num); font-size: 12px; font-weight: 600; color: var(--sage-deep); font-feature-settings: var(--num-features); padding-top: 3px; }
+    .dg-step__h { font-family: var(--font-display); font-size: 15px; font-weight: 500; letter-spacing: -0.01em; color: var(--ink); margin: 0; }
+    .dg-step__sub { font-family: var(--font-body); font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); margin: 4px 0 0; }
+    .dg-step__find { font-family: var(--font-body); font-style: italic; font-size: 12.5px; line-height: 1.55; color: var(--ink-muted); margin: 0; text-wrap: pretty; }
+    .dg-step__find b { display: block; font-family: var(--font-display); font-style: normal; font-weight: 600; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage-deep); margin-bottom: 4px; }
+    .dg-out { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
+    .dg-out__box { border: 1px solid var(--rule-soft); background: var(--bg-raised); padding: 16px 18px; }
+    .dg-out__box--esc { border-color: var(--sage-deep); background: var(--sage-wash); }
+    .dg-out__h { font-family: var(--font-display); font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin: 0 0 8px; }
+    .dg-out__box--esc .dg-out__h { color: var(--sage-deep); }
+    .dg-out__b { font-family: var(--font-body); font-size: 12.5px; line-height: 1.55; color: var(--ink-soft); margin: 0; }
+    .dg-out__n { font-family: var(--font-body); font-style: italic; font-size: 11.5px; color: var(--ink-muted); margin: 8px 0 0; }
+    /* verdict board (the escalated run) */
+    .dg-flag { display: inline-block; font-family: var(--font-display); font-size: 10.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bg); background: var(--sage-deep); padding: 5px 10px; }
+    .dg-verdict { font-family: var(--font-display); font-size: 19px; font-weight: 500; letter-spacing: -0.014em; line-height: 1.3; color: var(--ink); margin: 16px 0 0; max-width: 62ch; text-wrap: pretty; }
+    .dg-block { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--rule-hair); }
+    .dg-block__h { font-family: var(--font-display); font-size: 10.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage-deep); margin: 0 0 10px; }
+    .dg-block p { font-family: var(--font-body); font-size: 13px; line-height: 1.65; color: var(--ink-soft); margin: 0 0 10px; max-width: 74ch; text-wrap: pretty; }
+    .dg-block p:last-child { margin-bottom: 0; }
+    .dg-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 16px; }
+    .dg-card { border: 1px solid var(--rule-soft); background: var(--bg-raised); padding: 18px 20px; }
+    .dg-card__h { font-family: var(--font-display); font-size: 14px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; color: var(--ink); margin: 0; }
+    .dg-card__by { font-family: var(--font-body); font-style: italic; font-size: 11px; color: var(--ink-muted); margin: 6px 0 12px; }
+    .dg-card p { font-family: var(--font-body); font-size: 12.5px; line-height: 1.6; color: var(--ink-soft); margin: 0; text-wrap: pretty; }
+    .dg-q { font-family: var(--font-body); font-size: 11.5px; line-height: 1.55; color: var(--ink-muted); margin: 12px 0 0; padding-left: 12px; border-left: 1px solid var(--rule-soft); }
+    .dg-q b { display: block; font-family: var(--font-display); font-weight: 600; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage-deep); margin-bottom: 3px; }
+    ul.dg-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    ul.dg-list li { font-family: var(--font-body); font-size: 13px; line-height: 1.6; color: var(--ink-soft); padding-left: 20px; position: relative; max-width: 78ch; text-wrap: pretty; }
+    ul.dg-list li::before { content: ""; position: absolute; left: 0; top: 10px; width: 10px; height: 1px; background: var(--sage-deep); }
+    .dg-gap { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 22px; padding: 9px 0; border-top: 1px solid var(--rule-hair); font-family: var(--font-body); font-size: 12.5px; line-height: 1.55; color: var(--ink-soft); }
+    .dg-gap:first-of-type { border-top: 0; padding-top: 0; }
+    .dg-gap span { color: var(--sage-deep); font-style: italic; }
+    .dg-foot { font-family: var(--font-body); font-style: italic; font-size: 11.5px; color: var(--ink-muted); margin: 22px 0 0; padding-top: 14px; border-top: 1px solid var(--rule-hair); }
+
+    /* short version box */
+    .tldr {
+      border: 1px solid var(--ink);
+      padding: 28px 30px;
+      max-width: var(--measure);
+      margin: 8px 0 0;
+      background: var(--bg-raised);
+    }
+    .tldr__label { font-family: var(--font-body); font-style: italic; font-size: 12.5px; color: var(--sage-deep); margin: 0 0 12px; }
+    .tldr p { font-family: var(--font-body); font-size: 15.5px; line-height: 1.7; color: var(--ink-soft); margin: 0 0 12px; text-wrap: pretty; }
+    .tldr strong { color: var(--ink); font-weight: 600; }
+    ol.tldr__list { margin: 0; padding-left: 22px; }
+    ol.tldr__list li { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 6px; }
+    ol.tldr__list li::marker { color: var(--sage-deep); font-family: var(--font-num); }
+
+    /* strategy checklist */
+    ol.priority { list-style: none; padding: 0; margin: 20px 0 0; max-width: 74ch; counter-reset: p; }
+    ol.priority li {
+      display: grid; grid-template-columns: auto 1fr; gap: 18px;
+      padding: 16px 0; border-top: 1px solid var(--rule-hair);
+      align-items: baseline;
+    }
+    ol.priority li:first-child { border-top: 1px solid var(--ink); }
+    ol.priority .priority__n {
+      font-family: var(--font-num); font-feature-settings: var(--num-features);
+      font-size: 12px; color: var(--sage-deep); font-weight: 600;
+    }
+    ol.priority .priority__body { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin: 0; text-wrap: pretty; max-width: 64ch; }
+    ol.priority .priority__body strong { color: var(--ink); font-weight: 600; }
+
+    /* sources */
+    ol.sources { margin: 8px 0 0; padding: 0; list-style: none; counter-reset: src; max-width: 78ch; }
+    ol.sources li {
+      counter-increment: src;
+      position: relative;
+      padding: 10px 0 10px 34px; border-top: 1px solid var(--rule-hair);
+      font-family: var(--font-body); font-size: 12.5px; line-height: 1.55; color: var(--ink-muted);
+      text-wrap: pretty;
+    }
+    ol.sources li:first-child { border-top: 1px solid var(--ink); }
+    ol.sources li::before {
+      content: counter(src);
+      position: absolute; left: 0; top: 10px;
+      font-family: var(--font-num); font-feature-settings: var(--num-features);
+      font-size: 11px; color: var(--sage-deep); font-weight: 600;
+      line-height: 1.55;
+    }
+    ol.sources li em { color: var(--ink-soft); font-style: italic; }
+
+    /* back link */
+    .backlink {
+      display: inline-flex; align-items: baseline; gap: 8px;
+      font-family: var(--font-body); font-style: italic; font-size: 13px;
+      color: var(--ink-soft); text-decoration: none;
+      border-bottom: 1px solid var(--rule-soft); padding-bottom: 1px;
+      transition: color 140ms, border-color 140ms;
+    }
+    .backlink:hover { color: var(--sage-deep); border-bottom-color: var(--sage); }
+    .backlink__arrow { font-style: normal; color: var(--sage-deep); }
+    .backlink--top { margin-bottom: 40px; }
+
+    .meta {
+      display: flex; flex-wrap: wrap; gap: 24px 32px;
+      margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--rule-hair);
+      font-family: var(--font-num); font-size: 11px; color: var(--ink-muted);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .meta__k { color: var(--ink); font-weight: 500; margin-right: 8px; }
+    .meta span { display: inline-flex; align-items: baseline; }
+
+    .toc {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 28px;
+      max-width: var(--measure); margin: 28px 0 0; border-top: 1px solid var(--ink);
+    }
+    .toc a {
+      display: grid; grid-template-columns: 42px 1fr;
+      padding: 10px 0; border-bottom: 1px solid var(--rule-hair);
+      font-family: var(--font-body); font-size: 13.5px; color: var(--ink); text-decoration: none;
+      align-items: baseline;
+    }
+    .toc a:hover { color: var(--sage-deep); }
+    .toc__n { font-family: var(--font-num); font-feature-settings: var(--num-features); font-size: 10.5px; color: var(--sage-deep); letter-spacing: 0.04em; }
+    .toc__t { letter-spacing: -0.002em; }
+
+    footer.foot {
+      margin-top: 90px; padding-top: 24px;
+      border-top: 1px solid var(--ink);
+      display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+      font-family: var(--font-body); font-size: 12px; color: var(--ink-muted);
+    }
+
+    @media (max-width: 860px) {
+      table.rubric { font-size: 12px; }
+      table.rubric td { font-size: 12px; }
+    }
+    @media (max-width: 860px) {
+      .dg-lanes { grid-template-columns: 1fr; }
+      .dg-arrow { flex-direction: row; padding: 10px 0; gap: 10px; }
+      .dg-arrow__g { transform: rotate(90deg); }
+      .dg-step { grid-template-columns: 26px 1fr; gap: 0 16px; }
+      .dg-step__find { grid-column: 2; margin-top: 10px; }
+      .dg-out, .dg-cards, .dg-gap { grid-template-columns: 1fr; }
+      .dg { padding: 22px 18px; }
+    }
+    @media (max-width: 760px) {
+      .page { padding: 36px 20px 60px; }
+      h1.display { font-size: 36px; }
+      .part-head h2 { font-size: 30px; }
+      .move { grid-template-columns: 1fr; gap: 8px; }
+      .move__n { font-size: 24px; }
+      .toc { grid-template-columns: 1fr; }
+      /* let wide tables scroll horizontally on small screens */
+      .rubric-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      table.rubric { min-width: 640px; }
+    }
+  </style>
+</head>
+<body>
+
+<template id="__bundler_thumbnail" data-bg-color="#FAF7F2">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FAF7F2"/>
+    <g transform="translate(600 400)">
+      <rect x="-260" y="-60" width="140" height="120" fill="none" stroke="#1F1F1F" stroke-width="8"/>
+      <rect x="-70" y="-60" width="140" height="120" fill="#5E6F54"/>
+      <rect x="120" y="-60" width="140" height="120" fill="none" stroke="#1F1F1F" stroke-width="8"/>
+      <path d="M-110 0 h30 M80 0 h30" stroke="#1F1F1F" stroke-width="8"/>
+    </g>
+  </svg>
+</template>
+
+<main class="page" data-screen-label="The Org Chart Is Now an Architecture Diagram">
+
+  <a class="backlink backlink--top" href="../index.html"><span class="backlink__arrow">&#8592;</span> Home</a>
+
+  <header>
+    <p class="smallcaps">July 2026</p>
+    <h1 class="display" style="margin-top: 18px; max-width: 20ch;">The Org Chart Is Now an Architecture Diagram.</h1>
+    <p class="display" style="font-size: 21px; color: var(--sage-deep); font-style: italic; font-weight: 400; margin-top: 16px; max-width: 52ch; line-height: 1.35;">
+      What a small legal AI paper says about how AI-native firms should be wired, and what happens when the agents disagree.
+    </p>
+    <p class="lede" style="margin-top: 28px;">AI-native law firms are a funded category with a unicorn in it, and their pitch is senior lawyers supervising AI agents instead of managing juniors. None of them say what the supervising involves. A paper posted on <span class="num">10 July 2026</span> pins it down: in a firm of agents, supervision is not a document. It is five settings, and every firm in this category has already chosen them.</p>
+
+    <div class="meta">
+      <span><span class="meta__k">Author</span> Joel Seignior</span>
+      <span><span class="meta__k">Drafted</span> <span class="num">25 July 2026</span></span>
+      <span><span class="meta__k">Read</span> <span class="num">16</span> min</span>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <a href="#s00"><span class="toc__n">00</span><span class="toc__t">Two announcements, three days apart</span></a>
+      <a href="#s01"><span class="toc__n">01</span><span class="toc__t">What an AI-native firm is</span></a>
+      <a href="#s02"><span class="toc__n">02</span><span class="toc__t">What the paper found</span></a>
+      <a href="#s03"><span class="toc__n">03</span><span class="toc__t">Supervision becomes a setting</span></a>
+      <a href="#s04"><span class="toc__n">04</span><span class="toc__t">A bench is not a photocopier</span></a>
+      <a href="#s05"><span class="toc__n">05</span><span class="toc__t">Read the market against the checklist</span></a>
+      <a href="#s06"><span class="toc__n">06</span><span class="toc__t">So I built the smallest one</span></a>
+      <a href="#close"><span class="toc__n">07</span><span class="toc__t">Who gets the file</span></a>
+      <a href="#sources"><span class="toc__n">&mdash;</span><span class="toc__t">Sources</span></a>
+    </nav>
+  </header>
+
+  <div style="margin-top: 44px;">
+    <div class="tldr">
+      <p class="tldr__label">The short version</p>
+      <p>AI-native law firms are now a funded category, and the platform company behind one of them became its first unicorn in July <span class="num">2026</span>. The pitch is senior lawyers supervising AI agents. Nobody says what that means. A paper posted three days after the raise supplies the raw material: whether debate between agents helped, did nothing, or made things confidently worse depended entirely on how the panel was wired. A firm of agents makes the same choices, deliberately or by default:</p>
+      <ol class="tldr__list">
+        <li>who may debate;</li>
+        <li>for how long;</li>
+        <li>how the votes are counted;</li>
+        <li>when a human gets the file; and</li>
+        <li>what the system cannot know.</li>
+      </ol>
+      <p style="margin-top: 12px; margin-bottom: 0;">Every firm in this category has already set those five values. None publishes them.</p>
+    </div>
+  </div>
+
+  <section class="section" id="s00">
+    <div class="section__head">
+      <h2 class="display">Two announcements, three days apart.</h2>
+      <p class="smallcaps">00 &mdash; capital, then evidence</p>
+    </div>
+
+    <div class="copy">
+      <p>On <span class="num">7 July 2026</span>, Norm Ai announced a US$<span class="num">120</span> million Series C at a US$<span class="num">1.2</span> billion valuation, led by Khosla Ventures.<sup class="fn"><a href="#s1">1</a></sup> That made it the category's first unicorn, though the valuation attaches to the platform company. The law practice is its affiliate, Norm Law LLP, launched in November <span class="num">2025</span> alongside a US$<span class="num">50</span> million Blackstone investment; it describes itself as senior attorneys supervising AI agents rather than managing associate pyramids, with pricing tied to outcomes rather than hours.<sup class="fn"><a href="#s2">2</a></sup></p>
+      <p>Three days later, six researchers in Japan and Vietnam posted a paper called L-MAD: by its authors' positioning, the first systematic evaluation of multi-agent debate structures on a legal reasoning task.<sup class="fn"><a href="#s3">3</a></sup></p>
+      <p>The funding says the category is real. The paper says, for the first time with legal-task evidence, what running one well requires.</p>
+      <p><strong>Lawyers supervise agents. But supervise how?</strong> Any system of agents has an escalation path and a knowledge boundary, whether or not anyone chose them. Build it as a panel that argues and votes &mdash; the shape the AI-native firms describe &mdash; and it acquires a roster, a round budget and a vote protocol as well. In a firm made of agents, the org chart is an architecture diagram and the supervision policy is a config file. Someone has already set those values, at every firm in this category. Nobody has published them.</p>
+      <p>One caveat before anything else. As at <span class="num">25 July 2026</span>, no AI-native firm has disclosed revenue. The honest evidence for this category is capital flows and structural design, not outcomes.</p>
+    </div>
+  </section>
+
+  <div class="part-head" id="part1">
+    <p class="part-head__label">Part 1</p>
+    <h2>Look at the category before you believe the pitch.</h2>
+  </div>
+
+  <section class="section" id="s01" style="margin-top: 40px; border-top: 0;">
+    <h3 class="subhead" style="margin-top: 0;">What an AI-native firm is.</h3>
+
+    <div class="copy">
+      <p>Artificial Lawyer calls these firms <em>NewMods</em>: legal services businesses designed around an AI operating layer from day one, senior lawyers supervising and calibrating agents instead of running the traditional leverage model, pricing decoupled from hours. The category barely existed before <span class="num">2025</span>. By mid-<span class="num">2026</span>, Artificial Lawyer was tracking more than <span class="num">27</span> such firms.<sup class="fn"><a href="#s4">4</a></sup></p>
+      <p>Three of them tell the story.</p>
+    </div>
+
+    <article class="move">
+      <div class="move__n">01</div>
+      <div class="move__body">
+        <h3 class="move__title display">Norm Law &mdash; the platform with a firm attached.</h3>
+        <p>The technology company builds the agent platform; the affiliated firm runs on it, serving clients as outside counsel. The firm doubles as distribution and as proof.</p>
+      </div>
+    </article>
+
+    <article class="move">
+      <div class="move__n">02</div>
+      <div class="move__body">
+        <h3 class="move__title display">Brahe &mdash; the designed firm.</h3>
+        <p>Announced in Helsinki on <span class="num">7 July 2026</span>. Its founder, Antti Innanen, spent roughly six months building Lavern, an open-source experiment in running a &ldquo;law firm&rdquo; of <span class="num">67</span> arguing agents, released it in May <span class="num">2026</span>, then founded a real firm on what he had learned seven weeks later. His stated bet: foundation models are becoming interchangeable, and the advantage sits in the operating system built around them.<sup class="fn"><a href="#s5">5</a></sup></p>
+      </div>
+    </article>
+
+    <article class="move">
+      <div class="move__n">03</div>
+      <div class="move__body">
+        <h3 class="move__title display">Garfield.Law &mdash; the regulated proof point.</h3>
+        <p>An AI-driven firm authorised by the Solicitors Regulation Authority in England on <span class="num">6 May 2025</span>, working small-debt claims. In May <span class="num">2026</span> it won a county court trial, having run the pre-trial work &mdash; four witness statements, the bundle, disputing a counterclaim &mdash; on a fee of about &pound;<span class="num">400</span> for a &pound;<span class="num">7,000</span> debt, with a human barrister hired for the advocacy.<sup class="fn"><a href="#s6">6</a></sup></p>
+      </div>
+    </article>
+
+    <div class="copy" style="margin-top: 28px;">
+      <p>The incumbents can see the shape changing. Citi's <span class="num">2026</span> client advisory put it in one line: the shape of leverage is likely to change &ldquo;from a pyramid to a cylinder&rdquo; &mdash; fewer juniors, more senior lawyers, as generative AI absorbs the repetitive base. In the same survey, <strong><span class="num">63%</span></strong> of large firms said they expect generative AI to affect their leverage models within a decade, up from <span class="num">43%</span> a year earlier.<sup class="fn"><a href="#s7">7</a></sup></p>
+      <p>The NewMods propose a third shape. Not the pyramid thinned into a cylinder, but a lawyer above a panel of agents, with a layer of rules in between.</p>
+    </div>
+
+    <figure class="fig fig--draw">
+      <div class="dg">
+        <svg viewBox="0 0 1000 336" role="img" aria-label="Three shapes of leverage: the pyramid, the cylinder, and a panel of agents beneath a rules harness with a lawyer above.">
+          <line class="s-hair" x1="330" y1="38" x2="330" y2="268" />
+          <line class="s-hair" x1="670" y1="38" x2="670" y2="268" />
+          <text class="t-lab" x="165" y="20" text-anchor="middle">THE PYRAMID</text>
+          <path class="s-ink" d="M165 58 L290 240 L40 240 Z" />
+          <line class="s-soft" x1="118" y1="126" x2="212" y2="126" />
+          <line class="s-soft" x1="87" y1="172" x2="243" y2="172" />
+          <text class="t-main" x="165" y="114" text-anchor="middle">partner</text>
+          <text class="t-main" x="165" y="151" text-anchor="middle">senior associates</text>
+          <text class="t-note" x="165" y="166" text-anchor="middle">review</text>
+          <text class="t-main" x="165" y="200" text-anchor="middle">junior associates</text>
+          <text class="t-note" x="165" y="217" text-anchor="middle">volume work by the hour</text>
+          <text class="t-sum" x="165" y="296" text-anchor="middle">leverage = people</text>
+          <text class="t-note" x="165" y="318" text-anchor="middle">the base does the work and pays for the top</text>
+          <text class="t-lab" x="500" y="20" text-anchor="middle">THE CYLINDER</text>
+          <path class="s-ink" d="M390 78 L390 216 A110 20 0 0 0 610 216 L610 78" />
+          <ellipse class="s-ink" cx="500" cy="78" rx="110" ry="20" />
+          <text class="t-main" x="500" y="132" text-anchor="middle">senior lawyers + tools</text>
+          <text class="t-note" x="500" y="166" text-anchor="middle">fewer juniors; the repetitive</text>
+          <text class="t-note" x="500" y="183" text-anchor="middle">base absorbed by AI</text>
+          <text class="t-sum" x="500" y="296" text-anchor="middle">leverage = people + tools</text>
+          <text class="t-note" x="500" y="318" text-anchor="middle">&ldquo;from a pyramid to a cylinder&rdquo; &mdash; Citi Hildebrandt 2026</text>
+          <text class="t-lab" x="835" y="20" text-anchor="middle">THE PANEL</text>
+          <circle class="s-ink" cx="835" cy="72" r="28" />
+          <text class="t-main" x="835" y="70" text-anchor="middle">lawyer</text>
+          <text class="t-note" x="835" y="85" text-anchor="middle">signs</text>
+          <path class="s-sage" d="M800 142 L800 108" />
+          <path fill="var(--sage-deep)" d="M800 100 l4.5 10 h-9 Z" />
+          <path class="s-ink" d="M870 106 L870 138" />
+          <path fill="var(--ink)" d="M870 146 l4.5 -10 h-9 Z" />
+          <text class="t-note t-sage" x="790" y="128" text-anchor="end">escalations only</text>
+          <text class="t-note" x="882" y="128">files + settings</text>
+          <rect class="f-raise" x="715" y="146" width="240" height="34" />
+          <text class="t-main" x="835" y="168" text-anchor="middle">harness &mdash; rules in code</text>
+          <line class="s-soft" x1="763" y1="180" x2="763" y2="208" />
+          <line class="s-soft" x1="835" y1="180" x2="835" y2="208" />
+          <line class="s-soft" x1="907" y1="180" x2="907" y2="208" />
+          <rect class="f-raise" x="730" y="208" width="66" height="32" />
+          <rect class="f-raise" x="802" y="208" width="66" height="32" />
+          <rect class="f-raise" x="874" y="208" width="66" height="32" />
+          <text class="t-main" x="763" y="229" text-anchor="middle">agent</text>
+          <text class="t-main" x="835" y="229" text-anchor="middle">agent</text>
+          <text class="t-main" x="907" y="229" text-anchor="middle">agent</text>
+          <text class="t-note" x="835" y="258" text-anchor="middle">the panel &mdash; argues, votes</text>
+          <text class="t-sum" x="835" y="296" text-anchor="middle">leverage = agents</text>
+          <text class="t-note" x="835" y="318" text-anchor="middle">supervision = settings, written down in code</text>
+        </svg>
+      </div>
+      <figcaption><b>Fig. 1 &mdash; Three shapes of leverage.</b> The pyramid bills the base. The cylinder thins it. The panel replaces it with agents under a layer of rules, with a lawyer above. The third shape is a design claim backed by capital, not an outcome claim: as at July <span class="num">2026</span>, no AI-native firm has disclosed revenue.</figcaption>
+    </figure>
+
+    <div class="copy">
+      <p>Almost all of that is structure and money. Garfield's trial win is the category's one public outcome to date, and one small-debt trial is not a track record. So look instead at what the evidence says about the structure itself.</p>
+    </div>
+  </section>
+
+  <div class="part-head" id="part2">
+    <p class="part-head__label">Part 2</p>
+    <h2>The paper turns supervision into five values in a file.</h2>
+  </div>
+
+  <section class="section" id="s02" style="margin-top: 40px; border-top: 0;">
+    <h3 class="subhead" style="margin-top: 0;">What the paper found.</h3>
+
+    <div class="copy">
+      <p>L-MAD comes from six researchers at JAIST and VNU University of Engineering and Technology in Hanoi.<sup class="fn"><a href="#s3">3</a></sup> The setup: three generated expert personas debate whether a legal hypothesis follows from articles of the Japanese Civil Code. Binary answer, entails or does not entail, on an established benchmark. The researchers tested two families of protocol &mdash; <em>forced consensus</em>, where agents argue until they agree, and <em>voting</em>, where agents reason independently and then vote.</p>
+      <p>Read the caveats first. The models tested are small open-weights models, nowhere near the frontier systems commercial legal products run on. Binary statutory entailment is about as narrow as legal reasoning gets. It is a version-one preprint from a single group reporting its own results, though the arXiv listing notes it as an outstanding paper at ICML <span class="num">2026</span>'s AI4Law workshop. And the strongest model tested gained nothing from debate, because it had already saturated the task alone &mdash; so the firms running frontier models probably have the least to gain from debating. <strong>The structure transfers. The numbers do not.</strong></p>
+    </div>
+
+    <article class="move">
+      <div class="move__n">01</div>
+      <div class="move__body">
+        <h3 class="move__title display">Debate amplifies competence rather than creating it.</h3>
+        <p>Mid-capability models improved by up to <span class="num">8%</span> in some settings, because agents caught each other's misreadings and divided the statute between them. Weak models got worse than they had been alone. The paper's phrase for this is <em>collaborative hallucination</em>: agents validating each other's flawed premises until the panel is confidently, unanimously wrong. Below a competence floor, adding agents only makes a panel more sure of its errors.</p>
+      </div>
+    </article>
+
+    <article class="move">
+      <div class="move__n">02</div>
+      <div class="move__body">
+        <h3 class="move__title display">More agents helped a little. More rounds hurt.</h3>
+        <p>Adding agents bought a modest accuracy gain and steadier answers. Extending deliberation did the opposite. Agents instructed to critique will manufacture doubts, and correct first-round answers get argued into wrong ones; the paper documents a correct, unanimous first-round answer inverted by a single flawed second-round critique. The prescription is blunt: stop the debate the moment the panel is unanimous.</p>
+      </div>
+    </article>
+
+    <article class="move">
+      <div class="move__n">03</div>
+      <div class="move__body">
+        <h3 class="move__title display">A split vote is a free confidence signal.</h3>
+        <p>Under the voting protocol on mid-tier models, unanimous verdicts were right about <strong><span class="num">70%</span></strong> of the time. Split verdicts &mdash; roughly a quarter of queries &mdash; were right <span class="num">48%</span> of the time: a coin flip. At <span class="num">70%</span>, none of this is automatable in practice, and the useful part is the routing logic, not the accuracy. Unanimity and splits carry different information whatever the absolute numbers, and forcing a panel to agree destroys the one signal that identifies which cases needed a person.</p>
+      </div>
+    </article>
+
+    <article class="move">
+      <div class="move__n">04</div>
+      <div class="move__body">
+        <h3 class="move__title display">Some failures no amount of debate can fix.</h3>
+        <p>Across every configuration, <strong><span class="num">17</span> to <span class="num">24%</span></strong> of queries failed universally. On inspection, most required legal knowledge absent from the statute text the agents were given. Every agent shared the same base model, so every agent shared the same gap, and they agreed their way to the same wrong answer. The authors' conclusion: more inference-time computation is insufficient, and multi-agent systems must be supported by external knowledge sources.</p>
+      </div>
+    </article>
+
+    <div class="copy" style="margin-top: 28px;">
+      <p>Read together, the four findings are not four facts about small models. They are four decisions, and every agent-run firm has already made them.</p>
+    </div>
+  </section>
+
+  <section class="section" id="s03">
+    <div class="section__head">
+      <h2 class="display">Supervision becomes a setting.</h2>
+      <p class="smallcaps">03 &mdash; the five values</p>
+    </div>
+
+    <div class="copy">
+      <p><strong>Who may debate</strong> is a hiring decision. Because of the competence floor, the model behind each agent has to be chosen for capability first and price second. Staff the panel below the floor and the debate produces confident, wrong answers.</p>
+      <p><strong>How long they argue</strong> is matter management. Once the panel is unanimous, more rounds only give agents room to argue themselves out of correct answers. A round budget and a stop rule are the agent version of knowing when work is finished.</p>
+      <p><strong>How they vote</strong> determines whether disagreement survives. Blind, independent votes preserve the information in a split. A protocol that pushes agents toward each other destroys it.</p>
+      <p><strong>When a human gets the file</strong> is the escalation policy, and the paper hands firms a mechanical trigger: any split. Routing splits to a lawyer is a defensible middle ground between reviewing everything and reviewing nothing.</p>
+      <p><strong>What the panel cannot know</strong> is the knowledge boundary. It is the setting most likely to be neglected, because it lives outside the agent system, in the firm's knowledge layer.</p>
+    </div>
+
+    <figure class="fig fig--draw">
+      <div class="dg">
+        <div class="dg-lanes">
+          <div class="dg-lane">
+            <p class="dg-lane__h">Models argue</p>
+            <p class="dg-lane__sub">probabilistic</p>
+            <ul><li>findings, made blind</li><li>challenges and rebuttals</li><li>position changes</li><li>votes, cast blind</li><li>the draft closing report</li></ul>
+            <p class="dg-lane__foot">nothing here is trusted on its own say-so</p>
+          </div>
+          <div class="dg-arrow"><span class="dg-arrow__g">&rarr;</span><span class="dg-arrow__t">all output is gated</span></div>
+          <div class="dg-lane dg-lane--code">
+            <p class="dg-lane__h">Code decides</p>
+            <p class="dg-lane__sub">deterministic &mdash; the settings live here</p>
+            <ul><li>who may debate &mdash; competence floor</li><li>is the citation real &mdash; string match</li><li>when debate stops &mdash; unanimity / cap</li><li>how votes tally &mdash; arithmetic</li><li>what escalates &mdash; any split</li><li>logging &mdash; everything, append-only</li></ul>
+            <p class="dg-lane__foot">readable &middot; versioned &middot; auditable</p>
+          </div>
+          <div class="dg-arrow"><span class="dg-arrow__g">&rarr;</span><span class="dg-arrow__t">splits and gaps escalate</span></div>
+          <div class="dg-lane">
+            <p class="dg-lane__h">Humans decide</p>
+            <p class="dg-lane__sub">accountable</p>
+            <ul><li>every split verdict</li><li>every declared knowledge gap</li><li>anything leaving the sandbox</li><li>the signature on the advice</li></ul>
+            <p class="dg-lane__foot">the duty never moves out of this lane</p>
+          </div>
+        </div>
+        <p class="dg-bar"><b>&times;</b> no direct path from models to humans &mdash; only through the gates</p>
+      </div>
+      <figcaption><b>Fig. 2 &mdash; Who decides what.</b> Models argue. Code enforces the settings and routes the work. Humans decide everything the code escalates, and the signature stays with them. A supervision policy for people is a document; a supervision policy for agents is the middle lane.</figcaption>
+    </figure>
+
+    <div class="copy">
+      <p>For Australian readers, none of this is a future governance frontier. Solicitors carry competence and supervision duties under the Australian Solicitors' Conduct Rules, and a joint statement by three Australian legal regulators in December <span class="num">2024</span> made verifying AI output an expectation under the existing competence duty. No new rule was required.<sup class="fn"><a href="#s8">8</a></sup></p>
+      <p>What changes in a firm of agents is the form the duty takes. The floor, the budget, the protocol and the escalation rule become values in a system, and values in a system can be versioned, logged and audited. The literature on agent infrastructure has a name for where this ends up: <em>executable accountability</em> &mdash; approvals and escalations recorded as durable system state rather than habits.<sup class="fn"><a href="#s9">9</a></sup></p>
+      <p>The labour market and the insurance market are drifting to the same place. James Tuke argues that junior training in AI-heavy firms becomes an &ldquo;apprenticeship of oversight&rdquo;, where juniors learn to audit and challenge AI output adversarially rather than produce first drafts, and reports professional indemnity insurers hardening their AI-governance requirements before renewal.<sup class="fn"><a href="#s10">10</a></sup> That last point is one practitioner's observation, not survey data. But the direction fits: a supervision policy that exists as configuration is something an insurer can inspect before setting a premium.</p>
+    </div>
+  </section>
+
+  <section class="section" id="s04">
+    <div class="section__head">
+      <h2 class="display">Law has seen this structure before. Then the analogy breaks.</h2>
+      <p class="smallcaps">04 &mdash; a bench is not a photocopier</p>
+    </div>
+
+    <div class="copy">
+      <p>None of the paper's prescriptions should feel foreign to lawyers, because courts arrived at most of them long ago. An appellate bench is a multi-agent system the law already trusts: judges form views independently before they confer, dissents are published because disagreement is information, and no rule forces unanimity. A real two-to-one split tells you something a manufactured three-nil cannot. The split-vote finding is the same design instinct with a measurement attached.</p>
+      <p>The analogy breaks in one place. A bench's unanimity means something because the judges are different people, with different training, different careers, different priors. L-MAD's agents shared one base model, so their unanimity can be a single blind spot speaking in three voices. <strong>A panel of agents drawn from one model is not a bench. It is one judge, photocopied three times slightly differently.</strong></p>
+    </div>
+
+    <figure class="fig fig--draw">
+      <div class="dg">
+        <svg viewBox="0 0 1000 348" role="img" aria-label="Left: three judges with distinct outlines producing two opinions and a published dissent. Right: three identical agents on one base model, with a knowledge layer as the only exit.">
+          <line class="s-hair" x1="505" y1="34" x2="505" y2="336" />
+          <text class="t-lab" x="235" y="20" text-anchor="middle">AN APPELLATE BENCH</text>
+          <circle class="s-ink" cx="95" cy="92" r="30" />
+          <circle class="s-ink" cx="235" cy="92" r="30" stroke-dasharray="5 4" />
+          <circle class="s-ink" cx="375" cy="92" r="30" stroke-dasharray="1 4" />
+          <text class="t-main" x="95" y="150" text-anchor="middle">judge A</text>
+          <text class="t-main" x="235" y="150" text-anchor="middle">judge B</text>
+          <text class="t-main" x="375" y="150" text-anchor="middle">judge C</text>
+          <text class="t-note" x="235" y="172" text-anchor="middle">different training &middot; different careers &middot; different priors</text>
+          <line class="s-soft" x1="95" y1="186" x2="95" y2="208" />
+          <line class="s-soft" x1="235" y1="186" x2="235" y2="208" />
+          <line class="s-soft" x1="375" y1="186" x2="375" y2="208" />
+          <path fill="var(--ink)" d="M95 216 l4.5 -10 h-9 Z" />
+          <path fill="var(--ink)" d="M235 216 l4.5 -10 h-9 Z" />
+          <path fill="var(--sage-deep)" d="M375 216 l4.5 -10 h-9 Z" />
+          <rect class="f-raise" x="47" y="220" width="96" height="46" />
+          <rect class="f-raise" x="187" y="220" width="96" height="46" />
+          <rect class="f-sage" x="327" y="220" width="96" height="46" />
+          <text class="t-main" x="95" y="248" text-anchor="middle">opinion</text>
+          <text class="t-main" x="235" y="248" text-anchor="middle">opinion</text>
+          <text class="t-main t-sage" x="375" y="240" text-anchor="middle">dissent</text>
+          <text class="t-note t-sage" x="375" y="256" text-anchor="middle">published</text>
+          <text class="t-sum" x="235" y="316" text-anchor="middle">agreement means independent minds converged</text>
+          <text class="t-note" x="235" y="338" text-anchor="middle">no rule forces unanimity; a real 2&ndash;1 tells you more than a manufactured 3&ndash;0</text>
+          <text class="t-lab" x="770" y="20" text-anchor="middle">AN AGENT PANEL ON ONE MODEL</text>
+          <rect class="f-raise" x="630" y="62" width="56" height="56" />
+          <rect class="f-raise" x="742" y="62" width="56" height="56" />
+          <rect class="f-raise" x="854" y="62" width="56" height="56" />
+          <text class="t-main" x="658" y="142" text-anchor="middle">agent 1</text>
+          <text class="t-main" x="770" y="142" text-anchor="middle">agent 2</text>
+          <text class="t-main" x="882" y="142" text-anchor="middle">agent 3</text>
+          <text class="t-note" x="770" y="164" text-anchor="middle">identical by construction: one judge, photocopied three times</text>
+          <path class="s-soft" d="M672 176 L748 192" />
+          <path class="s-soft" d="M770 176 L770 192" />
+          <path class="s-soft" d="M868 176 L792 192" />
+          <path class="s-ink" d="M678 202 L678 250 A92 15 0 0 0 862 250 L862 202" />
+          <ellipse class="s-ink" cx="770" cy="202" rx="92" ry="15" />
+          <text class="t-main" x="770" y="234" text-anchor="middle">one base model</text>
+          <text class="t-note" x="770" y="250" text-anchor="middle">= one set of blind spots</text>
+          <rect class="f-sage" x="536" y="204" width="106" height="44" />
+          <text class="t-main t-sage" x="589" y="223" text-anchor="middle">the firm&rsquo;s</text>
+          <text class="t-main t-sage" x="589" y="239" text-anchor="middle">knowledge layer</text>
+          <path class="s-sage" d="M642 226 L668 226" />
+          <path fill="var(--sage-deep)" d="M678 226 l-10 4.5 v-9 Z" />
+          <text class="t-note t-sage" x="589" y="268" text-anchor="middle">the only fix that works</text>
+          <rect class="f-sage" x="610" y="272" width="320" height="32" />
+          <text class="t-main t-sage" x="770" y="293" text-anchor="middle">17&ndash;24% of queries: unanimously, confidently wrong</text>
+          <text class="t-sum" x="770" y="338" text-anchor="middle">agreement can be one blind spot in three voices</text>
+        </svg>
+      </div>
+      <figcaption><b>Fig. 3 &mdash; A bench is not a photocopier.</b> A bench agrees because independent minds converged, and dissent is information. An agent panel drawn from one model can agree because it shares a blind spot. The exit is external knowledge: precedents, playbooks, matter history.</figcaption>
+    </figure>
+
+    <div class="copy">
+      <p>That is what the <span class="num">17</span>-to-<span class="num">24%</span> floor is. Those cases did not fail because the agents reasoned badly. They failed because every copy of the judge was missing the same knowledge, and no amount of conferring supplies what nobody in the room knows.</p>
+      <p>There is an obvious engineering rejoinder: seat different models on the panel. Whether mixing model families breaks the shared blind spot is untested, and it may well help with shared reasoning failures. What it cannot do is supply knowledge that no base model contains &mdash; the firm's matter history, its precedents, its playbooks, the way it papers a deal. The knowledge layer binds either way.</p>
+      <p>The conclusion is an unfashionable one. Model choice matters at the threshold, which was the first setting; past the threshold, the binding constraint on an AI-native law firm is the knowledge layer its agents can reach. Whatever else these firms compete on, they will compete on how well their knowledge is organised &mdash; which was always the binding constraint in law firms. What has changed is that it is now a measurable property of a system.</p>
+    </div>
+  </section>
+
+  <div class="part-head" id="part3">
+    <p class="part-head__label">Part 3</p>
+    <h2>Ask the five questions. Then build the thing that answers them.</h2>
+  </div>
+
+  <section class="section" id="s05" style="margin-top: 40px; border-top: 0;">
+    <h3 class="subhead" style="margin-top: 0;">Read the market against the checklist.</h3>
+
+    <div class="copy">
+      <p>Five settings, then: the floor, the budget, the protocol, the escalation rule, the knowledge boundary. Checking the market against that list shows two things. Fragments of the discipline are appearing everywhere, and no commercial operator shows you the whole configuration.</p>
+      <p><strong>Lavern</strong>, the open-source <span class="num">67</span>-agent experiment that preceded Brahe, is the most transparent architecture in the category, because you can read all of it. It gates each agent's output through an evaluator running on a different model. Its debate board records every resolution with evidence weights, confidence scores and a human-escalation recommendation. Its verification pipeline fails closed, so an API error counts as a rejection. And it grounds citations mechanically, string-matching each quote against the source document rather than asking a model to judge. Innanen's own write-up is candid about the limits: making agents truly listen to each other, he writes, is unsolved.<sup class="fn"><a href="#s11">11</a></sup> One observation of my own, not the paper's: Lavern can run locally on small models, and small models are exactly the regime where the paper found debate most dangerous.</p>
+      <p><strong>Norm</strong> lists &ldquo;supervisory agents&rdquo; in the use of funds for its Series C, which is supervision sold as a product line.<sup class="fn"><a href="#s12">12</a></sup> <strong>Harvey</strong> published the architecture of its internal agent platform, Spectre, in April <span class="num">2026</span>: durable runs, sandboxed execution, explicit permissions.<sup class="fn"><a href="#s13">13</a></sup> Its head of applied research closed an April <span class="num">2026</span> research thread on legal agents with a line borrowed from OpenAI's engineers.<sup class="fn"><a href="#s14">14</a></sup> <strong>Garfield</strong> runs the same shape with its escalation points fixed from outside &mdash; the human sits at the advocacy and the accountability because the regulator put the human there.<sup class="fn"><a href="#s6">6</a></sup></p>
+    </div>
+
+    <blockquote class="pull">
+      <p>Humans steer. Agents execute.</p>
+      <cite>Niko Grupen, Head of Applied Research, Harvey (April 2026), quoting OpenAI's engineers</cite>
+    </blockquote>
+
+    <div class="copy">
+      <p>The paper's ceiling effect suggests frontier models may gain least from debate, and commercial products run frontier models, so a firm could reasonably decide to run no debates at all. Fine. Three of the five settings go with the panel; two do not. Every agent system, panel or pipeline, still has an escalation path and a knowledge boundary. And a firm that drops the panel has also dropped the split vote, the one free uncertainty signal the evidence found, which leaves it owing a different answer to the same question: <em>what tells you when the machine is unsure?</em></p>
+      <p>Now try to find a commercial firm or vendor that publishes its full configuration. I could not. Lavern publishes everything, but Lavern is an open-source experiment with nothing to sell. Garfield's escalation points are public because a regulator set them, not because the firm chose to disclose.</p>
+      <p>Which yields five questions any client, panel reviewer or insurer can put to a firm that runs agents.</p>
+    </div>
+
+    <ol class="priority">
+      <li><span class="priority__n">01</span><p class="priority__body"><strong>Name the model, and the guard.</strong> What model runs your agents, and what stops an under-powered one being used?</p></li>
+      <li><span class="priority__n">02</span><p class="priority__body"><strong>Name the stop rule.</strong> If your agents debate, what ends the debate &mdash; unanimity, a round cap, or nothing?</p></li>
+      <li><span class="priority__n">03</span><p class="priority__body"><strong>Ask whether disagreement survives.</strong> Do your agents reach positions independently, or does the process push them to agree?</p></li>
+      <li><span class="priority__n">04</span><p class="priority__body"><strong>Follow the escalation.</strong> Where does disagreement go, and if there is no panel, what is your uncertainty signal instead?</p></li>
+      <li><span class="priority__n">05</span><p class="priority__body"><strong>Find the boundary.</strong> What can your agents consult beyond the model, and what happens when the answer is not in it?</p></li>
+    </ol>
+
+    <div class="copy" style="margin-top: 28px;">
+      <p>The answers matter less than whether a firm can produce them at all. A firm that cannot say what ends its debates has not chosen a stop rule; it has inherited one from whoever wrote the loop.</p>
+      <p>Two cautions. Research on multi-agent systems reports that identifying which step caused a failure succeeds only <span class="num">14</span> to <span class="num">53%</span> of the time,<sup class="fn"><a href="#s9">9</a></sup> so append-only audit trails matter more than dashboards. And adoption is running well ahead of measured benefit: corporate legal AI adoption doubled from <span class="num">23%</span> to <span class="num">52%</span> in a year, while only <strong><span class="num">7%</span></strong> of legal departments report any reduction in total matter cost.<sup class="fn"><a href="#s15">15</a></sup></p>
+    </div>
+  </section>
+
+  <section class="section" id="s06">
+    <div class="section__head">
+      <h2 class="display">So I built the smallest one that shows its settings.</h2>
+      <p class="smallcaps">06 &mdash; a demo, on synthetic documents</p>
+    </div>
+
+    <div class="copy">
+      <p>Architecture criticism is cheap. So I built the smallest version I could: a three-agent debate panel for construction law documents. This is a demo &mdash; synthetic documents only, not legal advice, and every output is a starting point for human analysis. But every setting on the list is visible in it, and the important ones are enforced in code rather than requested in prompts.</p>
+    </div>
+
+    <div class="rubric-wrap">
+      <p class="rubric-title">Rubric 1 &mdash; the five settings, as they exist in the system</p>
+      <table class="rubric">
+        <thead>
+          <tr><th>Setting</th><th>How it is enforced</th><th>Mechanism</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Floor</td><td>Ask it to seat a debater on a model below the floor and it refuses to run.</td><td>Hard error in code</td></tr>
+          <tr><td>Grounding</td><td>Every quoted citation is string-matched against the source before it reaches the debate, so a fabricated quote fails before anyone argues about it.</td><td>Code</td></tr>
+          <tr><td>Budget</td><td>Cross-examination caps at three rounds, with an early stop at unanimity.</td><td>Code</td></tr>
+          <tr><td>Tally</td><td>Code counts the blind votes and code decides the outcome. A split ends the run as <span class="num">ESCALATED TO HUMAN</span>.</td><td>Arithmetic</td></tr>
+          <tr><td>Escalation content</td><td>On a split, the closing report must name the crux, each camp's strongest evidence, and the exact questions a lawyer has to decide.</td><td>Instruction, output overwritten by code</td></tr>
+          <tr><td>Knowledge boundary</td><td>Agents cite from a read-only research vault or declare a knowledge gap rather than answer from training data.</td><td>Instruction, with the citation gate as backstop</td></tr>
+          <tr><td>Audit</td><td>Everything lands in an append-only log, so any run can be replayed step by step.</td><td>Code</td></tr>
+        </tbody>
+      </table>
+      <p class="rubric-note">Two rules are instructions rather than code, and instructions are the weaker mechanism. The model that writes the closing report is <em>told</em> it must not resolve a split, though its output field is overwritten by the code-computed outcome regardless. Where a rule could move into code, it did.</p>
+    </div>
+
+    <div class="copy">
+      <p>One setting exists only to fail on demand. Because the paper shows what forced consensus costs, the system keeps a forced-consensus mode as a labelled anti-pattern: feed it the same split matter and it manufactures unanimity, on the record, so the destroyed signal is visible rather than theoretical.</p>
+      <p>The three debaters share one base model, so this panel is the photocopier from the section above. That is exactly why the trust here sits with the grounding gate, the declared knowledge gaps and the escalation rule rather than with unanimity itself. A unanimous verdict in this system means every finding survived a mechanical citation check against the vault. In a demo, &ldquo;auto-confirmed&rdquo; means confirmed for a human to read.</p>
+    </div>
+
+    <figure class="fig fig--draw">
+      <div class="dg">
+        <div class="dg-step">
+          <div class="dg-step__n">01</div>
+          <div><p class="dg-step__h">Document + knowledge pack</p><p class="dg-step__sub">Read-only vault; gaps declared.</p></div>
+          <p class="dg-step__find"><b>The finding</b><span class="num">17</span>&ndash;<span class="num">24%</span> of failures are shared knowledge gaps; only external knowledge crosses them.</p>
+        </div>
+        <div class="dg-step">
+          <div class="dg-step__n">02</div>
+          <div><p class="dg-step__h">Three agents, blind findings</p><p class="dg-step__sub">Competence floor: a weak model is a hard error, not a warning.</p></div>
+          <p class="dg-step__find"><b>The finding</b>Below a floor, debate degrades into collaborative hallucination.</p>
+        </div>
+        <div class="dg-step dg-step--gate">
+          <div class="dg-step__n">03</div>
+          <div><p class="dg-step__h">Grounding gate</p><p class="dg-step__sub">Every quote is string-matched to its source; fabrications are rejected before the debate starts.</p></div>
+          <p class="dg-step__find"><b>The rule</b>Agreement is not verification. The checker is code, not another model.</p>
+        </div>
+        <div class="dg-step">
+          <div class="dg-step__n">04</div>
+          <div><p class="dg-step__h">Cross-examination</p><p class="dg-step__sub">Maximum three rounds, stopping early at unanimity.</p></div>
+          <p class="dg-step__find"><b>The finding</b>More rounds degrade accuracy; correct answers get argued into wrong ones.</p>
+        </div>
+        <div class="dg-step">
+          <div class="dg-step__n">05</div>
+          <div><p class="dg-step__h">Blind votes</p><p class="dg-step__sub">Independent; no agent sees the others&rsquo; ballots.</p></div>
+          <p class="dg-step__find"><b>The finding</b>Forced consensus destroys the one signal that says &ldquo;this needs a person&rdquo;.</p>
+        </div>
+        <div class="dg-step">
+          <div class="dg-step__n">06</div>
+          <div><p class="dg-step__h">The tally</p><p class="dg-step__sub">Code counts, code decides, and the model cannot override the count.</p></div>
+          <p class="dg-step__find"><b>The finding</b>Unanimous &asymp; <span class="num">70%</span> right; split &asymp; a coin flip.</p>
+        </div>
+        <div class="dg-out">
+          <div class="dg-out__box">
+            <p class="dg-out__h">Unanimous &rarr; auto-confirmed</p>
+            <p class="dg-out__b">With citations, every one verified against the source text.</p>
+          </div>
+          <div class="dg-out__box dg-out__box--esc">
+            <p class="dg-out__h">Split &rarr; escalated to human</p>
+            <p class="dg-out__b">The crux of the disagreement, each camp&rsquo;s strongest evidence, and the exact questions a lawyer has to decide.</p>
+            <p class="dg-out__n">the report is forbidden from resolving the split</p>
+          </div>
+        </div>
+        <p class="dg-foot">Findings: Nguyen et al., <em>L-MAD</em>, arXiv:2607.09099 (July <span class="num">2026</span>) &mdash; small open models, binary statutory entailment. The structure transfers; the numbers do not.</p>
+      </div>
+      <figcaption><b>Fig. 4 &mdash; A debate panel with the discipline drawn on.</b> The pipeline in order, and against each stage the published finding that motivates the guard. Each guard traces to a published finding or a published open-source architecture; the annotations say which failure mode it exists to stop.</figcaption>
+    </figure>
+
+    <div class="copy">
+      <p>On <span class="num">26 July 2026</span> I ran two demonstration matters end to end. A payment claim with a fatal endorsement defect came back unanimous on all three issues and was auto-confirmed, every finding pinned to a verbatim statutory quote. An extension-of-time claim with an arguable notice trigger went the other way: the panel was unanimous that the statutory route for the delay costs was open, held the time bar unresolvable on the supplied documents, and the system did what the paper says it should. It stopped, and handed the file to a lawyer with the two rival readings of the notice clock mapped.</p>
+    </div>
+
+    <figure class="fig fig--draw">
+      <div class="dg">
+        <p class="dg-flag">Escalated to human</p>
+        <p class="dg-verdict">The panel unanimously agreed the security-of-payment route is available, but split into unresolved indeterminacy on whether the clause <span class="num">19.2</span> notice is time-barred and whether the <span class="num">22</span>-business-day entitlement is substantiated &mdash; because resolution turns on documents not supplied and on legal standards with no authority in the vault.</p>
+        <div class="dg-block">
+          <p class="dg-block__h">Unanimous ground</p>
+          <p>All three panel members affirmed with high confidence that the statutory route is open on the facts given. The escalation arises on two other issues, where all three returned <em>indeterminate</em>. They are not divided against each other so much as jointly unable to choose between two live, competing readings of a record that is missing documents. One trace of lean is on the record: the certifier's first finding treated the notice as likely out of time before the final vote settled to indeterminate.</p>
+        </div>
+        <div class="dg-block">
+          <p class="dg-block__h">The disagreement</p>
+          <p>On the supplied materials the panel could not determine when the condition-precedent notice clock started. The clause combines an objective <em>ought reasonably to have become aware</em> limb with a <em>will cause delay</em> certainty formulation, and the two limbs fire on different dates &mdash; one making the notice roughly ten business days late and forfeiting the entitlement, the other making it exactly on time. Nor could it determine whether the latent-condition entitlement is made out: the event is facially credible, but causation and quantum are unverifiable without documents that were never supplied.</p>
+          <div class="dg-cards">
+            <div class="dg-card">
+              <p class="dg-card__h">Notice out of time &mdash; the objective-awareness limb fired on the suspension.</p>
+              <p class="dg-card__by">Time-bar &amp; notices specialist &middot; delay analyst &middot; superintendent / certifier</p>
+              <p>Once excavation of the works the claim itself characterises as critical-path was suspended, a reasonably competent subcontractor should have appreciated that the event would cause delay and served a protective notice. On that reading the notice window expired before the notice was served, and the clause, being an express condition precedent, forfeits the entitlement entirely.</p>
+              <p class="dg-q"><b>Cited unit &mdash; the clause</b>The subcontractor shall give written notice within ten business days after becoming aware, or ought reasonably to have become aware, that the event will cause delay. Timely notice is a condition precedent to any entitlement.</p>
+            </div>
+            <div class="dg-card">
+              <p class="dg-card__h">Notice timely &mdash; the certainty limb fired only on the later direction.</p>
+              <p class="dg-card__by">Time-bar &amp; notices specialist &middot; delay analyst &middot; superintendent / certifier</p>
+              <p>The trigger requires awareness that the event <em>will</em> cause delay &mdash; certainty, not mere risk. The contemporaneous record states that programme impact was not determinable and that the delay was contingent on an election the superintendent had not yet made. On that reading awareness arose only when the later direction foreclosed the absorbable option, and the notice falls exactly on the tenth business day.</p>
+              <p class="dg-q"><b>Cited unit &mdash; the site record</b>Programme impact is &ldquo;not determinable&rdquo; pending direction, noting that localised over-excavation, if directed, could be absorbed within the current excavation sequence.</p>
+            </div>
+          </div>
+          <div class="dg-card" style="margin-top: 18px;">
+            <p class="dg-card__h">Entitlement &mdash; the latent condition is credible, but the causation and quantum are unproven.</p>
+            <p class="dg-card__by">Time-bar &amp; notices specialist &middot; delay analyst &middot; superintendent / certifier</p>
+            <p>Setting the notice aside, the panel agreed the latent-condition event is specific and facially credible under the clause, but could not substantiate the claimed extension. Critical-path causation rests on a programme revision that was not supplied, the geotechnical baseline report is not produced, and the calendar span is shorter than the days claimed, leaving the balance dependent on an unproduced remobilisation particular. This is a <em>cannot be assessed without X</em> finding, not a claim that plainly fails.</p>
+            <p class="dg-q"><b>Cited unit &mdash; the clause</b>The subcontractor shall be entitled to an extension of time for delay caused by a latent condition, being a physical condition on the site which differs materially from the physical conditions which should reasonably have been anticipated by a competent subcontractor at the time of tender.</p>
+          </div>
+        </div>
+        <div class="dg-block">
+          <p class="dg-block__h">What the human must decide</p>
+          <ul class="dg-list">
+            <li>Which limb of the notice clause governs the trigger on these facts &mdash; and consequently, whether the notice is in time or late under the condition precedent.</li>
+            <li>Whether the affected works were on the critical path without float at the relevant date, a question bearing on both the notice trigger and causation.</li>
+            <li>Whether the claimed quantum and the latent-condition baseline are substantiated, and whether concurrent delay or mitigation reduces the net entitlement.</li>
+            <li>If the notice is held late, whether the clause should be declared unfair in adjudication &mdash; a function for an adjudicator, court, arbitrator or expert, not the certifier.</li>
+            <li>Whether waiver, estoppel or prevention could displace the express condition precedent, a matter requiring independent authority.</li>
+            <li>Whether the subcontract entitles the claimant to monetary delay compensation as distinct from time, since the statutory repeal removes the exclusion but creates no standalone entitlement.</li>
+          </ul>
+        </div>
+        <div class="dg-block">
+          <p class="dg-block__h">Gaps that might have resolved this</p>
+          <div class="dg-gap"><div>Critical-path status and float of the affected works at the relevant date</div><span>the programme revision in electronic network form, plus expert float and concurrent-delay analysis</span></div>
+          <div class="dg-gap"><div>Reconciliation of the claimed business days against the calendar span</div><span>the remobilisation particulars annexure</span></div>
+          <div class="dg-gap"><div>Verification of latent-condition materiality against the tender baseline</div><span>the tender-stage geotechnical baseline report</span></div>
+          <div class="dg-gap"><div>The legal standard for the certainty limb, and whether suspension alone satisfies the objective limb</div><span>case law on condition-precedent notice triggers &mdash; no authority in vault</span></div>
+          <div class="dg-gap"><div>Application of the two-limb statutory unfairness test to a condition-precedent notice clause where the delay trigger was contingent on a direction</div><span>decided authority applying the provision &mdash; none in vault</span></div>
+          <div class="dg-gap"><div>Whether waiver, estoppel or prevention can displace an express condition precedent where informal notice was given and the respondent directed a scope change regardless</div><span>construction-law authority on those doctrines as applied to conditions precedent &mdash; no vault page</span></div>
+        </div>
+        <p class="dg-foot">Transcribed from the run of <span class="num">26 July 2026</span>, condensed. The full board carries every finding, ballot and cited unit. <b style="font-style: normal; font-weight: 600; color: var(--ink-soft);">Not law.</b> The matter, the contract, the documents and the research vault are all fabricated for the demo, and the reasoning above is the panel's working output against that fabricated set &mdash; do not read any of it as an accurate statement of the law or rely on it.</p>
+      </div>
+      <figcaption><b>The escalated run.</b> A real run on a synthetic demo document. The panel could not resolve whether a time bar holds. The output is not an answer; it is a set of questions, addressed to a human. Escalation is the product. The legal content on the board is the panel's working output against the demo's research vault, not actual law &mdash; do not read any of it as legally accurate. <a id="verdict-board-link" href="figures/escalated-run-verdict.png" target="_blank" rel="noopener">View the full board &rarr;</a></figcaption>
+    </figure>
+
+    <div class="copy">
+      <p>None of this needed a research lab: three personas, one paper taken literally, and a few hundred lines of guard code, built in the evenings. A billion-dollar platform and the firms built on it could publish their settings tomorrow.</p>
+    </div>
+  </section>
+
+  <section class="section" id="close">
+    <div class="section__head">
+      <h2 class="display">Who gets the file.</h2>
+      <p class="smallcaps">07 &mdash; the obligations compile</p>
+    </div>
+
+    <div class="copy">
+      <p>The most sophisticated thing the panel does is hand the file back. The machines argue, the code counts, and a human signs.</p>
+      <p>The AI-native firms are probably right about the shape: a lawyer above a panel, rules in between. The paper supplied the first legal-task evidence on what those rules have to do. Between those two claims sits everything that matters &mdash; supervision that is real only if it is built, and trustworthy only if it can be inspected.</p>
+      <p><strong>When a firm becomes software, its professional obligations do not dissolve. They compile.</strong> Which is, on balance, good news: a policy compiled into configuration can be read by a client, priced by an insurer and audited by a regulator in a way that a policy carried in a firm's culture never could. The first AI-native firm to publish its settings will make every other firm explain why it hasn't.</p>
+    </div>
+
+    <div class="callout">
+      <p>This market moves monthly. Every claim here is dated, and company claims are labelled as company claims. AI-compiled from a curated, source-verified research base; human-checked. Facts dated as at <span class="num">25 July 2026</span>.</p>
+      <p>Like the panel, this essay was drafted by AI and escalated to a human before it shipped.</p>
+    </div>
+  </section>
+
+  <section class="section" id="sources">
+    <div class="section__head">
+      <h2 class="display">Sources.</h2>
+      <p class="smallcaps">dated as at 25 July 2026</p>
+    </div>
+
+    <ol class="sources">
+      <li id="s1">Artificial Lawyer, <em>Norm Ai Raises $120m at $1.2 Bn Valuation</em> (7 July 2026); LawSites / Bob Ambrogi, <em>Norm Ai Hits Unicorn Status with $120M Series C at $1.2 Billion Valuation</em> (8 July 2026) &mdash; Series C led by Khosla Ventures; valuation attaches to the platform company, not the law practice.</li>
+      <li id="s2">Norm Ai press release (20 November 2025) announcing Norm Law LLP alongside a US$50M Blackstone investment; Reuters coverage (24 November 2025) &mdash; the positioning (&ldquo;senior attorneys supervising AI agents&rdquo;, outcome-based pricing) is the company's own description. Blackstone is both an investor and a prominent platform user.</li>
+      <li id="s3">Nguyen, Nguyen, Nguyen, Do, Vuong and Nguyen (JAIST; VNU University of Engineering and Technology, Hanoi), <em>L-MAD: A Systematic Evaluation of Multi-Agent Debate Structures in Legal Reasoning</em>, arXiv:2607.09099 (10 July 2026) &mdash; all figures quoted (up to 8% on mid-tier models; ~70% unanimous vs 48% split; 17&ndash;24% universal failure floor) are the paper's self-run results on small open-weights models on binary Japanese Civil Code entailment. Structural findings, not expectations for frontier products. The arXiv listing (not the paper) notes it as an outstanding paper at the AI4Law workshop, ICML 2026. &ldquo;First systematic evaluation&rdquo; is the authors' positioning; the paper itself never uses the word &ldquo;first&rdquo;.</li>
+      <li id="s4">Artificial Lawyer's NewMod tracking, mid-2026 &mdash; 27+ firms; &ldquo;NewMods&rdquo; is Artificial Lawyer's coinage, not an industry-standard term.</li>
+      <li id="s5">Artificial Lawyer, <em>Meet Brahe &ndash; The New AI-First Law Firm</em> (7 July 2026); brahe.law &mdash; the operating-system claim is Innanen's. Lavern's development timeline (roughly six months to the May 2026 release) is from Innanen's own launch write-up.</li>
+      <li id="s6">Guardian (23 June 2026) and Law Society Gazette coverage of Garfield.Law's county court trial win (Wandsworth, 14 May 2026); SRA authorisation 6 May 2025 &mdash; one small-debt trial; fee figures as reported.</li>
+      <li id="s7">Citi Hildebrandt <em>2026 Client Advisory</em> &mdash; survey of ~195 US and 45 UK large firms. &ldquo;Pyramid to a cylinder&rdquo; is the report's phrasing; 63% (up from 43% a year earlier) expect GenAI to affect their leverage models within a decade.</li>
+      <li id="s8">Joint statement on the use of artificial intelligence in Australian legal practice, Law Society of NSW, Victorian Legal Services Board + Commissioner, and WA Legal Practice Board (6 December 2024) &mdash; applies the existing competence duty (Australian Solicitors' Conduct Rules r 4.1.3) to verification of AI output. No new rule was made.</li>
+      <li id="s9">Wang et al. (UIUC, Meta, Stanford and others), survey of agent harness engineering, arXiv:2605.18747 (May 2026) &mdash; source of &ldquo;executable accountability&rdquo;; the 14&ndash;53% step-level failure-attribution accuracy is as reported in that survey, whose underlying benchmarks are not independently checked here.</li>
+      <li id="s10">James Tuke, <em>The Legal Profession's AI Tightrope</em>, Artificial Lawyer (19 June 2026) &mdash; opinion piece; the PI-insurer observation is Tuke's report, single-source, not survey data.</li>
+      <li id="s11">Antti Innanen, Lavern open-source launch, Artificial Lawyer (20 May 2026); GitHub, AnttiHero/lavern (Apache 2.0; 67 agents at the May 2026 release) &mdash; architecture details are from the published repo and Innanen's write-ups. The paper did not test Lavern.</li>
+      <li id="s12">Norm Ai Series C press release (7 July 2026) &mdash; use of funds includes &ldquo;supervisory agents&rdquo; for regulated enterprise deployments. Company statement.</li>
+      <li id="s13">Joey Wang, <em>Building Spectre</em>, Harvey engineering blog (8 April 2026) &mdash; Spectre is Harvey's internal agent platform; Harvey states it shapes its legal product design.</li>
+      <li id="s14">Niko Grupen (Head of Applied Research, Harvey), X thread on auto-research and harness engineering for legal agents (7 April 2026) &mdash; the closing line quotes OpenAI's &ldquo;Harness Engineering&rdquo; post; the phrase is OpenAI's, relayed by Grupen.</li>
+      <li id="s15">Association of Corporate Counsel / Everlaw survey (2026), reported in Artificial Lawyer (3 June 2026) &mdash; corporate legal AI adoption 23% to 52% year on year; 7% report reduced total matter cost.</li>
+    </ol>
+  </section>
+
+  <footer class="foot">
+    <span>Notes on knowledge work &middot; Joel Seignior &middot; <span class="num">2026</span></span>
+    <a class="backlink" href="../index.html"><span class="backlink__arrow">&#8592;</span> Home</a>
+  </footer>
+
+</main>
+
+<script>(function(){var r=window.__resources&&window.__resources.verdictBoard;if(!r)return;var a=document.getElementById('verdict-board-link');if(a)a.href=r;})();</script>
+</body>
+</html>
