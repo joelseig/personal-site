@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://joelseignior.com/</loc>
-    <lastmod>2026-03-04</lastmod>
-    <priority>1.0</priority>
-  </url>
+  <url><loc>https://www.joelseignior.com/</loc><lastmod>2026-07-25</lastmod></url>
+  <url><loc>https://www.joelseignior.com/articles/the-org-chart-is-now-an-architecture-diagram.html</loc><lastmod>2026-07-25</lastmod></url>
+  <url><loc>https://www.joelseignior.com/articles/the-stack-you-didnt-choose.html</loc><lastmod>2026-07-05</lastmod></url>
+  <url><loc>https://www.joelseignior.com/articles/ai-knowledge-base.html</loc><lastmod>2026-06-13</lastmod></url>
+  <url><loc>https://www.joelseignior.com/articles/tokenomics-of-legal-ai.html</loc><lastmod>2026-06-05</lastmod></url>
+  <url><loc>https://www.joelseignior.com/articles/flat-markdown.html</loc><lastmod>2026-05-16</lastmod></url>
 </urlset>
