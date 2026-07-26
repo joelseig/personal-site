@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Joel Seignior — writing</title>
+    <link>https://www.joelseignior.com/</link>
+    <description>Essays and field notes on commercial law, legal AI tooling, and knowledge work in major-project delivery, by Joel Seignior in Melbourne.</description>
+    <item>
+      <title>The Org Chart Is Now an Architecture Diagram</title>
+      <link>https://www.joelseignior.com/articles/the-org-chart-is-now-an-architecture-diagram.html</link>
+      <guid>https://www.joelseignior.com/articles/the-org-chart-is-now-an-architecture-diagram.html</guid>
+      <pubDate>Sat, 25 Jul 2026 00:00:00 +1000</pubDate>
+      <description>What a small legal AI paper says about how AI-native firms should be wired, and what happens when the agents disagree.</description>
+    </item>
+    <item>
+      <title>The Stack You Didn’t Choose</title>
+      <link>https://www.joelseignior.com/articles/the-stack-you-didnt-choose.html</link>
+      <guid>https://www.joelseignior.com/articles/the-stack-you-didnt-choose.html</guid>
+      <pubDate>Sun, 05 Jul 2026 00:00:00 +1000</pubDate>
+      <description>A field guide for in-house lawyers buying legal AI — or having it bought for them.</description>
+    </item>
+    <item>
+      <title>I Let an AI Build My Research Library. Then It Invented a Law That Didn’t Exist.</title>
+      <link>https://www.joelseignior.com/articles/ai-knowledge-base.html</link>
+      <guid>https://www.joelseignior.com/articles/ai-knowledge-base.html</guid>
+      <pubDate>Sat, 13 Jun 2026 00:00:00 +1000</pubDate>
+      <description>How a weekend experiment grew into a knowledge pipeline that fact-checks itself — and what it taught me about using AI for serious work.</description>
+    </item>
+    <item>
+      <title>Tokenomics: Why the Cost of Legal AI Is Quietly Rising</title>
+      <link>https://www.joelseignior.com/articles/tokenomics-of-legal-ai.html</link>
+      <guid>https://www.joelseignior.com/articles/tokenomics-of-legal-ai.html</guid>
+      <pubDate>Fri, 05 Jun 2026 00:00:00 +1000</pubDate>
+      <description>For two years the question was whether legal AI could do the work. In 2026 a second question has caught up: what does the work cost to run?</description>
+    </item>
+    <item>
+      <title>Keep your reference knowledge in flat Markdown</title>
+      <link>https://www.joelseignior.com/articles/flat-markdown.html</link>
+      <guid>https://www.joelseignior.com/articles/flat-markdown.html</guid>
+      <pubDate>Sat, 16 May 2026 00:00:00 +1000</pubDate>
+      <description>A worked example from Victorian construction law — on what makes a portable reference pack genuinely portable, and the discipline plain text imposes.</description>
+    </item>
+  </channel>
+</rss>
