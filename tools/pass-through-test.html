@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The pass-through test &mdash; Joel Seignior</title>
+<meta name="description" content="Compare your legal AI platform seat with the same usage priced at today’s spot model rates. Every figure is editable. Companion to The Price Fell. The Bill Didn’t.">
+<link rel="canonical" href="https://www.joelseignior.com/tools/pass-through-test.html">
+<meta property="og:title" content="The pass-through test">
+<meta property="og:description" content="Compare your legal AI platform seat with the same usage priced at today’s spot model rates. Every figure is editable. Companion to The Price Fell. The Bill Didn’t.">
+<meta property="og:url" content="https://www.joelseignior.com/tools/pass-through-test.html">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Roboto+Slab:wght@300..700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAF7F2;--bg-raised:#F4EFE6;--ink:#1F1F1F;--ink-soft:#4A4845;--ink-muted:#7A7670;--rule-soft:rgba(31,31,31,0.18);--rule-hair:rgba(31,31,31,0.10);--sage:#7A8B6F;--sage-deep:#5E6F54;--sage-wash:rgba(122,139,111,0.10);--fd:'Inter Tight',system-ui,sans-serif;--fb:'Roboto Slab',Georgia,serif;--nf:"tnum" 1,"lnum" 1}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--fb);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55;padding:56px 32px 80px;-webkit-font-smoothing:antialiased}
+a{color:var(--sage-deep)}a:hover{color:var(--ink)}
+.sheet{max-width:780px;margin:0 auto}
+.backlink{display:inline-flex;align-items:baseline;gap:8px;font-family:var(--fb);font-style:italic;font-size:13px;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--rule-soft);padding-bottom:1px}
+.backlink:hover{color:var(--sage-deep);border-bottom-color:var(--sage)}
+.backlink__arrow{font-style:normal;color:var(--sage-deep)}
+.kicker{margin-top:40px;font-family:var(--fd);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--ink);padding-bottom:10px}
+h1{font-family:var(--fd);font-size:52px;font-weight:500;letter-spacing:-.022em;line-height:.98;margin:22px 0 14px;text-wrap:balance}
+.standfirst{font-family:var(--fd);font-size:19px;font-style:italic;font-weight:400;color:var(--sage-deep);line-height:1.4;max-width:56ch;margin-bottom:40px;text-wrap:pretty}
+.standfirst b{font-weight:600;color:var(--ink)}
+section{margin-bottom:36px}
+.tscroll{overflow-x:auto}
+.sec-label{font-family:var(--fd);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);border-top:1px solid var(--ink);padding-top:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.sec-label .note{font-family:var(--fb);font-style:italic;font-weight:400;font-size:12.5px;color:var(--ink-muted);text-transform:none;letter-spacing:0}
+.field-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.field label{display:block;font-family:var(--fd);font-size:14px;font-weight:500;letter-spacing:-.005em;margin-bottom:4px}
+.field small,.slider small{display:block;color:var(--ink-muted);font-size:12px;font-style:italic;line-height:1.5;margin-top:6px;text-wrap:pretty}
+input[type="number"]{font-family:var(--fb);font-feature-settings:var(--nf);font-size:15px;width:100%;border:0;border-bottom:1px solid var(--ink);background:transparent;padding:5px 2px;color:var(--ink);border-radius:0}
+input[type="number"]:focus{outline:none;border-bottom-color:var(--sage-deep);background:var(--sage-wash)}
+td.model input[type="text"]{font-family:var(--fd);font-size:14px;font-weight:500;width:100%;min-width:8.5rem;border:0;border-bottom:1px dashed var(--rule-soft);background:transparent;color:var(--ink);padding:2px 0}
+td.model input[type="text"]:focus{outline:none;border-bottom:1px solid var(--sage-deep)}
+td.pick{width:22px}
+td.pick input[type="radio"]{accent-color:var(--sage-deep);cursor:pointer}
+.rm{border:0;background:none;color:var(--ink-muted);cursor:pointer;font-size:16px;padding:0 4px;line-height:1}
+.rm:hover{color:var(--ink)}
+.presets{margin-top:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.presets span{font-size:12.5px;font-style:italic;color:var(--ink-muted);line-height:1.5}
+.chip{font-family:var(--fd);font-size:12px;font-weight:500;letter-spacing:.02em;border:1px solid var(--ink);background:transparent;color:var(--ink);padding:6px 12px;cursor:pointer;transition:background .14s,color .14s}
+.chip:hover,.chip:focus-visible{background:var(--ink);color:var(--bg);outline:none}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:9px 10px 9px 0;border-bottom:1px solid var(--rule-hair);vertical-align:top}
+thead tr{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+th{font-family:var(--fd);font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);vertical-align:bottom}
+td.model{font-family:var(--fd);font-weight:500;font-size:14px}
+td.model em{display:block;font-family:var(--fb);font-size:12px;color:var(--ink-muted);font-weight:400;line-height:1.45;margin-top:3px}
+td input[type="number"]{max-width:6.2rem}
+.num{font-family:var(--fb);font-feature-settings:var(--nf);font-variant-numeric:tabular-nums lining-nums}
+.slider-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.slider label{display:flex;justify-content:space-between;font-family:var(--fd);font-size:14px;font-weight:500;margin-bottom:8px}
+.slider label output{font-family:var(--fb);font-feature-settings:var(--nf);color:var(--sage-deep);font-weight:500}
+input[type="range"]{width:100%;accent-color:var(--sage-deep);cursor:pointer}
+.results{border:1px solid var(--ink);padding:26px 28px 22px;background:var(--bg-raised)}
+.results .sec-label{border-top:0;padding-top:0}
+.routes{display:grid;gap:12px;margin:4px 0 24px}
+.route{display:grid;grid-template-columns:190px minmax(0,1fr) auto;gap:14px;align-items:center}
+.route .name{font-family:var(--fd);font-size:14px;font-weight:500;line-height:1.25}
+.route .name em{display:block;font-family:var(--fb);font-size:12px;font-weight:400;color:var(--ink-muted)}
+.track{background:var(--rule-hair);height:16px;position:relative}
+.fill{position:absolute;inset:0 auto 0 0;width:0;transition:width .45s cubic-bezier(.25,.9,.35,1)}
+.route .amt{font-family:var(--fb);font-feature-settings:var(--nf);font-size:15px;text-align:right;min-width:88px}
+.route.wrapper .name{font-weight:600}
+.route.wrapper .fill{background:var(--ink)}
+.route.spot .fill{background:var(--sage-deep)}
+.route.flat .fill{background:var(--ink-muted)}
+.verdict{border-top:1px solid var(--ink);padding-top:18px;font-size:15px;line-height:1.65;color:var(--ink-soft);max-width:64ch}
+.verdict .lede-num{font-family:var(--fd);font-feature-settings:var(--nf);font-size:34px;font-weight:500;letter-spacing:-.02em;display:block;margin-bottom:6px;color:var(--ink)}
+.verdict.spread-open .lede-num{color:var(--sage-deep)}
+.verdict p+p{margin-top:10px}
+.verdict .june{font-size:13.5px;font-style:italic;color:var(--ink-muted)}
+.assume{font-size:12px;color:var(--ink-muted);font-style:italic;margin-top:18px;border-top:1px solid var(--rule-hair);padding-top:10px;line-height:1.55}
+details.assumptions{margin:40px 0 16px;border-top:2px solid var(--ink)}
+details.assumptions summary{cursor:pointer;list-style:none;font-family:var(--fd);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:14px 0;color:var(--ink);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+details.assumptions summary::-webkit-details-marker{display:none}
+details.assumptions summary::before{content:"+";color:var(--sage-deep);margin-right:10px}
+details.assumptions[open] summary::before{content:"\2212"}
+details.assumptions summary .note{font-family:var(--fb);font-style:italic;font-weight:400;font-size:12.5px;color:var(--ink-muted);text-transform:none;letter-spacing:0;margin-left:auto}
+.smallprint{margin-top:44px;border-top:1px solid var(--ink);padding-top:14px;font-size:12.5px;color:var(--ink-muted);line-height:1.65;max-width:78ch;text-wrap:pretty}
+.smallprint b{color:var(--ink-soft);font-weight:600}
+.foot{margin-top:72px;padding-top:20px;border-top:1px solid var(--ink);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:12px;color:var(--ink-muted)}
+.foot a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--rule-soft)}
+@media (prefers-reduced-motion:reduce){.fill{transition:none!important}}
+@media (max-width:760px){body{padding:36px 20px 60px}h1{font-size:36px}.field-row,.slider-row{grid-template-columns:1fr}.route{grid-template-columns:1fr;gap:4px}.track{order:3}.route .amt{text-align:left}.results{padding:20px 18px}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <a class="backlink" href="../index.html"><span class="backlink__arrow">&#8592;</span> Home</a>
+
+  <header>
+    <div class="kicker"><span>joelseignior.com · interactive</span><span>rates as at 10 Oct 2026</span></div>
+    <h1>The pass-through test.</h1>
+    <p class="standfirst">If your vendor were only passing tokens through, your bill would track the commodity.
+    Put in your team's usage (if you know it), price it at today's spot rates, and compare it with your seat.
+    <b>Every figure below is editable</b>, because in this market the rates won't sit still.</p>
+  </header>
+
+  <section>
+    <div class="sec-label"><span>1 · Your team</span><span class="note">the comparison updates live</span></div>
+    <div class="slider-row">
+      <div class="slider">
+        <label for="seats">Seats <output id="seatsVal">750</output></label>
+        <input type="range" id="seats" min="5" max="2000" step="5" value="750">
+        <small>count every seat: lawyers, in-house counsel, legal ops, other knowledge workers. Law firms, in-house teams and other buyers all run these products now; 750 fits a top-tier firm, an in-house team might be 20</small>
+      </div>
+      <div class="slider">
+        <label for="disc">Negotiated discount on the platform seat <output id="discVal">50%</output></label>
+        <input type="range" id="disc" min="0" max="70" step="5" value="50">
+        <small>40–60% off opening prices is widely reported</small>
+      </div>
+    </div>
+    <div class="field-row" style="margin-top:1.1rem">
+      <div class="field">
+        <label for="mixLight">Light users, % of seats</label>
+        <input type="number" id="mixLight" min="0" max="100" step="5" value="30">
+      </div>
+      <div class="field">
+        <label for="mixReg">Regular users, % of seats</label>
+        <input type="number" id="mixReg" min="0" max="100" step="5" value="60">
+      </div>
+      <div class="field">
+        <label for="mixHeavy">Heavy agentic users, % of seats</label>
+        <input type="number" id="mixHeavy" min="0" max="100" step="5" value="10">
+        <small>usually a sliver of the team</small>
+      </div>
+    </div>
+    <div class="presets"><span>Shares are normalised if they don't sum to 100. The common shape: everyone on it, few using it hard.</span></div>
+  </section>
+
+  <section class="results">
+    <div class="sec-label"><span>The comparison</span><span class="note">per seat, per month, blended across your usage mix</span></div>
+    <div class="routes" id="routes"></div>
+    <div class="sec-label" style="margin-top:1.2rem"><span>Team total, per year</span><span class="note">seats × route + your engineering where it applies</span></div>
+    <div class="routes" id="firmRoutes"></div>
+    <div class="verdict" id="verdict"></div>
+    <p class="assume" id="assumpLine"></p>
+  </section>
+
+  <details class="assumptions">
+    <summary>Assumptions <span class="note">every number below is editable and feeds the result</span></summary>
+
+  <section>
+    <div class="sec-label"><span>Usage profiles, per seat, per month</span><span class="note">millions of tokens; defaults are illustrations, edit freely</span></div>
+    <div class="tscroll"><table>
+      <thead><tr><th>Profile</th><th>Fresh input</th><th>Cached re-reads</th><th>Output</th></tr></thead>
+      <tbody>
+        <tr><td class="model">Light<em>occasional questions, the odd summary</em></td>
+          <td><input type="number" id="li_in" min="0" step="0.5" value="1.5"></td>
+          <td><input type="number" id="li_cache" min="0" step="5" value="0"></td>
+          <td><input type="number" id="li_out" min="0" step="0.5" value="0.5"></td></tr>
+        <tr><td class="model">Regular<em>daily drafting, some workflows</em></td>
+          <td><input type="number" id="re_in" min="0" step="1" value="8"></td>
+          <td><input type="number" id="re_cache" min="0" step="5" value="40"></td>
+          <td><input type="number" id="re_out" min="0" step="1" value="4"></td></tr>
+        <tr><td class="model">Heavy agentic<em>agents running on matters all day</em></td>
+          <td><input type="number" id="he_in" min="0" step="1" value="40"></td>
+          <td><input type="number" id="he_cache" min="0" step="10" value="400"></td>
+          <td><input type="number" id="he_out" min="0" step="1" value="20"></td></tr>
+      </tbody>
+    </table></div>
+    <div class="presets">
+      <span>Fresh input = documents read the first time. Cached re-reads = history an agent re-sends each step. Output = what the model writes back.</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span>Spot rates, US$ per million tokens</span><span class="note">published list; edit if stale</span></div>
+    <div class="tscroll"><table id="rates">
+      <thead><tr><th title="runs the metered route">Route</th><th>Model</th><th>Input</th><th>Output</th><th style="text-align:right">Blended seat cost</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="pick"><input type="radio" name="routeModel"></td>
+          <td class="model"><input type="text" value="Claude Fable 5.1" data-name><em>1 Sep 2026, flagship tier</em></td>
+          <td><input type="number" min="0" step="0.5" value="10" data-rate="in"></td>
+          <td><input type="number" min="0" step="0.5" value="50" data-rate="out"></td>
+          <td class="num" style="text-align:right" data-usage>—</td>
+          <td><button class="rm" type="button" title="remove">×</button></td></tr>
+        <tr><td class="pick"><input type="radio" name="routeModel"></td>
+          <td class="model"><input type="text" value="Claude Opus 5.5" data-name><em>22 Sep 2026</em></td>
+          <td><input type="number" min="0" step="0.5" value="4" data-rate="in"></td>
+          <td><input type="number" min="0" step="0.5" value="20" data-rate="out"></td>
+          <td class="num" style="text-align:right" data-usage>—</td>
+          <td><button class="rm" type="button" title="remove">×</button></td></tr>
+        <tr><td class="pick"><input type="radio" name="routeModel"></td>
+          <td class="model"><input type="text" value="Claude Sonnet 5.5" data-name><em>rise cancelled 11 Aug 2026; rate held</em></td>
+          <td><input type="number" min="0" step="0.5" value="2" data-rate="in"></td>
+          <td><input type="number" min="0" step="0.5" value="10" data-rate="out"></td>
+          <td class="num" style="text-align:right" data-usage>—</td>
+          <td><button class="rm" type="button" title="remove">×</button></td></tr>
+        <tr><td class="pick"><input type="radio" name="routeModel"></td>
+          <td class="model"><input type="text" value="Claude Haiku 5.5" data-name><em>7 Oct 2026; this rate is for requests ≤100K tokens — longer requests bill $0.50/$2.50</em></td>
+          <td><input type="number" min="0" step="0.05" value="0.10" data-rate="in"></td>
+          <td><input type="number" min="0" step="0.05" value="0.50" data-rate="out"></td>
+          <td class="num" style="text-align:right" data-usage>—</td>
+          <td><button class="rm" type="button" title="remove">×</button></td></tr>
+        <tr><td class="pick"><input type="radio" name="routeModel"></td>
+          <td class="model"><input type="text" value="GPT-5.5" data-name><em>Apr 2026</em></td>
+          <td><input type="number" min="0" step="0.5" value="5" data-rate="in"></td>
+          <td><input type="number" min="0" step="0.5" value="30" data-rate="out"></td>
+          <td class="num" style="text-align:right" data-usage>—</td>
+          <td><button class="rm" type="button" title="remove">×</button></td></tr>
+        <tr><td class="pick"><input type="radio" name="routeModel" checked></td>
+          <td class="model"><input type="text" value="GPT-6.1 Sol" data-name><em>29 Sep 2026</em></td>
+          <td><input type="number" min="0" step="0.5" value="2" data-rate="in"></td>
+          <td><input type="number" min="0" step="0.5" value="10" data-rate="out"></td>
+          <td class="num" style="text-align:right" data-usage>—</td>
+          <td><button class="rm" type="button" title="remove">×</button></td></tr>
+        <tr><td class="pick"><input type="radio" name="routeModel"></td>
+          <td class="model"><input type="text" value="GPT-6 Luna" data-name><em>22 Sep 2026, budget tier</em></td>
+          <td><input type="number" min="0" step="0.05" value="0.10" data-rate="in"></td>
+          <td><input type="number" min="0" step="0.05" value="0.50" data-rate="out"></td>
+          <td class="num" style="text-align:right" data-usage>—</td>
+          <td><button class="rm" type="button" title="remove">×</button></td></tr>
+        <tr><td class="pick"><input type="radio" name="routeModel"></td>
+          <td class="model"><input type="text" value="Gemini 4 Argon" data-name><em>30 Sep 2026, introductory; standard $4/$20; limited API access at launch</em></td>
+          <td><input type="number" min="0" step="0.5" value="2" data-rate="in"></td>
+          <td><input type="number" min="0" step="0.5" value="10" data-rate="out"></td>
+          <td class="num" style="text-align:right" data-usage>—</td>
+          <td><button class="rm" type="button" title="remove">×</button></td></tr>
+        <tr><td class="pick"><input type="radio" name="routeModel"></td>
+          <td class="model"><input type="text" value="Your open-weight model" data-name><em>self-hosted: enter effective rates (see note)</em></td>
+          <td><input type="number" min="0" step="0.05" value="0" data-rate="in"></td>
+          <td><input type="number" min="0" step="0.05" value="0" data-rate="out"></td>
+          <td class="num" style="text-align:right" data-usage>—</td>
+          <td><button class="rm" type="button" title="remove">×</button></td></tr>
+      </tbody>
+    </table></div>
+    <div class="presets" style="margin-top:.8rem">
+      <button class="chip" type="button" id="addModel">+ add a model</button>
+      <span>rates change weekly and models land monthly; every name and rate is editable</span>
+    </div>
+    <div class="presets" style="margin-top:.9rem">
+      <div class="field" style="max-width:14rem">
+        <label for="cacheRate">Cache-read price, % of input rate</label>
+        <input type="number" id="cacheRate" min="0" max="100" step="0.5" value="10">
+        <small>published discounts run ~2.5–10% by provider and tier; 10% is the dear end</small>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span>The seat prices</span><span class="note">US$ per seat per month</span></div>
+    <div class="field-row">
+      <div class="field">
+        <label for="wrapSeat">Your legal platform seat</label>
+        <input type="number" id="wrapSeat" min="0" step="50" value="1200">
+        <small>~$1,200 reported at the premium end; use your real rate</small>
+      </div>
+      <div class="field">
+        <label for="labSeat">Lab seat fee, metered route</label>
+        <input type="number" id="labSeat" min="0" step="5" value="20">
+        <small>Anthropic's listed enterprise fee; usage billed on top</small>
+      </div>
+      <div class="field">
+        <label for="flatSeat">Lab seat, flat route</label>
+        <input type="number" id="flatSeat" min="0" step="5" value="60">
+        <small>ChatGPT Enterprise, reported range $45–75</small>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span>Your own engineering on the lab routes</span><span class="note">what it takes to replace the platform's out-of-the-box layer</span></div>
+    <div class="field" style="max-width:20rem">
+      <label for="engCost">Own engineering for the lab routes, US$ a year</label>
+      <input type="number" id="engCost" min="0" step="50000" value="500000">
+      <small>a raw model doesn't do legal work out of the box: prompting, integration, evaluation, security are on your payroll instead</small>
+    </div>
+  </section>
+
+  </details>
+
+  <footer class="smallprint">
+    <b>How this is calculated:</b> each profile's cost = fresh input × input rate + cached re-reads × the cache-read
+    percentage you set + output × output rate; the blended seat cost weights the three profiles by your usage mix.
+    Published cache-read discounts range from about 2.5% to 10% of the input rate by provider and tier: Anthropic's
+    flagship tier reads cache at 2.5% and its mid tiers at 5% after the September–October cuts, OpenAI's Sol at 5%,
+    Google at 10%. The 10% default is the dear end of the published range; lower it to match your model. The metered
+    lab route adds the seat fee to whichever model you've marked as the route.
+    <b>Open-weight models:</b> if you self-host, convert the hosting bill into effective per-million rates and enter
+    them on the open-weight row (a modest single-node GPU endpoint runs in the order of US$4,700 a month; a
+    frontier-class open-weight model needs a multi-GPU node at US$11,000 a month and up; divide by your monthly
+    tokens); the engineering field covers the people. The team total multiplies the per-seat route by your seat count, applies your
+    discount to the platform seats only, and adds your engineering figure to the two lab routes (a raw model doesn't
+    do legal work out of the box; the default US$500,000 is an editable assumption, not a quote).
+    <b>What it leaves out:</b> the legal platforms bundle several frontier models, legal
+    workflow, security and support behind one contract; the flat lab seat carries fair-use limits; lab enterprise deals
+    carry seat minimums (a reported 150 for ChatGPT Enterprise). Platform seat prices are reported, not published.
+    Spot rates are published list as at 10 October 2026 and change often, which is why you can edit them.
+    This is arithmetic, not advice.
+  </footer>
+  <div class="foot">
+    <span>Companion to <a href="../articles/the-price-fell-the-bill-didnt.html">The Price Fell. The Bill Didn&rsquo;t.</a></span>
+    <a class="backlink" href="../index.html"><span class="backlink__arrow">&#8592;</span> Home</a>
+  </div>
+</div>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var fmt = function (n) {
+    if (!isFinite(n)) return "—";
+    return "$" + n.toLocaleString("en-US", { maximumFractionDigits: n < 100 ? 2 : 0 });
+  };
+  var fmtBig = function (n) {
+    if (!isFinite(n)) return "—";
+    if (n >= 1e6) return "$" + (n / 1e6).toLocaleString("en-US", { maximumFractionDigits: 2 }) + "m";
+    if (n < 1000) return fmt(n);
+    return "$" + Math.round(n / 1000).toLocaleString("en-US") + "k";
+  };
+  var pos = function (v) { return Math.max(0, parseFloat(v) || 0); };
+  var esc = function (s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; };
+
+  function readRates() {
+    var rows = document.querySelectorAll("#rates tbody tr");
+    var out = [];
+    rows.forEach(function (tr) {
+      out.push({
+        name: (tr.querySelector("[data-name]").value || "unnamed model").trim(),
+        rIn: pos(tr.querySelector('[data-rate="in"]').value),
+        rOut: pos(tr.querySelector('[data-rate="out"]').value),
+        selected: tr.querySelector('input[type="radio"]').checked,
+        cell: tr.querySelector("[data-usage]")
+      });
+    });
+    return out;
+  }
+
+  function usageCost(m, inM, cacheM, outM, cachePct) {
+    return inM * m.rIn + cacheM * (m.rIn * cachePct) + outM * m.rOut;
+  }
+
+  function recalc() {
+    var wrap = pos($("wrapSeat").value);
+    var labFee = pos($("labSeat").value);
+    var flat = pos($("flatSeat").value);
+    var cachePct = pos($("cacheRate").value) / 100;
+
+    var profs = [
+      { share: pos($("mixLight").value), inM: pos($("li_in").value), cacheM: pos($("li_cache").value), outM: pos($("li_out").value) },
+      { share: pos($("mixReg").value), inM: pos($("re_in").value), cacheM: pos($("re_cache").value), outM: pos($("re_out").value) },
+      { share: pos($("mixHeavy").value), inM: pos($("he_in").value), cacheM: pos($("he_cache").value), outM: pos($("he_out").value) }
+    ];
+    var totShare = profs.reduce(function (s, p) { return s + p.share; }, 0);
+    if (totShare <= 0) { profs.forEach(function (p) { p.share = 1; }); totShare = 3; }
+    profs.forEach(function (p) { p.w = p.share / totShare; });
+
+    var models = readRates();
+    models.forEach(function (m) {
+      m.cost = 0;
+      profs.forEach(function (p) {
+        m.cost += p.w * usageCost(m, p.inM, p.cacheM, p.outM, cachePct);
+      });
+      m.cell.textContent = fmt(m.cost);
+    });
+
+    var routeModel = null;
+    models.forEach(function (m) { if (m.selected) routeModel = m; });
+    if (!routeModel) {
+      models.forEach(function (m) {
+        if (m.cost > 0 && (!routeModel || m.cost < routeModel.cost)) routeModel = m;
+      });
+    }
+    if (!routeModel) routeModel = { name: "no model selected", cost: 0 };
+    var metered = labFee + routeModel.cost;
+
+    var seats = parseFloat($("seats").value) || 0;
+    var disc = (parseFloat($("disc").value) || 0) / 100;
+    var eng = pos($("engCost").value);
+    $("seatsVal").textContent = seats.toLocaleString("en-US");
+    $("discVal").textContent = Math.round(disc * 100) + "%";
+
+    var firmWrap = seats * wrap * (1 - disc) * 12;
+    var firmMetered = seats * metered * 12 + eng;
+    var firmFlat = seats * flat * 12 + eng;
+
+    function renderBars(holderId, routes, fmtFn) {
+      var max = Math.max.apply(null, routes.map(function (r) { return r.val; }).concat([1]));
+      var holder = $(holderId);
+      holder.innerHTML = "";
+      routes.forEach(function (r) {
+        var row = document.createElement("div");
+        row.className = "route " + r.cls;
+        row.innerHTML =
+          '<div class="name">' + esc(r.name) + "<em>" + esc(r.sub) + "</em></div>" +
+          '<div class="track"><div class="fill"></div></div>' +
+          '<div class="amt">' + fmtFn(r.val) + "</div>";
+        holder.appendChild(row);
+        var fill = row.querySelector(".fill");
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            if (!fill.isConnected) return;
+            fill.style.width = Math.max(0.8, (r.val / max) * 100) + "%";
+          });
+        });
+      });
+    }
+
+    renderBars("routes", [
+      { cls: "spot", name: "Metered lab route", sub: "$" + labFee + " seat + " + routeModel.name, val: metered },
+      { cls: "flat", name: "Flat lab seat", sub: "usage included, fair-use limits", val: flat },
+      { cls: "wrapper", name: "Your platform seat", sub: "price unchanged all year", val: wrap }
+    ], fmt);
+
+    renderBars("firmRoutes", [
+      { cls: "spot", name: "Metered lab route", sub: seats.toLocaleString("en-US") + " seats + your engineering", val: firmMetered },
+      { cls: "flat", name: "Flat lab seats", sub: seats.toLocaleString("en-US") + " seats + your engineering", val: firmFlat },
+      { cls: "wrapper", name: "Platform seats", sub: "at your " + Math.round(disc * 100) + "% negotiated discount", val: firmWrap }
+    ], fmtBig);
+
+    var v = $("verdict");
+    if (models.length === 0) {
+      v.className = "verdict";
+      v.innerHTML = "<p>Add a model row under Assumptions to run the comparison.</p>";
+    } else if (firmWrap === firmMetered) {
+      v.className = "verdict";
+      v.innerHTML = "<p>The routes come out level at your numbers.</p>";
+    } else if (firmWrap > firmMetered) {
+      var gap = firmWrap - firmMetered;
+      var pct = Math.round((gap / firmWrap) * 100);
+      v.className = "verdict spread-open";
+      v.innerHTML =
+        '<span class="lede-num">' + fmtBig(gap) + " a year</span>" +
+        "<p>sits between the platform bill and doing it yourself at spot, engineering included, at your seat count " +
+        "and discount. That " + pct + "% is not tokens and not engineers. It buys what ships out of the box: legal " +
+        "workflow, security, several models under one contract, support, and this year's brand campaigns. The " +
+        "renewal question is whether, at your usage, it's worth it.</p>" +
+        '<p class="june">It has run the other way. In June the market leader reportedly spent about $1.50 on models ' +
+        "for every customer dollar, so its users were buying tokens below spot. Nothing in your invoice says which " +
+        "side of that line you're on now.</p>";
+    } else {
+      v.className = "verdict subsidised";
+      v.innerHTML =
+        '<span class="lede-num">' + fmtBig(firmMetered - firmWrap) + " a year</span>" +
+        "<p>is what doing it yourself at spot would cost you over the platform bill, once your own engineering is " +
+        "counted, at your seat count and discount. At these numbers the platform is the cheap route, which is where " +
+        "the whole market sat in June, when the market leader reportedly spent about $1.50 on models for every " +
+        "customer dollar.</p>" +
+        '<p class="june">Subsidies end. The question to take to the renewal is what the price becomes when yours does.</p>';
+    }
+
+    $("assumpLine").textContent =
+      "Assumes: platform list " + fmt(wrap) + "/seat/month before your discount; metered lab route " + fmt(labFee) +
+      " seat + " + routeModel.name + " at the rates shown; flat lab seat " + fmt(flat) + "; " + fmtBig(eng) +
+      " a year of your own engineering on the lab routes; cache reads at " + Math.round(cachePct * 100) +
+      "% of the input rate. Open Assumptions below to change any of it.";
+  }
+
+  document.addEventListener("input", function (e) {
+    if (e.target && e.target.matches('input[type="number"], input[type="range"], input[type="text"]')) recalc();
+  });
+  document.addEventListener("change", function (e) {
+    if (e.target && e.target.matches('input[type="radio"]')) recalc();
+  });
+  $("addModel").addEventListener("click", function () {
+    document.querySelector("#rates tbody").insertAdjacentHTML("beforeend",
+      '<tr><td class="pick"><input type="radio" name="routeModel"></td>' +
+      '<td class="model"><input type="text" value="New model" data-name><em>your entry</em></td>' +
+      '<td><input type="number" min="0" step="0.5" value="0" data-rate="in"></td>' +
+      '<td><input type="number" min="0" step="0.5" value="0" data-rate="out"></td>' +
+      '<td class="num" style="text-align:right" data-usage>—</td>' +
+      '<td><button class="rm" type="button" title="remove">×</button></td></tr>');
+    recalc();
+  });
+  document.querySelector("#rates tbody").addEventListener("click", function (e) {
+    if (e.target.classList.contains("rm")) {
+      e.target.closest("tr").remove();
+      var radios = document.querySelectorAll('#rates tbody input[type="radio"]');
+      var anyChecked = false;
+      radios.forEach(function (r) { if (r.checked) anyChecked = true; });
+      if (radios.length && !anyChecked) radios[0].checked = true;
+      recalc();
+    }
+  });
+
+  recalc();
+})();
+</script>
+</body>
+</html>
