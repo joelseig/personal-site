@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Price Fell. The Bill Didn't. &mdash; Joel Seignior</title>
+  <meta name="description" content="In June I wrote that the cost of running AI on legal work was quietly rising. Since then the price of the raw material has collapsed. Bills haven’t.">
+  <link rel="canonical" href="https://www.joelseignior.com/articles/the-price-fell-the-bill-didnt.html">
+  <meta property="og:title" content="The Price Fell. The Bill Didn’t.">
+  <meta property="og:description" content="In June I wrote that the cost of running AI on legal work was quietly rising. Since then the price of the raw material has collapsed. Bills haven’t.">
+  <meta property="og:url" content="https://www.joelseignior.com/articles/the-price-fell-the-bill-didnt.html">
+  <meta property="og:type" content="article">
+  <link rel="alternate" type="application/rss+xml" title="Joel Seignior — writing" href="https://www.joelseignior.com/feed.xml">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","headline":"The Price Fell. The Bill Didn’t.","datePublished":"2026-10-11","author":{"@type":"Person","name":"Joel Seignior","url":"https://www.joelseignior.com/"},"mainEntityOfPage":"https://www.joelseignior.com/articles/the-price-fell-the-bill-didnt.html"}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Roboto+Slab:wght@300..700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:        #FAF7F2;
+      --bg-raised: #F4EFE6;
+      --bg-deeper: #EEE7D9;
+      --ink:        #1F1F1F;
+      --ink-soft:   #4A4845;
+      --ink-muted:  #7A7670;
+      --rule:       #1F1F1F;
+      --rule-soft:  rgba(31,31,31,0.18);
+      --rule-hair:  rgba(31,31,31,0.10);
+      --sage:       #7A8B6F;
+      --sage-deep:  #5E6F54;
+      --sage-wash:  rgba(122,139,111,0.10);
+      --font-display: 'Inter Tight', system-ui, sans-serif;
+      --font-body:    'Roboto Slab', Georgia, serif;
+      --font-num:     'Roboto Slab', Georgia, serif;
+      --num-features: "tnum" 1, "lnum" 1;
+      --measure: 68ch;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { background: var(--bg); color: var(--ink); margin: 0; }
+    body {
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    [class*="num"], .num, table, td, th {
+      font-feature-settings: var(--num-features);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    .display { font-family: var(--font-display); letter-spacing: -0.015em; font-weight: 500; line-height: 1.05; text-wrap: balance; }
+    .num     { font-family: var(--font-num); font-feature-settings: var(--num-features); }
+
+    .smallcaps {
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-style: italic;
+      color: var(--ink-soft);
+      letter-spacing: 0;
+      text-transform: none;
+      font-weight: 400;
+    }
+
+    h1.display { font-size: 56px; letter-spacing: -0.022em; line-height: 0.98; margin: 0; }
+    h2.display { font-size: 30px; letter-spacing: -0.018em; margin: 0; }
+    h3.display { font-size: 20px; letter-spacing: -0.005em; line-height: 1.2; margin: 0; }
+
+    .lede { font-family: var(--font-body); font-size: 18px; line-height: 1.55; color: var(--ink-soft); max-width: 62ch; text-wrap: pretty; }
+
+    p.copy, .copy p {
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      line-height: 1.72;
+      color: var(--ink-soft);
+      max-width: var(--measure);
+      text-wrap: pretty;
+      margin: 0 0 18px;
+    }
+    .copy p:last-child { margin-bottom: 0; }
+    .copy strong, p.copy strong { color: var(--ink); font-weight: 600; }
+    .copy em, p.copy em { color: var(--ink); }
+    .copy a, p.copy a, .lede a {
+      color: var(--sage-deep);
+      text-decoration: none;
+      border-bottom: 1px solid var(--sage);
+      padding-bottom: 0.5px;
+      transition: color 120ms, border-color 120ms;
+    }
+    .copy a:hover, p.copy a:hover, .lede a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+    /* footnote references */
+    sup.fn { font-family: var(--font-num); font-feature-settings: var(--num-features); font-size: 10px; line-height: 0; vertical-align: super; }
+    sup.fn a { color: var(--sage-deep); text-decoration: none; border: 0; padding: 0 1px; }
+    sup.fn a:hover { color: var(--ink); }
+
+    .rule      { border: 0; border-top: 1px solid var(--rule);      margin: 18px 0; }
+    .rule-soft { border: 0; border-top: 1px solid var(--rule-soft); margin: 18px 0; }
+    .rule-hair { border: 0; border-top: 1px solid var(--rule-hair); margin: 12px 0; }
+
+    blockquote.pull {
+      margin: 36px 0;
+      padding: 36px 44px 32px;
+      background: var(--ink);
+      color: var(--bg);
+      position: relative;
+      max-width: 62ch;
+    }
+    blockquote.pull::before {
+      content: "\201C";
+      position: absolute; top: 10px; left: 18px;
+      font-family: var(--font-body); font-size: 64px; line-height: 1;
+      color: var(--sage); opacity: 0.45;
+    }
+    blockquote.pull p {
+      font-family: var(--font-display);
+      font-size: 22px; line-height: 1.4; margin: 0;
+      letter-spacing: -0.012em; text-wrap: pretty;
+      color: var(--bg);
+    }
+    blockquote.pull cite {
+      display: block; margin-top: 18px;
+      font-family: var(--font-body); font-style: italic;
+      font-size: 13px; color: rgba(250,247,242,0.6);
+    }
+
+    .callout {
+      padding: 22px 26px;
+      border-left: 3px solid var(--sage-deep);
+      background: var(--sage-wash);
+      max-width: var(--measure);
+      margin: 28px 0;
+    }
+    .callout p { margin: 0; font-style: italic; color: var(--ink); font-family: var(--font-body); font-size: 14.5px; line-height: 1.7; }
+    .callout p + p { margin-top: 10px; }
+    .callout a { color: var(--sage-deep); border-bottom: 1px solid var(--sage); text-decoration: none; }
+
+    .page {
+      max-width: 1080px; margin: 0 auto;
+      padding: 56px 32px 80px;
+    }
+    .section { margin-top: 60px; }
+    .section__head {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+      border-top: 1px solid var(--ink);
+      padding-top: 16px; margin-bottom: 26px;
+    }
+    .section__head h2 { letter-spacing: -0.018em; }
+    .section h3.display { margin: 34px 0 14px; }
+
+    /* part divider */
+    .part-head {
+      margin-top: 76px;
+      border-top: 2px solid var(--ink);
+      padding-top: 20px;
+    }
+    .part-head__label { font-family: var(--font-body); font-style: italic; font-size: 13px; color: var(--sage-deep); letter-spacing: 0.02em; }
+    .part-head h2 { font-family: var(--font-display); font-weight: 500; font-size: 38px; letter-spacing: -0.02em; line-height: 1.02; margin: 8px 0 0; max-width: 24ch; text-wrap: balance; }
+
+    /* sub head inside sections */
+    .subhead { font-family: var(--font-display); font-weight: 500; font-size: 22px; letter-spacing: -0.012em; line-height: 1.2; margin: 40px 0 14px; color: var(--ink); max-width: 40ch; text-wrap: balance; }
+
+    /* numbered strand / door list */
+    .move { display: grid; grid-template-columns: 74px 1fr; gap: 20px; padding: 26px 0; border-top: 1px solid var(--rule-hair); }
+    .move:first-of-type { border-top: 1px solid var(--ink); }
+    .move__n {
+      font-family: var(--font-num); font-feature-settings: var(--num-features);
+      font-size: 30px; color: var(--sage-deep); font-weight: 500; line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .move__title { font-family: var(--font-display); font-size: 20px; font-weight: 500; line-height: 1.22; letter-spacing: -0.012em; margin: 0 0 12px; color: var(--ink); max-width: 40ch; text-wrap: balance; }
+    .move__body p { font-family: var(--font-body); font-size: 15px; line-height: 1.7; color: var(--ink-soft); margin: 0 0 12px; max-width: 64ch; text-wrap: pretty; }
+    .move__body p:last-child { margin-bottom: 0; }
+    .move__body strong { color: var(--ink); font-weight: 600; }
+    .move__body em { color: var(--ink); }
+
+    /* tables / rubrics — allowed to break wider than the measure */
+    .rubric-wrap { margin: 24px 0; }
+    .rubric-title { font-family: var(--font-body); font-style: italic; font-size: 13px; color: var(--ink-muted); margin: 0 0 12px; }
+    table.rubric {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-body);
+    }
+    table.rubric thead tr { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    table.rubric th {
+      font-family: var(--font-display); font-size: 10.5px; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted);
+      padding: 11px 16px 11px 0; text-align: left; vertical-align: bottom;
+    }
+    table.rubric td {
+      padding: 15px 16px 15px 0; border-bottom: 1px solid var(--rule-hair);
+      color: var(--ink-soft); vertical-align: top; line-height: 1.5; font-size: 13px;
+    }
+    table.rubric td:last-child, table.rubric th:last-child { padding-right: 0; }
+    table.rubric td:first-child {
+      font-family: var(--font-display); font-weight: 500; font-size: 13.5px;
+      letter-spacing: -0.005em; color: var(--ink);
+    }
+    table.rubric strong { color: var(--ink); font-weight: 600; }
+    table.rubric em { color: var(--ink); }
+    table.rubric .num { font-family: var(--font-num); }
+
+    .rubric-note { font-family: var(--font-body); font-style: italic; font-size: 12px; color: var(--ink-muted); margin: 12px 0 0; max-width: 72ch; }
+
+
+    /* figures — diagrams and screenshots. Allowed to break the measure. */
+    figure.fig { margin: 38px 0; }
+    figure.fig img { display: block; width: 100%; height: auto; border: 1px solid var(--rule-soft); }
+    figure.fig figcaption { font-family: var(--font-body); font-style: italic; font-size: 12.5px; line-height: 1.6; color: var(--ink-muted); margin-top: 12px; max-width: 76ch; text-wrap: pretty; }
+    figure.fig figcaption b { font-style: normal; font-weight: 600; color: var(--ink-soft); }
+    figure.fig figcaption a { color: var(--sage-deep); text-decoration: none; border-bottom: 1px solid var(--sage); }
+    figure.fig figcaption a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+    /* .fig--shot: a tall UI screenshot, cropped to a fixed frame with a link out */
+    figure.fig--shot .fig__frame { max-height: 640px; overflow: hidden; border: 1px solid var(--rule-soft); }
+    figure.fig--shot img { border: 0; }
+
+    /* .fig--draw: diagrams drawn in the article's own type. No raster, no second palette. */
+    .dg { border: 1px solid var(--rule-soft); background: var(--bg); padding: 30px 30px 26px; font-family: var(--font-display); }
+    .dg svg { display: block; width: 100%; height: auto; }
+    .dg text { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.005em; }
+    .dg .t-lab { font-size: 11px; letter-spacing: 0.16em; fill: var(--ink-muted); }
+    .dg .t-main { font-size: 13px; fill: var(--ink); }
+    .dg .t-sum { font-size: 13.5px; fill: var(--ink); font-weight: 600; }
+    .dg .t-note { font-family: var(--font-body); font-style: italic; font-size: 11.5px; letter-spacing: 0; fill: var(--ink-muted); font-weight: 400; }
+    .dg .t-sage { fill: var(--sage-deep); }
+    .dg .s-ink { fill: none; stroke: var(--ink); stroke-width: 1; }
+    .dg .s-soft { fill: none; stroke: var(--rule-soft); stroke-width: 1; }
+    .dg .s-hair { fill: none; stroke: var(--rule-hair); stroke-width: 1; }
+    .dg .s-sage { fill: none; stroke: var(--sage-deep); stroke-width: 1; }
+    .dg .f-raise { fill: var(--bg-raised); stroke: var(--ink); stroke-width: 1; }
+    .dg .f-sage { fill: var(--sage-wash); stroke: var(--sage-deep); stroke-width: 1; }
+
+    /* lanes (fig 2) */
+    .dg-lanes { display: grid; grid-template-columns: 1fr 92px 1fr 92px 1fr; align-items: stretch; }
+    .dg-lane { border: 1px solid var(--rule-soft); background: var(--bg-raised); padding: 20px 20px 18px; display: flex; flex-direction: column; }
+    .dg-lane--code { border-color: var(--sage-deep); background: var(--sage-wash); }
+    .dg-lane__h { font-family: var(--font-display); font-size: 11.5px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); margin: 0; }
+    .dg-lane--code .dg-lane__h { color: var(--sage-deep); }
+    .dg-lane__sub { font-family: var(--font-body); font-style: italic; font-size: 11.5px; color: var(--ink-muted); margin: 6px 0 14px; }
+    .dg-lane ul { list-style: none; margin: 0; padding: 14px 0 0; border-top: 1px solid var(--rule-hair); display: grid; gap: 9px; }
+    .dg-lane li { font-family: var(--font-body); font-size: 13px; line-height: 1.4; color: var(--ink-soft); }
+    .dg-lane__foot { font-family: var(--font-body); font-style: italic; font-size: 11.5px; line-height: 1.5; color: var(--ink-muted); margin: auto 0 0; padding-top: 18px; }
+    .dg-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 0 6px; }
+    .dg-arrow__g { font-size: 15px; color: var(--sage-deep); line-height: 1; }
+    .dg-arrow__t { font-family: var(--font-body); font-style: italic; font-size: 11px; line-height: 1.35; color: var(--ink-muted); text-align: center; }
+    .dg-bar { margin-top: 14px; border-top: 1px dashed var(--rule-soft); padding-top: 12px; font-family: var(--font-body); font-style: italic; font-size: 11.5px; color: var(--ink-muted); text-align: center; }
+    .dg-bar b { font-style: normal; font-weight: 600; color: var(--sage-deep); }
+
+    /* pipeline (fig 4) */
+    .dg-step { display: grid; grid-template-columns: 30px 1fr 1fr; gap: 0 26px; padding: 15px 0; border-top: 1px solid var(--rule-hair); }
+    .dg-step:first-child { border-top: 0; padding-top: 0; }
+    .dg-step--gate { background: var(--sage-wash); padding-left: 14px; padding-right: 14px; margin-left: -14px; margin-right: -14px; }
+    .dg-step__n { font-family: var(--font-num); font-size: 12px; font-weight: 600; color: var(--sage-deep); font-feature-settings: var(--num-features); padding-top: 3px; }
+    .dg-step__h { font-family: var(--font-display); font-size: 15px; font-weight: 500; letter-spacing: -0.01em; color: var(--ink); margin: 0; }
+    .dg-step__sub { font-family: var(--font-body); font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); margin: 4px 0 0; }
+    .dg-step__find { font-family: var(--font-body); font-style: italic; font-size: 12.5px; line-height: 1.55; color: var(--ink-muted); margin: 0; text-wrap: pretty; }
+    .dg-step__find b { display: block; font-family: var(--font-display); font-style: normal; font-weight: 600; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage-deep); margin-bottom: 4px; }
+    .dg-out { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
+    .dg-out__box { border: 1px solid var(--rule-soft); background: var(--bg-raised); padding: 16px 18px; }
+    .dg-out__box--esc { border-color: var(--sage-deep); background: var(--sage-wash); }
+    .dg-out__h { font-family: var(--font-display); font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin: 0 0 8px; }
+    .dg-out__box--esc .dg-out__h { color: var(--sage-deep); }
+    .dg-out__b { font-family: var(--font-body); font-size: 12.5px; line-height: 1.55; color: var(--ink-soft); margin: 0; }
+    .dg-out__n { font-family: var(--font-body); font-style: italic; font-size: 11.5px; color: var(--ink-muted); margin: 8px 0 0; }
+    .dg-foot { font-family: var(--font-body); font-style: italic; font-size: 11.5px; color: var(--ink-muted); margin: 22px 0 0; padding-top: 14px; border-top: 1px solid var(--rule-hair); }
+
+    /* short version box */
+    .tldr {
+      border: 1px solid var(--ink);
+      padding: 28px 30px;
+      max-width: var(--measure);
+      margin: 8px 0 0;
+      background: var(--bg-raised);
+    }
+    .tldr__label { font-family: var(--font-body); font-style: italic; font-size: 12.5px; color: var(--sage-deep); margin: 0 0 12px; }
+    .tldr p { font-family: var(--font-body); font-size: 15.5px; line-height: 1.7; color: var(--ink-soft); margin: 0 0 12px; text-wrap: pretty; }
+    .tldr strong { color: var(--ink); font-weight: 600; }
+    ol.tldr__list { margin: 0; padding-left: 22px; }
+    ol.tldr__list li { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 6px; }
+    ol.tldr__list li::marker { color: var(--sage-deep); font-family: var(--font-num); }
+
+    /* strategy checklist */
+    ol.priority { list-style: none; padding: 0; margin: 20px 0 0; max-width: 74ch; counter-reset: p; }
+    ol.priority li {
+      display: grid; grid-template-columns: auto 1fr; gap: 18px;
+      padding: 16px 0; border-top: 1px solid var(--rule-hair);
+      align-items: baseline;
+    }
+    ol.priority li:first-child { border-top: 1px solid var(--ink); }
+    ol.priority .priority__n {
+      font-family: var(--font-num); font-feature-settings: var(--num-features);
+      font-size: 12px; color: var(--sage-deep); font-weight: 600;
+    }
+    ol.priority .priority__body { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin: 0; text-wrap: pretty; max-width: 64ch; }
+    ol.priority .priority__body strong { color: var(--ink); font-weight: 600; }
+
+    /* sources */
+    ol.sources { margin: 8px 0 0; padding: 0; list-style: none; counter-reset: src; max-width: 78ch; }
+    ol.sources li {
+      counter-increment: src;
+      position: relative;
+      padding: 10px 0 10px 34px; border-top: 1px solid var(--rule-hair);
+      font-family: var(--font-body); font-size: 12.5px; line-height: 1.55; color: var(--ink-muted);
+      text-wrap: pretty;
+    }
+    ol.sources li:first-child { border-top: 1px solid var(--ink); }
+    ol.sources li::before {
+      content: counter(src);
+      position: absolute; left: 0; top: 10px;
+      font-family: var(--font-num); font-feature-settings: var(--num-features);
+      font-size: 11px; color: var(--sage-deep); font-weight: 600;
+      line-height: 1.55;
+    }
+    ol.sources li em { color: var(--ink-soft); font-style: italic; }
+
+    /* back link */
+    .backlink {
+      display: inline-flex; align-items: baseline; gap: 8px;
+      font-family: var(--font-body); font-style: italic; font-size: 13px;
+      color: var(--ink-soft); text-decoration: none;
+      border-bottom: 1px solid var(--rule-soft); padding-bottom: 1px;
+      transition: color 140ms, border-color 140ms;
+    }
+    .backlink:hover { color: var(--sage-deep); border-bottom-color: var(--sage); }
+    .backlink__arrow { font-style: normal; color: var(--sage-deep); }
+    .backlink--top { margin-bottom: 40px; }
+
+    .meta {
+      display: flex; flex-wrap: wrap; gap: 24px 32px;
+      margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--rule-hair);
+      font-family: var(--font-num); font-size: 11px; color: var(--ink-muted);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .meta__k { color: var(--ink); font-weight: 500; margin-right: 8px; }
+    .meta span { display: inline-flex; align-items: baseline; }
+
+    .toc {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 28px;
+      max-width: var(--measure); margin: 28px 0 0; border-top: 1px solid var(--ink);
+    }
+    .toc a {
+      display: grid; grid-template-columns: 42px 1fr;
+      padding: 10px 0; border-bottom: 1px solid var(--rule-hair);
+      font-family: var(--font-body); font-size: 13.5px; color: var(--ink); text-decoration: none;
+      align-items: baseline;
+    }
+    .toc a:hover { color: var(--sage-deep); }
+    .toc__n { font-family: var(--font-num); font-feature-settings: var(--num-features); font-size: 10.5px; color: var(--sage-deep); letter-spacing: 0.04em; }
+    .toc__t { letter-spacing: -0.002em; }
+
+    footer.foot {
+      margin-top: 90px; padding-top: 24px;
+      border-top: 1px solid var(--ink);
+      display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+      font-family: var(--font-body); font-size: 12px; color: var(--ink-muted);
+    }
+
+    a { color: var(--sage-deep); } a:hover { color: var(--ink); }
+    .dg .t-tick { font-family: var(--font-body); font-size: 11px; fill: var(--ink-muted); font-weight: 400; letter-spacing: 0; }
+    @media (max-width: 860px) {
+      table.rubric { font-size: 12px; }
+      table.rubric td { font-size: 12px; }
+    }
+    @media (max-width: 860px) {
+      .dg-lanes { grid-template-columns: 1fr; }
+      .dg-arrow { flex-direction: row; padding: 10px 0; gap: 10px; }
+      .dg-arrow__g { transform: rotate(90deg); }
+      .dg-step { grid-template-columns: 26px 1fr; gap: 0 16px; }
+      .dg-step__find { grid-column: 2; margin-top: 10px; }
+      .dg-out { grid-template-columns: 1fr; }
+      .dg { padding: 22px 18px; }
+    }
+    @media (max-width: 760px) {
+      .page { padding: 36px 20px 60px; }
+      h1.display { font-size: 36px; }
+      .part-head h2 { font-size: 30px; }
+      .move { grid-template-columns: 1fr; gap: 8px; }
+      .move__n { font-size: 24px; }
+      .toc { grid-template-columns: 1fr; }
+      /* let wide tables scroll horizontally on small screens */
+      .rubric-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      table.rubric { min-width: 640px; }
+    }
+  </style>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#FAF7F2">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FAF7F2"/>
+    <path d="M380 260 L820 540" stroke="#1F1F1F" stroke-width="14" fill="none"/>
+    <path d="M380 540 L820 260" stroke="#5E6F54" stroke-width="14" fill="none"/>
+  </svg>
+</template>
+<main class="page" data-screen-label="The Price Fell. The Bill Didn't.">
+  <a class="backlink backlink--top" href="../index.html"><span class="backlink__arrow">&#8592;</span> Home</a>
+  <header>
+    <p class="smallcaps">Tokenomics &middot; October 2026</p>
+    <h1 class="display" style="margin-top: 18px; max-width: 20ch;">The Price Fell. The Bill Didn&rsquo;t.</h1>
+    <p class="display" style="font-size: 21px; color: var(--sage-deep); font-style: italic; font-weight: 400; margin-top: 16px; max-width: 52ch; line-height: 1.35;">Tokenomics in October 2026: the state of the market, four months on.</p>
+    <p class="lede" style="margin-top: 28px;">In June I wrote that the cost of running AI on legal work was quietly rising (<a href="tokenomics-of-legal-ai.html">Tokenomics: Why the Cost of Legal AI Is Quietly Rising</a>). Since then the price of the raw material has collapsed. Bills haven&rsquo;t. This piece is about the gap between those two sentences. A legal AI platform sits between you and the frontier labs the way an energy retailer sits between you and the wholesale market: it buys at spot and sells you a flat rate. This quarter the spot price fell hard. The flat rate didn&rsquo;t move. Figures current as at <span class="num">10 October 2026</span>; pricing in this market changes weekly.</p>
+    <div class="meta">
+      <span><span class="meta__k">Author</span> Joel Seignior</span>
+      <span><span class="meta__k">Drafted</span> <span class="num">11 October 2026</span></span>
+      <span><span class="meta__k">Read</span> 13 min</span>
+    </div>
+    <nav class="toc" aria-label="Contents">
+      <a href="#s00"><span class="toc__n">00</span><span class="toc__t">Prices collapsed in about ten days</span></a>
+      <a href="#s01"><span class="toc__n">01</span><span class="toc__t">The other half of the equation</span></a>
+      <a href="#s02"><span class="toc__n">02</span><span class="toc__t">Tokens per task is a design decision</span></a>
+      <a href="#s03"><span class="toc__n">03</span><span class="toc__t">Nobody can see the spread</span></a>
+      <a href="#s04"><span class="toc__n">04</span><span class="toc__t">The pass-through test</span></a>
+      <a href="#s05"><span class="toc__n">05</span><span class="toc__t">Meanwhile, at the tennis</span></a>
+      <a href="#s06"><span class="toc__n">06</span><span class="toc__t">The meter, and who&rsquo;s watching it</span></a>
+      <a href="#s07"><span class="toc__n">07</span><span class="toc__t">At home in Australia</span></a>
+      <a href="#close"><span class="toc__n">08</span><span class="toc__t">Before the next renewal</span></a>
+      <a href="#sources"><span class="toc__n">&mdash;</span><span class="toc__t">Sources</span></a>
+    </nav>
+  </header>
+  <div style="margin-top: 44px;">
+    <div class="tldr">
+      <p class="tldr__label">The short version</p>
+      <p>In June I wrote that the cost of legal AI was quietly rising. Since then the price per token has collapsed, and bills haven&rsquo;t moved.</p>
+      <ol class="tldr__list">
+        <li>Three labs landed in the same US$10&ndash;20 output band inside ten days, and budget models now run at <span class="num">US$0.50</span> per million output tokens and below.</li>
+        <li>Tokens per task went the other way, far enough that Harvey was reportedly spending <span class="num">$1.50</span> on models for every customer dollar by June.</li>
+        <li>The gap between what you pay and what it costs to serve you swung twice this year, and fixed-price customers may be unaware.</li>
+      </ol>
+      <p style="margin-top: 12px; margin-bottom: 0;"><strong>The gap between the spot price and your price is the product you are buying.</strong></p>
+    </div>
+  </div>
+
+  <section class="section" id="s00">
+    <div class="section__head">
+      <h2 class="display">Prices collapsed in about ten days.</h2>
+      <p class="smallcaps">00 &mdash; the june call, reversed</p>
+    </div>
+    <div class="copy">
+      <p>In June <span class="num">2026</span> a new AI model cost more to run than the one it replaced. OpenAI launched GPT-5.5 in April at roughly double its predecessor&rsquo;s per-token price, and I wrote about rising costs on that basis.<sup class="fn"><a href="#s2">2</a></sup></p>
+      <p>This is not the case right now. Anthropic cancelled a planned <span class="num">50%</span> price rise on its mid-tier Sonnet model on <span class="num">11 August 2026</span> and locked the old rate in. On <span class="num">1 September</span> it cut the price of cached reads by <span class="num">75%</span>. Cached reads are what agents do constantly, so that cut passes straight into agentic workloads. On <span class="num">22 September</span> it released Opus 5.5 at US$<span class="num">4</span> in, US$<span class="num">20</span> out per million tokens, cheaper than its own predecessor.<sup class="fn"><a href="#s1">1</a></sup> OpenAI answered a week later with GPT-6.1 Sol at $<span class="num">2</span> and $<span class="num">10</span>. Google priced Gemini 4 Argon at $<span class="num">2</span> and $<span class="num">10</span> the next day.<sup class="fn"><a href="#s2">2</a></sup></p>
+      <p><strong>Three labs landed in the same US$10&ndash;20 output band inside ten days, one of them at an introductory rate.</strong></p>
+      <p>There&rsquo;s also a new pricing floor. Budget models now run at US$<span class="num">0.50</span> per million output tokens and below, and OpenAI&rsquo;s new Decisions service prices bulk classification at $<span class="num">0.10</span> per million in, with no charge for output.<sup class="fn"><a href="#s1">1</a></sup><sup class="fn"><a href="#s2">2</a></sup> For sorting and triage work, the metered cost of intelligence is heading towards insignificance.</p>
+      <p>So why didn&rsquo;t anyone&rsquo;s bill go down?</p>
+    </div>    <figure class="fig fig--draw">
+      <div class="dg">
+        <svg viewBox="0 0 1000 650" role="img" aria-label="Top panel: output prices per million tokens for the main frontier tiers, January to October 2026, rising in April then collapsing in late September. Bottom panel: Harvey's monthly token consumption rising from about 1 trillion in January to 12-13 trillion in May.">
+          <text class="t-lab" x="70" y="34">PRICES WENT DOWN &mdash; OUTPUT PRICE, US$ PER MILLION TOKENS</text>
+          <line class="s-hair" x1="70" y1="94.3" x2="843.5" y2="94.3" /><line class="s-hair" x1="70" y1="162.9" x2="843.5" y2="162.9" /><line class="s-hair" x1="70" y1="231.4" x2="843.5" y2="231.4" />
+          <line class="s-ink" x1="70" y1="300" x2="843.5" y2="300" />
+          <text class="t-tick" x="60" y="304" text-anchor="end">0</text><text class="t-tick" x="60" y="235" text-anchor="end">10</text><text class="t-tick" x="60" y="167" text-anchor="end">20</text><text class="t-tick" x="60" y="98" text-anchor="end">30</text>
+          <path class="s-ink" style="stroke-width:2" d="M70 197.1 H380 V94.3 H813.4 V231.4 H843.5" />
+          <path class="s-sage" style="stroke-width:2" d="M70 128.6 H794.2 V162.9 H843.5" />
+          <path class="s-sage" style="stroke-width:2" stroke-dasharray="6 4" d="M70 231.4 H843.5" />
+          <path class="s-ink" style="stroke-width:4" stroke-dasharray="2 3" d="M816.1 231.4 H843.5" />
+          <circle cx="835.3" cy="296.6" r="4" fill="var(--sage-deep)" />
+          <text class="t-main" x="80" y="189">OpenAI flagship</text>
+          <text class="t-main t-sage" x="80" y="120">Anthropic Opus</text>
+          <text class="t-main t-sage" x="80" y="223">Anthropic Sonnet (dashed)</text>
+          <text class="t-note" x="390" y="84">GPT-5.5 launches at 2&times; its predecessor (Apr)</text>
+          <text class="t-note" x="680" y="252" text-anchor="middle">planned Sonnet rise to $15 cancelled (11 Aug)</text>
+          <text class="t-note" x="784" y="192" text-anchor="end">22&ndash;30 Sep: three labs land at $10&ndash;20</text>
+          <text class="t-note" x="784" y="207" text-anchor="end">inside ten days</text>
+          <text class="t-main t-sage" x="852" y="167">$20 Opus 5.5</text>
+          <text class="t-main" x="852" y="228">$10 Sol &middot; Argon*</text>
+          <text class="t-main t-sage" x="852" y="244">$10 Sonnet</text>
+          <text class="t-main t-sage" x="852" y="300">$0.50 new floor</text>
+          <text class="t-tick" x="70" y="320" text-anchor="middle">Jan</text><text class="t-tick" x="231.8" y="320" text-anchor="middle">Mar</text><text class="t-tick" x="399.2" y="320" text-anchor="middle">May</text><text class="t-tick" x="566.5" y="320" text-anchor="middle">Jul</text><text class="t-tick" x="736.5" y="320" text-anchor="middle">Sep</text>
+          <text class="t-lab" x="70" y="384">&hellip;AND CONSUMPTION WENT UP &mdash; HARVEY&rsquo;S TOKENS PER MONTH, TRILLIONS</text>
+          <line class="s-hair" x1="70" y1="520" x2="843.5" y2="520" /><line class="s-hair" x1="70" y1="440" x2="843.5" y2="440" />
+          <line class="s-ink" x1="70" y1="600" x2="843.5" y2="600" />
+          <text class="t-tick" x="60" y="604" text-anchor="end">0</text><text class="t-tick" x="60" y="524" text-anchor="end">10</text><text class="t-tick" x="60" y="444" text-anchor="end">20</text>
+          <path class="s-ink" style="stroke-width:2.5" d="M105.7 592 L451.3 500" />
+          <path class="s-ink" style="stroke-width:2.5" stroke-dasharray="6 5" d="M451.3 500 L788.7 440" />
+          <circle cx="105.7" cy="592" r="4.5" fill="var(--ink)" /><circle cx="451.3" cy="500" r="4.5" fill="var(--ink)" />
+          <circle cx="788.7" cy="440" r="5" fill="var(--bg)" stroke="var(--sage-deep)" stroke-width="1.5" />
+          <text class="t-main" x="100" y="540">1T</text><text class="t-note" x="100" y="555">founder-stated</text>
+          <text class="t-main" x="462" y="524">12&ndash;13T</text><text class="t-note" x="462" y="539">founder-stated</text>
+          <text class="t-main t-sage" x="776" y="414" text-anchor="end">~20&times; on the year</text><text class="t-note" x="776" y="429" text-anchor="end">company-stated growth; September level not disclosed</text>
+          <text class="t-tick" x="70" y="620" text-anchor="middle">Jan</text><text class="t-tick" x="231.8" y="620" text-anchor="middle">Mar</text><text class="t-tick" x="399.2" y="620" text-anchor="middle">May</text><text class="t-tick" x="566.5" y="620" text-anchor="middle">Jul</text><text class="t-tick" x="736.5" y="620" text-anchor="middle">Sep</text>
+        </svg>
+      </div>
+      <figcaption><b>Fig. 1 &mdash; The scissors: what legal AI costs is no longer about the rate card.</b> Published list output rates as at <span class="num">10 October 2026</span>: Anthropic checked against its live pricing page; OpenAI and Google per launch announcements and independent price trackers. *Gemini 4 Argon shown at its introductory rate. Consumption is Harvey&rsquo;s reported monthly token use: January and May founder-stated; the ~<span class="num">20</span>&times; is company-stated year-to-date growth via Bloomberg (September <span class="num">2026</span>), and a July founder statement put six-month growth at <span class="num">14</span>&times;. The September absolute level is not disclosed, so its point is drawn open and the line dashed.</figcaption>
+    </figure>
+  </section>
+
+  <section class="section" id="s01">
+    <div class="section__head">
+      <h2 class="display">The other half of the equation went the other way.</h2>
+      <p class="smallcaps">01 &mdash; tokens per task</p>
+    </div>
+    <div class="copy">
+      <p>Price per token was always only half of it. The other half is tokens per task.</p>
+      <p>A non-agentic contract summary still costs cents. An agent is different. It plans, re-reads the documents, calls tools, checks its own output, and re-sends the conversation history at every step. The study I cited in June put agentic tasks at roughly <span class="num">1,000</span> times the tokens of a single chat exchange, with up to <span class="num">30</span>-fold variance between runs of the same task.<sup class="fn"><a href="#s3">3</a></sup></p>
+    </div>    <figure class="fig fig--draw">
+      <div class="dg">
+        <svg viewBox="0 0 1060 420" role="img" aria-label="Left: a prompt plus document produces one answer; the document is read once. Right: an agent plans, re-reads the documents, calls a tool, checks its output, and re-sends the entire conversation at every step, then repeats.">
+          <line class="s-hair" x1="300" y1="30" x2="300" y2="330" />
+          <text class="t-lab" x="140" y="20" text-anchor="middle">ONE QUESTION, ONE ANSWER</text>
+          <rect class="f-raise" x="40" y="70" width="200" height="56" />
+          <text class="t-main" x="140" y="94" text-anchor="middle">your prompt</text><text class="t-main" x="140" y="111" text-anchor="middle">+ the document</text>
+          <line class="s-ink" x1="140" y1="126" x2="140" y2="176" /><path fill="var(--ink)" d="M140 184 l4.5 -10 h-9 Z" />
+          <rect class="f-raise" x="40" y="186" width="200" height="56" />
+          <text class="t-main" x="140" y="219" text-anchor="middle">one answer</text>
+          <text class="t-note" x="140" y="270" text-anchor="middle">the document is read once</text>
+          <text class="t-sum" x="140" y="300" text-anchor="middle">cost: cents</text>
+          <text class="t-lab" x="640" y="20" text-anchor="middle">AN AGENT, SAME TASK</text>
+          <rect class="f-raise" x="360" y="56" width="210" height="52" /><text class="t-main" x="465" y="87" text-anchor="middle">plan the task</text>
+          <rect class="f-raise" x="710" y="56" width="210" height="52" /><text class="t-main" x="815" y="87" text-anchor="middle">re-read the documents</text>
+          <rect class="f-raise" x="710" y="156" width="210" height="52" /><text class="t-main" x="815" y="178" text-anchor="middle">call a tool,</text><text class="t-main" x="815" y="195" text-anchor="middle">get results back</text>
+          <rect class="f-raise" x="360" y="156" width="210" height="52" /><text class="t-main" x="465" y="187" text-anchor="middle">check its own output</text>
+          <line class="s-ink" x1="570" y1="82" x2="700" y2="82" /><path fill="var(--ink)" d="M708 82 l-10 4.5 v-9 Z" />
+          <line class="s-ink" x1="815" y1="108" x2="815" y2="146" /><path fill="var(--ink)" d="M815 154 l4.5 -10 h-9 Z" />
+          <line class="s-ink" x1="710" y1="182" x2="580" y2="182" /><path fill="var(--ink)" d="M572 182 l10 4.5 v-9 Z" />
+          <line class="s-sage" style="stroke-width:1.5" x1="465" y1="208" x2="465" y2="246" /><path fill="var(--sage-deep)" d="M465 254 l4.5 -10 h-9 Z" />
+          <rect class="f-sage" x="360" y="256" width="560" height="50" />
+          <text class="t-sum t-sage" x="640" y="286" text-anchor="middle">re-send the entire conversation so far, every step</text>
+          <path class="s-sage" style="stroke-width:1.5" d="M920 281 C 975 281, 975 82, 930 82" /><path fill="var(--sage-deep)" d="M922 82 l10 -4.5 v9 Z" />
+          <text class="t-note t-sage" x="968" y="176">repeat,</text><text class="t-note t-sage" x="968" y="191">step after</text><text class="t-note t-sage" x="968" y="206">step</text>
+          <line class="s-hair" x1="40" y1="350" x2="960" y2="350" />
+          <text class="t-sum" x="500" y="382" text-anchor="middle">~1,000&times; the tokens of a single exchange; up to 30&times; variance between runs of the same task</text>
+        </svg>
+      </div>
+      <figcaption><b>Fig. 2 &mdash; Why the agent&rsquo;s bill is not the chatbot&rsquo;s bill.</b> The single exchange reads the document once. The agent re-sends everything it has seen at every step, so cost grows with the number of steps, not the size of the question. Consumption multiple and run variance from a controlled study (arXiv <span class="num">2604.22750</span>).</figcaption>
+    </figure>
+    <div class="copy">
+      <p>The legal AI platforms have shown this to be true, most visibly Harvey. Harvey upgraded its agents in March. Usage rose about twentyfold in <span class="num">2026</span>, a figure the company itself has used. By June, Bloomberg reported in September, citing people familiar with the figures, Harvey&rsquo;s gross margin had gone from around plus <span class="num">50%</span> to around minus <span class="num">50%</span>. It was reported to be paying its model suppliers roughly $<span class="num">1.50</span> for every dollar its customers paid it. Harvey declined to comment on the figures at the time and has not confirmed them since.<sup class="fn"><a href="#s4">4</a></sup></p>
+      <p>The legal AI platforms have the best consumption data in the market, and they may have misjudged the curve badly enough to spend a quarter underwater. <strong>A law firm or in-house legal team forecasting its own usage may have even less to go on.</strong></p>
+      <p>By September the margin was reportedly positive again.<sup class="fn"><a href="#s4">4</a></sup> Seat prices didn&rsquo;t move in either direction. The trade press credited Harvey&rsquo;s new in-house model, but that model was a research preview at the time, not live in the product.<sup class="fn"><a href="#s5">5</a></sup> Bloomberg&rsquo;s sentence, as quoted by the few outlets that kept it, was that margins recovered after the launch &ldquo;and other changes to how it uses AI&rdquo;: routing work between cheaper and dearer models, caching what gets re-read, cutting the number of steps the agents take.<sup class="fn"><a href="#s4">4</a></sup> The other half of the fix came from its suppliers. The cancelled August price rise and the September cache cut land directly on an agent-heavy bill. The headline collapse came later; by the time Opus 5.5 and Sol launched, the margin had already reportedly turned.<sup class="fn"><a href="#s1">1</a></sup></p>
+    </div>
+  </section>
+
+  <section class="section" id="s02">
+    <div class="section__head">
+      <h2 class="display">Tokens per task is a design decision.</h2>
+      <p class="smallcaps">02 &mdash; the settings are the budget</p>
+    </div>
+    <div class="copy">
+      <p>Your cost is price per token times tokens per task. You don&rsquo;t control the first number, and this quarter it fell without your help. The second number is set by choices: how the agent plans, how often it re-reads the file, which model handles which step, when it stops (controls the platform sets if you run its out-of-the-box agents, and your design choice for anything you engineer yourself). On the cases that have surfaced so far, vendors that post-trained their own models this year were buying fewer steps, not cheaper rates. One published experiment, Fireworks AI&rsquo;s Ember-1 results from late September, got the same tasks done with about <span class="num">40%</span> fewer tokens after post-training.<sup class="fn"><a href="#s6">6</a></sup></p>
+      <p>Step limits, scoped tools, a defined point where the agent stops and hands back. Those controls exist, and they are cost controls. On a flat seat the vendor feels them; on consumption pricing you do. And the platforms are moving that way. When Legora moved its flagship tier to consumption in June, its own announcement said customers pay &ldquo;a recurring Platform Fee plus Credits,&rdquo; with the details &ldquo;set out in the customer&rsquo;s individual agreement.&rdquo;<sup class="fn"><a href="#s13">13</a></sup> <strong>The meter is arriving; a rate card hasn&rsquo;t arrived with it.</strong></p>
+      <p><strong>Control of the agents and the systems around them has always been the key.</strong></p>
+    </div>
+  </section>
+
+  <section class="section" id="s03">
+    <div class="section__head">
+      <h2 class="display">Nobody can see the spread.</h2>
+      <p class="smallcaps">03 &mdash; two swings, no rate card</p>
+    </div>
+    <div class="copy">
+      <p>Now something becomes clear about the price you pay, at least while you are on a fixed seat rather than a meter.</p>
+      <p>In June, a firm paying the going rate for a premium platform was being subsidised. The vendor was losing money on every customer dollar, and its investors were covering the difference. By September the engineering had caught up and the margin was positive again.<sup class="fn"><a href="#s4">4</a></sup> Then the input price collapsed. Through all of this the seat price did not move, but the platforms started flirting with consumption pricing.</p>
+    </div>    <figure class="fig fig--draw">
+      <div class="dg">
+        <svg viewBox="0 0 1000 470" role="img" aria-label="Schematic. A flat line at one dollar for what the customer pays. The cost to serve rises from 50 cents in early 2026 to 1.50 dollars in June, then falls back below one dollar by September, at an undisclosed level.">
+          <defs>
+            <clipPath id="spAbove"><rect x="0" y="0" width="1000" height="220" /></clipPath>
+            <clipPath id="spBelow"><rect x="0" y="220" width="1000" height="200" /></clipPath>
+          </defs>
+          <path id="spArea" d="M80 320 H248 C330 320 450 120 550 120 C650 120 720 260 812 260 H900 V220 H80 Z" fill="var(--sage-wash)" clip-path="url(#spAbove)" />
+          <path d="M80 320 H248 C330 320 450 120 550 120 C650 120 720 260 812 260 H900 V220 H80 Z" fill="var(--bg-raised)" clip-path="url(#spBelow)" />
+          <line class="s-hair" x1="80" y1="120" x2="900" y2="120" /><line class="s-hair" x1="80" y1="320" x2="900" y2="320" />
+          <line class="s-ink" x1="80" y1="420" x2="900" y2="420" /><line class="s-ink" x1="80" y1="60" x2="80" y2="420" />
+          <text class="t-tick" x="70" y="424" text-anchor="end">$0</text><text class="t-tick" x="70" y="324" text-anchor="end">$0.50</text><text class="t-tick" x="70" y="224" text-anchor="end">$1.00</text><text class="t-tick" x="70" y="124" text-anchor="end">$1.50</text>
+          <rect x="772" y="224" width="128" height="106" fill="none" stroke="var(--sage-deep)" stroke-width="1" stroke-dasharray="3 3" />
+          <line class="s-ink" style="stroke-width:2.5" x1="80" y1="220" x2="900" y2="220" />
+          <path class="s-sage" style="stroke-width:2.5" d="M80 320 H248 C330 320 450 120 550 120" />
+          <path class="s-sage" style="stroke-width:2.5" stroke-dasharray="7 5" d="M550 120 C650 120 720 260 812 260 H900" />
+          <text class="t-main" x="896" y="212" text-anchor="end">what you pay &mdash; flat all year</text>
+          <text class="t-sum t-sage" x="565" y="172" text-anchor="middle">cost above price:</text><text class="t-note t-sage" x="565" y="190" text-anchor="middle">investors covered the difference</text>
+          <text class="t-sum" x="94" y="262">cost below price:</text><text class="t-note" x="94" y="279">the vendor keeps the difference</text>
+          <text class="t-main t-sage" x="565" y="96" text-anchor="middle">June: $1.50 spent to serve each customer dollar</text><text class="t-note" x="565" y="111" text-anchor="middle">gross margin ~&minus;50%</text>
+          <text class="t-main" x="90" y="346">early 2026: gross margin ~+50%</text><text class="t-note" x="90" y="361">cost ~$0.50 per customer dollar</text>
+          <line class="s-soft" x1="320" y1="300" x2="350" y2="352" /><text class="t-main" x="356" y="366">March: agent upgrade, usage up ~20&times;</text>
+          <text class="t-main t-sage" x="896" y="348" text-anchor="end">September: margin &ldquo;positive again&rdquo;</text><text class="t-note" x="896" y="363" text-anchor="end">level not disclosed &mdash; dashed box marks the range</text>
+          <text class="t-tick" x="80" y="440" text-anchor="middle">Jan</text><text class="t-tick" x="248" y="440" text-anchor="middle">Mar</text><text class="t-tick" x="422" y="440" text-anchor="middle">May</text><text class="t-tick" x="595" y="440" text-anchor="middle">Jul</text><text class="t-tick" x="772" y="440" text-anchor="middle">Sep</text><text class="t-tick" x="857" y="440" text-anchor="middle">Oct</text>
+          <text class="t-note" x="80" y="40">US$ spent on model suppliers, per customer dollar received</text>
+        </svg>
+      </div>
+      <figcaption><b>Fig. 3 &mdash; Nobody can see the spread.</b> Harvey&rsquo;s seat price against its reported model bill, per customer dollar. Schematic, not measured data. Margin figures reported by Bloomberg (<span class="num">21 September 2026</span>) citing people familiar with the matter; never confirmed by Harvey. The September recovery is reported only as &ldquo;positive&rdquo;: the dashed line and box mark the undisclosed range. Seat price held flat per company statements.</figcaption>
+    </figure>
+    <div class="copy">
+      <p>So the gap between what you pay and what it costs to serve you has swung twice this year, by large amounts, in both directions, and fixed-price customers may be unaware. There is no public pricing to check this against. The platform players&rsquo; pricing is opaque. Maybe that is deliberate.</p>
+      <p>Aggregators publish estimates; when one such analysis ran last year, a company spokesperson called its assumptions &ldquo;wildly off&rdquo; but did not provide any clear evidence to the contrary.<sup class="fn"><a href="#s7">7</a></sup> Its chief operating officer described the model in September as &ldquo;seats-based pricing, but with the option to do consumption for folks who are asking us for it.&rdquo;<sup class="fn"><a href="#s8">8</a></sup> The consumption rates are not published either.</p>
+      <p>This is not necessarily a bad thing. Plenty of markets pay an intermediary to take on price risk and sell certainty, and the clearest example is electricity: the wholesale price is so volatile that a flat retail rate is generally worth paying for. Whether AI price risk is worth the same premium is not yet known. A vendor that carried its customers at a loss for a quarter has a reasonable claim to the recovery. <strong>But the gap between the spot price and your price is the product you are buying.</strong> If the underlying model price has fallen, the question is what the platform gives you on top of the usage, and whether that is worth what the gap costs.</p>
+    </div>
+  </section>
+
+  <section class="section" id="s04">
+    <div class="section__head">
+      <h2 class="display">The pass-through test.</h2>
+      <p class="smallcaps">04 &mdash; wrapper against spot</p>
+    </div>
+    <div class="copy">
+      <p>If a wrapper were passing tokens through, its price would be the spot price plus a margin for what sits around it: the wrapper&rsquo;s engineering, data storage, additional security, support. So compare the routes. Anthropic lists enterprise access at US$<span class="num">20</span> a seat a month, with metered usage on top that scales with the model used; a metered bill moves when the rates move, and this quarter they moved down.<sup class="fn"><a href="#s9">9</a></sup> ChatGPT Enterprise has no published price; procurement reports put it at $<span class="num">45</span> to $<span class="num">75</span> a seat.<sup class="fn"><a href="#s10">10</a></sup> Microsoft meters Copilot at $<span class="num">30</span>.<sup class="fn"><a href="#s11">11</a></sup> A premium legal platform is reported around $<span class="num">1,200</span> a seat a month, and that figure has not moved all year, in either direction.<sup class="fn"><a href="#s7">7</a></sup></p>
+      <p>The comparison is not fair, and the unfairness is the point. The wrapper seat buys legal workflow, security the lab seat doesn&rsquo;t carry, and several frontier models bundled behind one contract instead of one lab&rsquo;s. Those are real things. Run the lab route raw and you pay for them a different way: engineers and integration work to make a bare model do what the platforms ship out of the box. Either way, at today&rsquo;s input prices, that layer is most of what the money buys. And for one quarter this year the comparison ran the other way: on the reported June figures, Harvey was spending about $<span class="num">1,800</span> on models for every $<span class="num">1,200</span> seat, so its customers were buying tokens below spot.<sup class="fn"><a href="#s4">4</a></sup></p>
+    </div>
+  </section>
+
+  <section class="section" id="s05">
+    <div class="section__head">
+      <h2 class="display">Meanwhile, at the tennis.</h2>
+      <p class="smallcaps">05 &mdash; where the raise goes</p>
+    </div>
+    <div class="copy">
+      <p>Where the money is visibly going is a different question, and this year it has a public answer.</p>
+      <p>Harvey became the first official legal assistant of the US Open, put its name up at Fulham&rsquo;s ground in the Premier League, signed NBA and WNBA teams, and on <span class="num">28 September</span> launched its first television commercials across broadcast and streaming, with print in the New York Times and Financial Times and outdoor ads as far from home as Sydney.<sup class="fn"><a href="#s12">12</a></sup> GPT-6.1 Sol launched the next day at $<span class="num">2</span> in and $<span class="num">10</span> out.<sup class="fn"><a href="#s2">2</a></sup> And in Melbourne, I&rsquo;ve watched Harvey&rsquo;s boards, the name plus &ldquo;AI Tailored for Law&rdquo;, ring the MCG at AFL game after game this season, around the boundary and along the second tier. No deal was ever announced; the LED inventory there is sold as advertising through the league&rsquo;s signage agency rather than announced as partnerships, so a buy like that leaves no press trail. You just see it from the couch.<sup class="fn"><a href="#s20">20</a></sup> Legora, Harvey&rsquo;s main rival, signed Jude Law for a global campaign in April, put its logo on a PGA golfer&rsquo;s sleeve and on Chelsea&rsquo;s training kit, and has opened offices at a pace that took it to sixteen cities on four continents by June. Harvey opened Dublin, Paris and Singapore inside six months itself.<sup class="fn"><a href="#s12">12</a></sup></p>
+      <p>To be fair about where that money comes from: it is raise money, not margin. On the reported June margins, customer fees weren&rsquo;t funding anyone&rsquo;s stadium signage. These companies have raised more than a billion US dollars between them this year, and brand is a legitimate use of it in a land grab.<sup class="fn"><a href="#s12">12</a></sup></p>
+      <p>But it tells you what the competition is about. Nobody buys the Chelsea training kit to compete on unit cost, and nobody buys stadium signage to reach a few thousand law firm procurement teams. <strong>Advertising at this scale says these companies believe their market is much bigger than law firms.</strong> With the raw material heading downwards, what a premium seat price buys is some mix of engineering you can&rsquo;t inspect, security and controls you can partly inspect, and distribution and brand you can see from a stadium seat. Which makes it fair to ask, at the next renewal, how much of the price is the product and how much is the brand.</p>
+    </div>
+  </section>
+
+  <section class="section" id="s06">
+    <div class="section__head">
+      <h2 class="display">The meter, and who&rsquo;s watching it.</h2>
+      <p class="smallcaps">06 &mdash; seats, meters and the oldest problem</p>
+    </div>
+    <div class="copy">
+      <p>The June piece noted vendors signalling a move from seats to consumption pricing. Some moved. Legora&rsquo;s flagship tier went to consumption in June, GitHub moved every Copilot plan to usage billing the same month, and Microsoft metered 365 Copilot&rsquo;s agent features in September.<sup class="fn"><a href="#s13">13</a></sup> The premium legal platforms mostly kept their seat prices and went after their own costs instead.</p>
+      <p>Firms have started metering themselves regardless. At ILTACON this year a firm&rsquo;s knowledge management counsel described finding, on a consumption bill, that a single PowerPoint had cost him $<span class="num">2</span>. Another panellist: &ldquo;most lawyers don&rsquo;t see how tokens are spent.&rdquo; The budget norm settling across the market is roughly <span class="num">1%</span> of firm revenue.<sup class="fn"><a href="#s14">14</a></sup></p>
+      <p>And the oldest problem in legal tech procurement remains: opaque pricing. Above the Law reported in March that firms of identical size using the same products routinely pay <span class="num">40</span> to <span class="num">50%</span> apart, because there are no published rate cards and pricing is negotiated firm by firm.<sup class="fn"><a href="#s15">15</a></sup> A legal AI consultancy&rsquo;s blog tells of a top firm quoted over &pound;<span class="num">200</span> a lawyer and cut <span class="num">60%</span> after one email, with no firm or platform named.<sup class="fn"><a href="#s16">16</a></sup></p>
+    </div>
+  </section>
+
+  <section class="section" id="s07">
+    <div class="section__head">
+      <h2 class="display">At home in Australia.</h2>
+      <p class="smallcaps">07 &mdash; a 750-lawyer firm, on paper</p>
+    </div>
+    <div class="copy">
+      <p>The June estimates still hold in US dollars: around US$<span class="num">1,200</span> per seat per month at the premium end before negotiation, seat minimums still apply, and discounts of <span class="num">40</span> to <span class="num">60%</span> off opening prices are still widely reported.<sup class="fn"><a href="#s7">7</a></sup><sup class="fn"><a href="#s19">19</a></sup> In Australian dollars the band has drifted down with the currency. At this month&rsquo;s exchange rate the premium range works out to roughly A$<span class="num">17,000</span> to $<span class="num">34,500</span> a seat a year, against the A$<span class="num">18,500</span> to $<span class="num">37,000</span> I quoted in June, and research bundles can push past A$<span class="num">41,000</span>.<sup class="fn"><a href="#s17">17</a></sup><sup class="fn"><a href="#s19">19</a></sup> <strong>Note what moved that number: the currency, not the vendors.</strong> These products are priced in US dollars, and an Australian buyer carries the exchange rate on top of everything else in this article.</p>
+      <p>To put a firm-sized number on it: a top-tier Australian firm runs somewhere between <span class="num">500</span> and <span class="num">1,500</span> lawyers on firm and directory counts, with the AFR&rsquo;s latest partnership survey putting top-tier partnerships at <span class="num">126</span> to <span class="num">239</span> partners.<sup class="fn"><a href="#s18">18</a></sup> Take <span class="num">750</span> lawyers as the representative case. Platform seats for every lawyer at the reported list rate come to about A$<span class="num">15.5</span> million a year; at the widely reported discounts, A$<span class="num">6</span> million to $<span class="num">9</span> million. The same lawyers&rsquo; usage bought direct at today&rsquo;s spot rates runs from about A$<span class="num">360,000</span> for chat-style use to A$<span class="num">5</span> million for agent-heavy work, plus trivial seat fees. A flat enterprise chat seat for every lawyer, at the midpoint of reported ChatGPT Enterprise pricing, comes to about A$<span class="num">0.8</span> million.<sup class="fn"><a href="#s10">10</a></sup> One top-tier firm, Corrs Chambers Westgarth, deployed Harvey firmwide in February.<sup class="fn"><a href="#s21">21</a></sup> Its terms are not public, and the 750-lawyer scenario above is an illustration, not an estimate of that deal. No major Australian firm&rsquo;s terms are public.</p>
+    </div>    <figure class="fig fig--draw">
+      <div class="dg">
+        <svg viewBox="0 0 1000 300" role="img" aria-label="Annual cost for 750 lawyers. Premium platform seats: A$15.5 million at reported list, A$6.2 to 9.3 million at 40 to 60 percent off. Metered lab route: A$0.4 million chat-style to A$4.9 million agent-heavy. Flat lab seats: A$0.8 million.">
+          <line class="s-hair" x1="428.6" y1="20" x2="428.6" y2="250" /><line class="s-hair" x1="617.1" y1="20" x2="617.1" y2="250" /><line class="s-hair" x1="805.7" y1="20" x2="805.7" y2="250" />
+          <line class="s-ink" x1="240" y1="20" x2="240" y2="250" /><line class="s-ink" x1="240" y1="250" x2="960" y2="250" />
+          <text class="t-main" x="226" y="58" text-anchor="end">Premium platform seats</text><text class="t-note" x="226" y="74" text-anchor="end">every lawyer</text>
+          <rect x="240" y="40" width="584.5" height="44" fill="none" stroke="var(--sage-deep)" stroke-width="1" />
+          <rect x="240" y="40" width="350.7" height="44" fill="var(--sage-wash)" stroke="none" />
+          <rect x="240" y="40" width="233.8" height="44" fill="var(--sage-deep)" />
+          <text x="462" y="67" text-anchor="end" style="font-size:13px;font-weight:600;fill:var(--bg)">A$6.2m at 60% off</text>
+          <text class="t-note t-sage" x="598" y="67">A$9.3m at 40% off</text>
+          <text class="t-main" x="832" y="60">A$15.5m</text><text class="t-note" x="832" y="75">at reported list</text>
+          <text class="t-main" x="226" y="134" text-anchor="end">Metered lab route</text><text class="t-note" x="226" y="150" text-anchor="end">seat fee + usage at spot</text>
+          <rect x="240" y="116" width="184.8" height="44" fill="none" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3" />
+          <rect x="240" y="116" width="15" height="44" fill="var(--ink)" />
+          <text class="t-main" x="434" y="136">A$0.4m chat-style &rarr;</text><text class="t-main" x="434" y="152">A$4.9m agent-heavy</text>
+          <text class="t-main" x="226" y="214" text-anchor="end">Flat lab seats</text>
+          <rect x="240" y="192" width="30.2" height="44" fill="var(--ink-soft)" />
+          <text class="t-main" x="280" y="219">A$0.8m</text>
+          <text class="t-tick" x="240" y="270" text-anchor="middle">0</text><text class="t-tick" x="428.6" y="270" text-anchor="middle">5</text><text class="t-tick" x="617.1" y="270" text-anchor="middle">10</text><text class="t-tick" x="805.7" y="270" text-anchor="middle">15</text>
+          <text class="t-note" x="600" y="292" text-anchor="middle">A$ million per year, 750 lawyers</text>
+        </svg>
+      </div>
+      <figcaption><b>Fig. 4 &mdash; The theoretical firm: 750 lawyers, three ways to buy the same intelligence.</b> Illustrative scenario, not any firm&rsquo;s actual bill: no major Australian firm&rsquo;s terms are public. Platform seat US$<span class="num">1,200</span>/month reported list (the Harvey-tier premium end; no vendor publishes a rate card); the shaded band is the widely reported <span class="num">40&ndash;60%</span> negotiated discount. Metered route: US$<span class="num">20</span>/seat (published) plus usage at the cheapest current frontier rate (US$<span class="num">2</span> in / $<span class="num">10</span> out per million tokens); the dashed band spans chat-style to agent-heavy usage. Flat seat US$<span class="num">60</span>, the midpoint of the reported ChatGPT Enterprise range of US$<span class="num">45&ndash;75</span>.<sup class="fn"><a href="#s10">10</a></sup> Excludes the legal workflow, security and bundling the platforms add, and the in-house engineering a raw lab route would need to replace them. A$ at <span class="num">0.698</span> (RBA, <span class="num">9 October 2026</span>).</figcaption>
+    </figure>
+    <div class="copy">
+      <p>The shaded band on that chart is the real Australian story. This quarter&rsquo;s input-price collapse changed your vendor&rsquo;s costs, not your bill. The negotiation band changes your bill, and by more than the collapse changed anything: on a 750-lawyer deployment, the distance between list and a well-negotiated rate is about A$<span class="num">9</span> million a year, which is more than the entire direct-at-spot cost of agent-heavy usage for the same lawyers. <strong>Until a consumption rate card surfaces, the discount conversation is the only lever an Australian buyer actually holds.</strong></p>
+      <p>What hasn&rsquo;t surfaced anywhere public is the per-unit pricing of the new consumption tiers. If your team is on one, you currently know more about this market&rsquo;s real prices than the press does.</p>
+    </div>
+  </section>
+  <section class="section" id="close">
+    <div class="section__head">
+      <h2 class="display">Before the next renewal.</h2>
+      <p class="smallcaps">08 &mdash; four questions to add to june&rsquo;s</p>
+    </div>
+    <div class="copy">
+      <p>The questions from June still work, so I&rsquo;ll only add to them.</p>
+    </div>
+    <ol class="priority">
+      <li><span class="priority__n">01</span><p class="priority__body"><strong>Ask your vendor what your team&rsquo;s tokens per task looks like and whether it&rsquo;s rising;</strong> that number predicts your bill better than any rate card.</p></li>
+      <li><span class="priority__n">02</span><p class="priority__body"><strong>Ask who decides which models run your work,</strong> and what changed under the hood last quarter.</p></li>
+      <li><span class="priority__n">03</span><p class="priority__body"><strong>Ask what in the price you can verify,</strong> and what you&rsquo;re taking on trust.</p></li>
+      <li><span class="priority__n">04</span><p class="priority__body"><strong>Get consumption visibility per matter written into the contract</strong> rather than demonstrated in a dashboard.</p></li>
+    </ol>
+    <div class="copy" style="margin-top: 32px;">
+      <p>And keep the master copy of your team&rsquo;s knowledge outside the tools, in formats you own. The argument of <a href="the-stack-you-didnt-choose.html">The Stack You Didn&rsquo;t Choose</a> got stronger this quarter. Control of the knowledge system has been the main game the whole time.</p>
+      <p>In June I said tokenomics was becoming a board-level line item. It&rsquo;s past that now. <strong>The price of intelligence is falling toward the floor, and what you pay will be decided by how well the systems that consume it are run, and by who runs them.</strong></p>
+    </div>
+    <div class="callout">
+      <p>Drafted with AI on a research base I curate and verify by hand. Figures current as at <span class="num">10 October 2026</span>; pricing in this market changes weekly. Chart data, build scripts and the companion calculator available on request.</p>
+    </div>
+  </section>
+  <section class="section" id="sources">
+    <div class="section__head">
+      <h2 class="display">Sources.</h2>
+      <p class="smallcaps">dated as at 10 october 2026</p>
+    </div>
+    <ol class="sources">
+      <li id="s1">Anthropic, <em>API pricing</em> and model announcements (August&ndash;October <span class="num">2026</span>) &mdash; Sonnet price-rise cancellation (<span class="num">11 Aug</span>), cached-read cut of <span class="num">75%</span> (<span class="num">1 Sep</span>), Opus 5.5 at US$<span class="num">4</span>/$<span class="num">20</span> (<span class="num">22 Sep</span>), budget tier at $<span class="num">0.50</span> output. Verified against the published pricing pages, <span class="num">10 October 2026</span>.</li>
+      <li id="s2">OpenAI and Google, launch announcements (April&ndash;October <span class="num">2026</span>) &mdash; GPT-5.5 at roughly <span class="num">2</span>&times; its predecessor (April); GPT-6.1 Sol at $<span class="num">2</span>/$<span class="num">10</span> (<span class="num">29 Sep</span>); Gemini 4 Argon at $<span class="num">2</span>/$<span class="num">10</span> introductory (<span class="num">30 Sep</span>); Decisions classification at $<span class="num">0.10</span> per million input, no output charge (<span class="num">6 Oct</span>). Rates as announced, cross-checked against independent price trackers; both pricing pages block automated verification. Argon is in limited access.</li>
+      <li id="s3">arXiv <span class="num">2604.22750</span> &mdash; controlled study of agentic consumption: roughly <span class="num">1,000</span>&times; the tokens of a single exchange, up to <span class="num">30</span>&times; variance between runs of the same task. Cited in the June piece.</li>
+      <li id="s4"><em>Bloomberg</em> (<span class="num">21 September 2026</span>) &mdash; gross margin from ~+<span class="num">50%</span> to ~&minus;<span class="num">50%</span> by June, recovered to positive by September after the in-house model launch &ldquo;and other changes to how it uses AI&rdquo;. Margin figures attributed to people familiar with the matter; single-origin, Harvey declined to comment at the time and has not confirmed the figures since. The ~<span class="num">20</span>&times; usage growth is company-stated. Paywalled; quoted as reported by secondary outlets. The $<span class="num">1,800</span> per $<span class="num">1,200</span> seat figure is derived from the reported ratio.</li>
+      <li id="s5"><em>Business Insider</em> (<span class="num">18 August 2026</span>) &mdash; the vendor&rsquo;s in-house model was a research preview at the time, not live in the product.</li>
+      <li id="s6">Fireworks AI, published post-training results (<span class="num">23 September 2026</span>) &mdash; ~<span class="num">40%</span> fewer tokens per task after post-training. Vendor-published; one experiment.</li>
+      <li id="s7">Pricing aggregator analyses (<span class="num">2025&ndash;2026</span>) &mdash; premium seat ~US$<span class="num">1,200</span>/month; vendor pricing page returning <span class="num">404</span>; the spokesperson&rsquo;s &ldquo;wildly off&rdquo; response, as reported. Estimates, not vendor-published rates; treat as indicative.</li>
+      <li id="s8"><em>Legal IT Insider</em> (<span class="num">17 September 2026</span>) &mdash; chief operating officer&rsquo;s seats-plus-consumption quote.</li>
+      <li id="s9">Anthropic, published enterprise plan pricing &mdash; US$<span class="num">20</span> per seat per month plus metered usage at API rates.</li>
+      <li id="s10">ChatGPT Enterprise &mdash; $<span class="num">45&ndash;75</span> per seat per month per <span class="num">2026</span> procurement reporting; no published rate; reported <span class="num">150</span>-seat minimum.</li>
+      <li id="s11">Microsoft, published Copilot pricing &mdash; US$<span class="num">30</span> per user per month.</li>
+      <li id="s12">Vendor newsrooms; <em>Ad Age</em>; <em>Artificial Lawyer</em> (February&ndash;September <span class="num">2026</span>) &mdash; US Open, Premier League, NBA/WNBA and television campaign (<span class="num">28 Sep</span>); Jude Law campaign (April), PGA and Chelsea partnerships, sixteen-city footprint; Dublin, Paris and Singapore offices. Sydney outdoor advertising per the same campaign coverage. Combined disclosed raises of ~US$<span class="num">1.15</span> billion this year.</li>
+      <li id="s13">Vendor announcements &mdash; Legora consumption pricing announcement, quoted (&ldquo;a recurring Platform Fee plus Credits&rdquo;; details &ldquo;set out in the customer&rsquo;s individual agreement&rdquo;) (<span class="num">23 June 2026</span>); GitHub Copilot usage-based billing (<span class="num">1 June 2026</span>); Microsoft 365 Copilot consumption billing for agent features (<span class="num">25 September 2026</span>).</li>
+      <li id="s14"><em>Artificial Lawyer</em>, <em>The Next Web</em> and Thomson Reuters Institute coverage of ILTACON <span class="num">2026</span> &mdash; the $<span class="num">2</span> PowerPoint; &ldquo;most lawyers don&rsquo;t see how tokens are spent&rdquo;; ~<span class="num">1%</span> of revenue as the emerging AI budget norm (per a firm chief data and analytics officer).</li>
+      <li id="s15"><em>Above the Law</em> (March <span class="num">2026</span>) &mdash; identical products priced <span class="num">40&ndash;50%</span> apart across firms of the same size.</li>
+      <li id="s16">purple.law, consultancy blog &mdash; quote over &pound;<span class="num">200</span> per lawyer cut <span class="num">60%</span> after one email. Unattributed, GBP, and published by a firm that competes in the market; weaker source class, treat as anecdote.</li>
+      <li id="s17">Reserve Bank of Australia, exchange rates (<span class="num">9 October 2026</span>) &mdash; A$<span class="num">1</span> = US$<span class="num">0.698</span>.</li>
+      <li id="s18"><em>Australian Financial Review</em> partnership survey (H1 <span class="num">2026</span>) &mdash; <span class="num">126&ndash;239</span> partners at top-tier firms; lawyer counts of <span class="num">500&ndash;1,500</span> from firm and directory data. &ldquo;No major Australian firm&rsquo;s terms are public&rdquo; rests on a negative search.</li>
+      <li id="s19">Joel Seignior, <a href="tokenomics-of-legal-ai.html"><em>Tokenomics: Why the Cost of Legal AI Is Quietly Rising</em></a> (June <span class="num">2026</span>) &mdash; the June price band and discount estimates.</li>
+      <li id="s20">AFL boundary signage at the MCG, <span class="num">2026</span> season &mdash; author&rsquo;s observation, corroborated by a public r/auslaw photograph. No deal has been announced.</li>
+      <li id="s21">Harvey; <em>Lawyers Weekly</em> (February <span class="num">2026</span>) &mdash; Corrs Chambers Westgarth firmwide deployment. No terms disclosed.</li>
+    </ol>
+  </section>
+  <footer class="foot">
+    <span>Notes on knowledge work &middot; Joel Seignior &middot; <span class="num">2026</span></span>
+    <a class="backlink" href="../index.html"><span class="backlink__arrow">&#8592;</span> Home</a>
+  </footer>
+</main>
+</body>
+</html>
